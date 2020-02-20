@@ -35,7 +35,7 @@ public class IntBoard {
         }
     }
 
-    public Set<BoardCell> getAdjList() {
+    public Set<BoardCell> getAdjList(BoardCell cell) {
         return null;
     }
 
@@ -46,4 +46,17 @@ public class IntBoard {
     public Set<BoardCell> getTargets() {
         return null;
     }
+    
+    public BoardCell getCell(int col, int row) {	//returns cell (col,row)
+    	BoardCell cell = grid[col][row];
+    	return cell;
+    }
+     public int getGridLength() { 					//return length of board (number of columns)
+    	 return grid.length;
+     }
+     
+     public int getGridWidth() {					//return width of board (number of rows)
+    	 return grid[0].length;
+     }
+    
 }
