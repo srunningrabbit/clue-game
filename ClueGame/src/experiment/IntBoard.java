@@ -40,13 +40,13 @@ public class IntBoard {
                 int row = cell.row;
                 Set<BoardCell> adjacentCells = new HashSet<BoardCell>();
                 if (row - 1 >= 0)
-                    adjacentCells.add(new BoardCell(col, row - 1));
+                    adjacentCells.add(getCell(col, row - 1));
                 if (row + 1 < getGridWidth())
-                    adjacentCells.add(new BoardCell(col, row + 1));
+                    adjacentCells.add(getCell(col, row + 1));
                 if (col - 1 >= 0)
-                    adjacentCells.add(new BoardCell(col - 1, row));
+                    adjacentCells.add(getCell(col - 1, row));
                 if (col + 1 < getGridLength())
-                    adjacentCells.add(new BoardCell(col + 1, row));
+                    adjacentCells.add(getCell(col + 1, row));
                 adjacencyMatrix.put(cell, adjacentCells);
             }
         }
