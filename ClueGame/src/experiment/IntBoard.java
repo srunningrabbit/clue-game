@@ -1,6 +1,6 @@
 /*
  * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
- * C12A2 Clue Paths, Part 1
+ * C12A2 Clue Paths, Part 2
  */
 
 package experiment;
