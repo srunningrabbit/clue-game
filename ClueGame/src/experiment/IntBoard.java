@@ -22,6 +22,13 @@ public class IntBoard {
     // Create new gameboard and calculate adjacent cells
     public IntBoard() {
         adjacencyMatrix = new HashMap<BoardCell, Set<BoardCell>>();
+        targets = new HashSet<BoardCell>();
+        grid = new BoardCell[][]{
+                {new BoardCell(0, 0), new BoardCell(1, 0), new BoardCell(2, 0), new BoardCell(3, 0)},
+                {new BoardCell(0, 1), new BoardCell(1, 1), new BoardCell(2, 1), new BoardCell(3, 1)},
+                {new BoardCell(0, 2), new BoardCell(1, 2), new BoardCell(2, 2), new BoardCell(3, 2)},
+                {new BoardCell(0, 3), new BoardCell(1, 3), new BoardCell(2, 3), new BoardCell(3, 3)}
+        };
         calcAdjacencies();
     }
 
@@ -29,17 +36,17 @@ public class IntBoard {
     private void calcAdjacencies() {
         for (BoardCell[] boardCell : grid) {
             for (BoardCell cell : boardCell) {
-                int row = cell.row;
                 int col = cell.column;
+                int row = cell.row;
                 Set<BoardCell> adjacentCells = new HashSet<BoardCell>();
                 if (row - 1 >= 0)
-                    adjacentCells.add(new BoardCell(row - 1, col));
+                    adjacentCells.add(new BoardCell(col, row - 1));
                 if (row + 1 < getGridWidth())
-                    adjacentCells.add(new BoardCell(row + 1, col));
+                    adjacentCells.add(new BoardCell(col, row + 1));
                 if (col - 1 >= 0)
-                    adjacentCells.add(new BoardCell(row, col - 1));
+                    adjacentCells.add(new BoardCell(col - 1, row));
                 if (col + 1 < getGridLength())
-                    adjacentCells.add(new BoardCell(row, col + 1));
+                    adjacentCells.add(new BoardCell(col + 1, row));
                 adjacencyMatrix.put(cell, adjacentCells);
             }
         }
@@ -50,20 +57,19 @@ public class IntBoard {
     }
 
     public void calcTargets(BoardCell startCell, int pathLength) {
-        // TODO: Calculate the targets within a pathLength
         for (BoardCell cell : getAdjList(startCell)) {
             targets.add(cell);
-            calcTargets(cell, pathLength - 1);
+            if (pathLength > 0)
+                calcTargets(cell, pathLength - 1);
         }
     }
 
     public Set<BoardCell> getTargets() {
-        // TODO: Return a list of targets
         return targets;
     }
 
     public BoardCell getCell(int col, int row) {	// Returns cell (col,row)
-    	BoardCell cell = grid[col][row];
+    	BoardCell cell = grid[row][col];
     	return cell;
     }
 

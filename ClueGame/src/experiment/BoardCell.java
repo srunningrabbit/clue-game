@@ -9,12 +9,17 @@ package experiment;
  * Individual cell object in board
  */
 public class BoardCell {
-    public int row;
     public int column;
+    public int row;
 
     // Assign row and column to BoardCell
-    public BoardCell(int row, int column) {
-        this.row = row;
+    public BoardCell(int column, int row) {
         this.column = column;
+        this.row = row;
+    }
+
+    @Override
+    public String toString() {
+        return "Location: (" + column + ", " + row + ")";
     }
 }
