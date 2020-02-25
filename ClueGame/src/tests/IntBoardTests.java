@@ -173,7 +173,7 @@ public class IntBoardTests {
     public void testLength4TargetsTR() {
         BoardCell cell = board.getCell(board.getGridLength() - 1,0);
         board.calcTargets(cell, 4);
-        Set targets = board.getTargets();
+        Set<BoardCell> targets = board.getTargets();
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 1,0)));
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 2,0)));
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 3,0)));
@@ -182,8 +182,8 @@ public class IntBoardTests {
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 1,2)));
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 1,3)));
         assertTrue(targets.contains(board.getCell(board.getGridLength() - 2,2)));
-        assertTrue(targets.contains(board.getCell(board.getGridLength() - 2,3)));
-        assertTrue(targets.contains(board.getCell(board.getGridLength() - 3,2)));
+        assertTrue(targets.contains(board.getCell(board.getGridLength() - 3,1)));
+        assertTrue(targets.contains(board.getCell(board.getGridLength() - 2,1)));
         assertEquals(10, targets.size());
     }
 

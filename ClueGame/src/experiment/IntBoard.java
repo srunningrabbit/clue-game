@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class IntBoard {
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
-    private Set<BoardCell> visited;
     private Set<BoardCell> targets;
     private BoardCell[][] grid;
 
@@ -52,32 +51,33 @@ public class IntBoard {
         }
     }
 
-    public Set<BoardCell> getAdjList(BoardCell cell) {
+    public Set<BoardCell> getAdjList(BoardCell cell) {  // Returns adjacency list for particular cell
         return adjacencyMatrix.get(cell);
     }
 
+    // Calculate targets within length of path
     public void calcTargets(BoardCell startCell, int pathLength) {
         for (BoardCell cell : getAdjList(startCell)) {
             targets.add(cell);
-            if (pathLength > 0)
+            if (pathLength > 2)
                 calcTargets(cell, pathLength - 1);
         }
     }
 
-    public Set<BoardCell> getTargets() {
+    public Set<BoardCell> getTargets() {                // Returns targets
         return targets;
     }
 
-    public BoardCell getCell(int col, int row) {	// Returns cell (col,row)
+    public BoardCell getCell(int col, int row) {	    // Returns cell (col,row)
     	BoardCell cell = grid[row][col];
     	return cell;
     }
 
-    public int getGridLength() { 					// Return length of board (number of columns)
+    public int getGridLength() { 					    // Return length of board (number of columns)
          return grid.length;
     }
      
-     public int getGridWidth() {					// Return width of board (number of rows)
+     public int getGridWidth() {					    // Return width of board (number of rows)
     	 return grid[0].length;
      }
 }
