@@ -1,13 +1,11 @@
 /*
  * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
- * C12A2 Clue Paths, Part 1
  */
 
 package tests;
 
 import static org.junit.Assert.*;
 
-import java.util.HashSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,3 +1,7 @@
+/*
+ * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
+ */
+
 package clueGame;
 
 import java.util.Map;
@@ -14,13 +18,13 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 
-	// variable used for singleton pattern
+	// Variable used for singleton pattern
 	private static Board theInstance = new Board();
 	
-	// constructor is private to ensure only one can be created
+	// Constructor is private to ensure only one can be created
 	private Board() {}
 	
-	// this method returns the only Board
+	// This method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
 	}
@@ -28,40 +32,45 @@ public class Board {
 	public void initialize() {
 
 	}
-	
+
+	// Set both the board config file and room config file
 	public void setConfigFiles(String boardLayout, String roomLegend) {
 		
 	}
 
+	// Load room legend configuration
 	public void loadRoomConfig() {
 
 	}
 
+	// Load board layout configuration
 	public void loadBoardConfig() {
 
 	}
 
+	// Calculate adjacencies around every cell
 	public void calcAdjacencies() {
 
 	}
 
+	// Calculate targets within length of path
 	public void calcTargets(BoardCell cell, int pathLength) {
 
 	}
 	
-	public Map<Character, String> getLegend() {
+	public Map<Character, String> getLegend() {		// Returns room legend
 		return null;
 	}
 
-	public int getNumRows() {
+	public int getNumRows() {						// Returns number of rows
 		return numRows;
 	}
 
-	public int getNumColumns() {
+	public int getNumColumns() {					// Returns number of columns
 		return numColumns;
 	}
-	
-	public BoardCell getCellAt(int col, int row) {
+
+	public BoardCell getCellAt(int col, int row) {	// Returns cell at corresponding location
 		return null;
 	}
 }

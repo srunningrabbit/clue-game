@@ -1,3 +1,7 @@
+/*
+ * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
+ */
+
 package clueGame;
 
 public class BadConfigFormatException extends Exception{
@@ -11,6 +15,4 @@ public class BadConfigFormatException extends Exception{
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-
-	
 }

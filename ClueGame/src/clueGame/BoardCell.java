@@ -1,6 +1,5 @@
 /*
  * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
- * C12A2 Clue Paths, Part 2
  */
 
 package clueGame;
@@ -24,25 +23,23 @@ public class BoardCell {
         return "Location: (" + column + ", " + row + ")";
     }
     
-    public boolean isWalkway() {
+    public boolean isWalkway() {                    // If cell is a walkway
     	return false;
     }
     
-    public boolean isRoom() {
+    public boolean isRoom() {                       // If cell is part of a room
     	return false;
     }
     
-    public boolean isDoorway() {
+    public boolean isDoorway() {                    // If cell is a doorway
     	return false;
     }
 
-	public DoorDirection getDoorDirection() {
+	public DoorDirection getDoorDirection() {       // Returns door direction
 		return null;
 	}
 
-	public char getInitial() {
+	public char getInitial() {                      // Returns corresponding char
 		return ' ';
 	}
-	
-
 }
