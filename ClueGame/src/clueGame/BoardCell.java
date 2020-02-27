@@ -12,6 +12,9 @@ public class BoardCell {
     public int column;
     public char initial;
     public DoorDirection doorDirection;
+    private boolean walkway;
+    private boolean room;
+    private boolean doorway;
 
     // Assign row and column to BoardCell
     public BoardCell(int row, int column, char initial, DoorDirection doorDirection) {
@@ -19,6 +22,9 @@ public class BoardCell {
         this.column = column;
         this.initial = initial;
         this.doorDirection = doorDirection;
+        walkway = initial == 'W';
+        room = doorDirection.equals(DoorDirection.NONE) && initial != 'W' && initial != 'X';
+        doorway = !doorDirection.equals(DoorDirection.NONE);
     }
 
     @Override
@@ -27,15 +33,15 @@ public class BoardCell {
     }
     
     public boolean isWalkway() {                    // If cell is a walkway
-    	return initial == 'W';
+    	return walkway;
     }
     
     public boolean isRoom() {                       // If cell is part of a room
-    	return doorDirection.equals(DoorDirection.NONE);
+    	return room;
     }
     
     public boolean isDoorway() {                    // If cell is a doorway
-    	return !doorDirection.equals(DoorDirection.NONE);
+    	return doorway;
     }
 
 	public DoorDirection getDoorDirection() {       // Returns door direction
