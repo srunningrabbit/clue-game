@@ -63,20 +63,20 @@ public class IntBoard {
         }
     }
 
-    public Set<BoardCell> getTargets() {                // Returns targets
+    public Set<BoardCell> getTargets() {            // Returns targets
         return targets;
     }
 
-    public BoardCell getCell(int col, int row) {	    // Returns cell (col,row)
+    public BoardCell getCell(int col, int row) {    // Returns cell (col,row)
     	BoardCell cell = grid[row][col];
     	return cell;
     }
 
-    public int getGridLength() { 					    // Return length of board (number of columns)
+    public int getGridLength() {                    // Return length of board (number of columns)
          return grid.length;
     }
      
-     public int getGridWidth() {					    // Return width of board (number of rows)
+    public int getGridWidth() {                     // Return width of board (number of rows)
     	 return grid[0].length;
      }
 }

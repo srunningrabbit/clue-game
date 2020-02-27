@@ -5,6 +5,8 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.io.FileNotFoundException;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,15 +17,15 @@ import clueGame.DoorDirection;
 
 public class InitTests {
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 21;
-	public static final int NUM_COLUMNS = 20;
+	public static final int NUM_ROWS = 22;
+	public static final int NUM_COLUMNS = 21;
 
 	private static Board board;
 	
 	@BeforeClass
-	public static void setUp() {
+	public static void setUp() throws FileNotFoundException {
 		board = Board.getInstance();
-		board.setConfigFiles("BoardLayout.csv", "ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES	
+		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
 		board.initialize();
 	}
 	
@@ -33,7 +35,7 @@ public class InitTests {
 		Map<Character, String> testLegend = board.getLegend();
 		// Test size
 		assertEquals(LEGEND_SIZE, testLegend.size());
-		
+
 		assertEquals("Food Court", testLegend.get('F'));
 		assertEquals("Bathshop", testLegend.get('B'));
 		assertEquals("Playland", testLegend.get('P'));
@@ -41,14 +43,16 @@ public class InitTests {
 		assertEquals("Cookshop and Tableware", testLegend.get('C'));
 		assertEquals("Home Decoration", testLegend.get('H'));
 	}
-	
+
 	// Board size tests
+	@Test
 	public void testBoardLayout() {
 		assertEquals(NUM_ROWS, board.getNumRows());
 		assertEquals(NUM_COLUMNS, board.getNumColumns());
 	}
-	
+
 	// Door direction tests
+	@Test
 	public void testDoorDirections() {
 		BoardCell cell = board.getCellAt(9, 1);
 		assertTrue(cell.isDoorway());
@@ -70,6 +74,7 @@ public class InitTests {
 	}
 	
 	// Test there's right number of doors
+	@Test
 	public void testDoorNumber() {
 		int numDoors = 0;
 		for (int row = 0; row < board.getNumRows(); row++)
@@ -82,6 +87,7 @@ public class InitTests {
 	}
 	
 	// Test room/other characters
+	@Test
 	public void testRoomLetters() {
 		assertEquals('H', board.getCellAt(1, 1).getInitial());
 		assertEquals('R', board.getCellAt(2, 11).getInitial());

@@ -8,6 +8,7 @@ package tests;
 // Assert.assertEquals
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -29,11 +30,11 @@ public class CTest_FileInitTests {
 	private static Board board;
 	
 	@BeforeClass
-	public static void setUp() {
+	public static void setUp() throws FileNotFoundException {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("CTest_ClueLayout.csv", "CTest_ClueLegend.txt");		
+		board.setConfigFiles("data/CTest_ClueLayout.csv", "data/CTest_ClueLegend.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
@@ -96,7 +97,7 @@ public class CTest_FileInitTests {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(16, numDoors);
+		assertEquals(16, numDoors);
 	}
 
 	// Test a few room cells to ensure the room initial is correct.

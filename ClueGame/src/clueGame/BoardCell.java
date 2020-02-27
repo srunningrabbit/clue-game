@@ -10,12 +10,15 @@ package clueGame;
 public class BoardCell {
     public int column;
     public int row;
-    private char initial;
+    public char initial;
+    public DoorDirection doorDirection;
 
     // Assign row and column to BoardCell
-    public BoardCell(int column, int row) {
+    public BoardCell(int column, int row, char initial, DoorDirection doorDirection) {
         this.column = column;
         this.row = row;
+        this.initial = initial;
+        this.doorDirection = doorDirection;
     }
 
     @Override
@@ -24,22 +27,22 @@ public class BoardCell {
     }
     
     public boolean isWalkway() {                    // If cell is a walkway
-    	return false;
+    	return initial == 'W';
     }
     
     public boolean isRoom() {                       // If cell is part of a room
-    	return false;
+    	return doorDirection.equals(DoorDirection.NONE);
     }
     
     public boolean isDoorway() {                    // If cell is a doorway
-    	return false;
+    	return !doorDirection.equals(DoorDirection.NONE);
     }
 
 	public DoorDirection getDoorDirection() {       // Returns door direction
-		return null;
+		return doorDirection;
 	}
 
 	public char getInitial() {                      // Returns corresponding char
-		return ' ';
+		return initial;
 	}
 }
