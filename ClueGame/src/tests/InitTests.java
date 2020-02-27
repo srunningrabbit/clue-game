@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
+
+import clueGame.BadConfigFormatException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,7 +25,7 @@ public class InitTests {
 	private static Board board;
 	
 	@BeforeClass
-	public static void setUp() throws FileNotFoundException {
+	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
 		board = Board.getInstance();
 		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
 		board.initialize();

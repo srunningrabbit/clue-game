@@ -4,6 +4,8 @@
 
 package clueGame;
 
+import org.junit.Before;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -31,11 +33,14 @@ public class Board {
 	}
 
 	public void initialize() throws FileNotFoundException {
-		legend = new HashMap<>();
 		adjacencyMatrix = new HashMap<>();
 		targets = new HashSet<>();
-		loadBoardConfig();
-		loadRoomConfig();
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+		} catch (BadConfigFormatException e) {
+			System.out.println(e.getMessage());
+		}
 		calcAdjacencies();
 	}
 
@@ -45,8 +50,25 @@ public class Board {
 		roomConfigFile = roomLegend;
 	}
 
+	// Load room legend configuration
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+		File roomConfig = new File(roomConfigFile);
+		Scanner fileInput = new Scanner(roomConfig);
+		legend = new HashMap<>();
+
+		while (fileInput.hasNextLine()) {
+			String[] legendRow = fileInput.nextLine().split(", ");
+			// Check if room type is correct
+			if (!legendRow[2].equals("Card") && !legendRow[2].equals("Other"))
+				throw new BadConfigFormatException("Error: room type is not Card or Other");
+			char initial = legendRow[0].charAt(0);
+			String roomName = legendRow[1];
+			legend.put(initial, roomName);
+		}
+	}
+
 	// Load board layout configuration
-	public void loadBoardConfig() throws FileNotFoundException {
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		File boardConfig = new File(boardConfigFile);
 		Scanner fileInput = new Scanner(boardConfig);
 
@@ -60,13 +82,18 @@ public class Board {
 				boardRow = fileInput.nextLine().split(",");
 			} else break;
 
-			// Find number of board columns
+			// Find number of board columns or throw exception if columns are mismatched
+			if (boardRow.length != numColumns && row > 0)
+				throw new BadConfigFormatException("Error: rows do not have same number of columns");
 			numColumns = boardRow.length;
 			BoardCell[] boardCellArray = new BoardCell[numColumns];
 
 			for (int col = 0; col < boardRow.length; col++) {
 				BoardCell cell;
 				char initial = boardRow[col].charAt(0);
+				// Check if room is valid according to legend
+				if (!legend.containsKey(initial))
+					throw new BadConfigFormatException("Error: room not in legend");
 
 				if (boardRow[col].length() > 1) {
 					// Add a direction if it is a door
@@ -99,19 +126,6 @@ public class Board {
 			gameBoard[row] = boardCellArray;
 		}
 		board = gameBoard;
-	}
-
-	// Load room legend configuration
-	public void loadRoomConfig() throws FileNotFoundException {
-		File roomConfig = new File(roomConfigFile);
-		Scanner fileInput = new Scanner(roomConfig);
-
-		while (fileInput.hasNext()) {
-			String[] legendRow = fileInput.nextLine().split(", ");
-			char initial = legendRow[0].charAt(0);
-			String roomName = legendRow[1];
-			legend.put(initial, roomName);
-		}
 	}
 
 	// Calculate adjacencies around every cell
