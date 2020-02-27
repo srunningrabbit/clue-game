@@ -8,6 +8,7 @@ import org.junit.Before;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class Board {
@@ -38,7 +39,7 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
-		} catch (BadConfigFormatException e) {
+		} catch (BadConfigFormatException | IOException e) {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
@@ -51,7 +52,7 @@ public class Board {
 	}
 
 	// Load room legend configuration
-	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadRoomConfig() throws IOException, BadConfigFormatException {
 		File roomConfig = new File(roomConfigFile);
 		Scanner fileInput = new Scanner(roomConfig);
 		legend = new HashMap<>();
@@ -68,7 +69,7 @@ public class Board {
 	}
 
 	// Load board layout configuration
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadBoardConfig() throws IOException, BadConfigFormatException {
 		File boardConfig = new File(boardConfigFile);
 		Scanner fileInput = new Scanner(boardConfig);
 
