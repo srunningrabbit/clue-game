@@ -27,7 +27,7 @@ public class InitTests {
 	@BeforeClass
 	public static void setUp() throws FileNotFoundException {
 		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
+		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
 		board.initialize();
 	}
 	
