@@ -25,9 +25,9 @@ public class InitTests {
 	private static Board board;
 	
 	@BeforeClass
-	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
+	public static void setUp() throws FileNotFoundException {
 		board = Board.getInstance();
-		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
+		board.setConfigFiles("ClueLayout.csv", "ClueRooms.txt");	//CHANGE TO OUR CONFIG FILES
 		board.initialize();
 	}
 	

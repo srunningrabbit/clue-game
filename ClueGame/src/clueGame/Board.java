@@ -6,9 +6,7 @@ package clueGame;
 
 import org.junit.Before;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Board {
@@ -34,7 +32,6 @@ public class Board {
 	}
 
 	public void initialize() throws FileNotFoundException {
-		adjacencyMatrix = new HashMap<>();
 		targets = new HashSet<>();
 		try {
 			loadRoomConfig();
@@ -84,7 +81,7 @@ public class Board {
 			} else break;
 
 			// Find number of board columns or throw exception if columns are mismatched
-			if (boardRow.length != numColumns && row > 0)
+			if (row > 0 && boardRow.length != numColumns)
 				throw new BadConfigFormatException("Error: rows do not have same number of columns");
 			numColumns = boardRow.length;
 			BoardCell[] boardCellArray = new BoardCell[numColumns];
@@ -131,6 +128,7 @@ public class Board {
 
 	// Calculate adjacencies around every cell
 	public void calcAdjacencies() {
+		adjacencyMatrix = new HashMap<>();
 		for (BoardCell[] boardCell : board) {
 			for (BoardCell cell : boardCell) {
 				int col = cell.column;
