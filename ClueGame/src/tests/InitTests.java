@@ -54,22 +54,22 @@ public class InitTests {
 	// Door direction tests
 	@Test
 	public void testDoorDirections() {
-		BoardCell cell = board.getCellAt(9, 1);
+		BoardCell cell = board.getCellAt(1, 9);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
-		cell = board.getCellAt(18, 5);
+		cell = board.getCellAt(5, 18);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
-		cell = board.getCellAt(13, 18);
+		cell = board.getCellAt(18, 13);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.UP, cell.getDoorDirection());
-		cell = board.getCellAt(3, 6);
+		cell = board.getCellAt(6, 3);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
 		
-		cell = board.getCellAt(10, 16); 	//room
+		cell = board.getCellAt(16, 10); 	//room
 		assertFalse(cell.isDoorway());
-		cell = board.getCellAt(5, 9);		//walkway
+		cell = board.getCellAt(9, 5);		//walkway
 		assertFalse(cell.isDoorway());
 	}
 	
@@ -79,7 +79,7 @@ public class InitTests {
 		int numDoors = 0;
 		for (int row = 0; row < board.getNumRows(); row++)
 			for (int col = 0; col < board.getNumColumns(); col++) {
-				BoardCell cell = board.getCellAt(col, row);
+				BoardCell cell = board.getCellAt(row, col);
 				if (cell.isDoorway())
 					numDoors++;
 			}
@@ -90,15 +90,15 @@ public class InitTests {
 	@Test
 	public void testRoomLetters() {
 		assertEquals('H', board.getCellAt(1, 1).getInitial());
-		assertEquals('R', board.getCellAt(2, 11).getInitial());
-		assertEquals('T', board.getCellAt(3, 17).getInitial());
-		assertEquals('B', board.getCellAt(7, 21).getInitial());
-		assertEquals('P', board.getCellAt(18, 11).getInitial());
+		assertEquals('R', board.getCellAt(11, 2).getInitial());
+		assertEquals('T', board.getCellAt(17, 3).getInitial());
+		assertEquals('B', board.getCellAt(21, 7).getInitial());
+		assertEquals('P', board.getCellAt(11, 18).getInitial());
 
-		assertEquals('F', board.getCellAt(20, 21).getInitial());	// bottom right corner
-		assertEquals('L', board.getCellAt(18, 0).getInitial());		// top left corner of room
+		assertEquals('F', board.getCellAt(21, 20).getInitial());	// bottom right corner
+		assertEquals('L', board.getCellAt(0, 18).getInitial());		// top left corner of room
 		
-		assertEquals('W', board.getCellAt(13, 16).getInitial());	// walkway
-		assertEquals('X', board.getCellAt(8, 11).getInitial());		// closet
+		assertEquals('W', board.getCellAt(16, 13).getInitial());	// walkway
+		assertEquals('X', board.getCellAt(11, 8).getInitial());		// closet
 	}
 }

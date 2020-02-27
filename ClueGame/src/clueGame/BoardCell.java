@@ -8,15 +8,15 @@ package clueGame;
  * Individual cell object in board
  */
 public class BoardCell {
-    public int column;
     public int row;
+    public int column;
     public char initial;
     public DoorDirection doorDirection;
 
     // Assign row and column to BoardCell
-    public BoardCell(int column, int row, char initial, DoorDirection doorDirection) {
-        this.column = column;
+    public BoardCell(int row, int column, char initial, DoorDirection doorDirection) {
         this.row = row;
+        this.column = column;
         this.initial = initial;
         this.doorDirection = doorDirection;
     }

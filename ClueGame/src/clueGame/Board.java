@@ -89,10 +89,10 @@ public class Board {
 							break;
 					}
 					// Add cell with second character
-					cell = new BoardCell(col, row, initial, doorDirection);
+					cell = new BoardCell(row, col, initial, doorDirection);
 				} else {
 					// Add cell without second character
-					cell = new BoardCell(col, row, initial, DoorDirection.NONE);
+					cell = new BoardCell(row, col, initial, DoorDirection.NONE);
 				}
 				boardCellArray[col] = cell;
 			}
@@ -103,7 +103,9 @@ public class Board {
 
 	// Load room legend configuration
 	public void loadRoomConfig() throws FileNotFoundException {
-		Scanner fileInput = new Scanner(new File(roomConfigFile));
+		File roomConfig = new File(roomConfigFile);
+		Scanner fileInput = new Scanner(roomConfig);
+
 		while (fileInput.hasNext()) {
 			String[] legendRow = fileInput.nextLine().split(", ");
 			char initial = legendRow[0].charAt(0);
@@ -120,13 +122,13 @@ public class Board {
 				int row = cell.row;
 				Set<BoardCell> adjacentCells = new HashSet<BoardCell>();
 				if (row - 1 >= 0)
-					adjacentCells.add(getCellAt(col, row - 1));
+					adjacentCells.add(getCellAt(row - 1, col));
 				if (row + 1 < getBoardLength())
-					adjacentCells.add(getCellAt(col, row + 1));
+					adjacentCells.add(getCellAt(row + 1, col));
 				if (col - 1 >= 0)
-					adjacentCells.add(getCellAt(col - 1, row));
+					adjacentCells.add(getCellAt(row, col - 1));
 				if (col + 1 < getBoardWidth())
-					adjacentCells.add(getCellAt(col + 1, row));
+					adjacentCells.add(getCellAt(row, col + 1));
 				adjacencyMatrix.put(cell, adjacentCells);
 			}
 		}
@@ -153,7 +155,7 @@ public class Board {
 		return numColumns;
 	}
 
-	public BoardCell getCellAt(int col, int row) {	// Returns cell at corresponding location
+	public BoardCell getCellAt(int row, int col) {	// Returns cell at corresponding location
 		BoardCell cell = board[row][col];
 		return cell;
 	}
