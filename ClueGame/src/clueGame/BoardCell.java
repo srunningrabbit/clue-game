@@ -29,7 +29,7 @@ public class BoardCell {
 
     @Override
     public String toString() {
-        return "Location: (" + column + ", " + row + ")";
+        return "Location: (" + row + ", " + column + ")";
     }
     
     public boolean isWalkway() {                    // If cell is a walkway
