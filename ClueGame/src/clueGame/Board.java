@@ -4,8 +4,6 @@
 
 package clueGame;
 
-import org.junit.Before;
-
 import java.io.*;
 import java.util.*;
 

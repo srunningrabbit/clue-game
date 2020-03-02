@@ -5,10 +5,7 @@
 package tests;
 
 import static org.junit.Assert.*;
-
-import java.io.FileNotFoundException;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
