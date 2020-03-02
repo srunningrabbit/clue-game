@@ -4,6 +4,8 @@
 
 package clueGame;
 
+import org.junit.Before;
+
 import java.io.*;
 import java.util.*;
 
@@ -17,20 +19,20 @@ public class Board {
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
 	private Set<BoardCell> targets;
-	private Set<BoardCell> visited;
 
 	// Variable used for singleton pattern
 	private static Board theInstance = new Board();
-	
+
 	// Constructor is private to ensure only one can be created
 	private Board() {}
-	
+
 	// This method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
 	}
 
 	public void initialize() {
+		targets = new HashSet<>();
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
@@ -129,74 +131,31 @@ public class Board {
 		adjacencyMatrix = new HashMap<>();
 		for (BoardCell[] boardCell : board) {
 			for (BoardCell cell : boardCell) {
-				// If cell is a room, the cell has no adjacencies since you can't move in a room
-				if (cell.isRoom()) {
-					adjacencyMatrix.put(cell, Collections.emptySet());
-					continue;
-				}
-				int row = cell.row;
 				int col = cell.column;
+				int row = cell.row;
 				Set<BoardCell> adjacentCells = new HashSet<BoardCell>();
-				BoardCell adjCell;
-				if (row - 1 >= 0) {
-					adjCell = getCellAt(row - 1, col);
-					if (cell.isDoorway()) {
-						if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.UP))
-							adjacentCells.add(adjCell);
-					} else if (cell.isWalkway()) {
-						if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.doorDirection.equals(DoorDirection.DOWN))
-							adjacentCells.add(adjCell);
-					}
-				}
-				if (row + 1 < getBoardLength()) {
-					adjCell = getCellAt(row + 1, col);
-					if (cell.isDoorway()) {
-						if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.DOWN))
-							adjacentCells.add(adjCell);
-					} else if (cell.isWalkway()) {
-						if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.doorDirection.equals(DoorDirection.UP))
-							adjacentCells.add(adjCell);
-					}
-				}
-				if (col - 1 >= 0) {
-					adjCell = getCellAt(row, col - 1);
-					if (cell.isDoorway()) {
-						if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.LEFT))
-							adjacentCells.add(adjCell);
-					} else if (cell.isWalkway()) {
-						if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.doorDirection.equals(DoorDirection.RIGHT))
-							adjacentCells.add(adjCell);
-					}
-				}
-				if (col + 1 < getBoardWidth()) {
-					adjCell = getCellAt(row, col + 1);
-					if (cell.isDoorway()) {
-						if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.RIGHT))
-							adjacentCells.add(adjCell);
-					} else if (cell.isWalkway()) {
-						if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.doorDirection.equals(DoorDirection.LEFT))
-							adjacentCells.add(adjCell);
-					}
-				}
+				if (row - 1 >= 0)
+					adjacentCells.add(getCellAt(row - 1, col));
+				if (row + 1 < getBoardLength())
+					adjacentCells.add(getCellAt(row + 1, col));
+				if (col - 1 >= 0)
+					adjacentCells.add(getCellAt(row, col - 1));
+				if (col + 1 < getBoardWidth())
+					adjacentCells.add(getCellAt(row, col + 1));
 				adjacencyMatrix.put(cell, adjacentCells);
 			}
 		}
 	}
 
 	// Calculate targets within length of path
-	public void calcTargets(int row, int col, int pathLength) {
-		visited.add(getCellAt(row, col));
-		for (BoardCell cell : getAdjList(row, col)) {
-			if (!visited.contains(cell)) {
-				targets.add(cell);
-			} else {
-				targets.remove(cell);
-			}
-			visited.add(cell);
-			if (pathLength > 1) calcTargets(cell.row, cell.column, pathLength - 1);
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		for (BoardCell cell : getAdjList(startCell)) {
+			targets.add(cell);
+			if (pathLength > 2)
+				calcTargets(cell, pathLength - 1);
 		}
 	}
-	
+
 	public Map<Character, String> getLegend() {		// Returns room legend
 		return legend;
 	}
@@ -222,12 +181,8 @@ public class Board {
 		return board[0].length;
 	}
 
-	public Set<BoardCell> getAdjList(int row, int col) {  // Returns adjacency list for particular cell
-		return adjacencyMatrix.get(getCellAt(row, col));
-	}
-
-	public Set<BoardCell> getTargets() {
-		return targets;
+	public Set<BoardCell> getAdjList(BoardCell cell) {  // Returns adjacency list for particular cell
+		return adjacencyMatrix.get(cell);
 	}
 
 	public int getFileLength(File file) throws FileNotFoundException {	// Returns length of file
