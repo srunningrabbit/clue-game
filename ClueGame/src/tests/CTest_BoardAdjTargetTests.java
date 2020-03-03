@@ -24,7 +24,7 @@ public class CTest_BoardAdjTargetTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("CTest_ClueLayout.csv", "CTest_ClueLegend.txt");
+		board.setConfigFiles("data/CTest_ClueLayout.csv", "data/CTest_ClueLegend.txt");
 		// Initialize will load BOTH config files
 		board.initialize();
 	}
@@ -177,13 +177,13 @@ public class CTest_BoardAdjTargetTests {
 	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsOneStep() {
-		board.calcTargets(21, 5, 1);
+		board.calcTargets(21, 7, 1);
 		Set<BoardCell> targets = board.getTargets();
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(20, 7)));
 		assertTrue(targets.contains(board.getCellAt(21, 6)));
 
-		board.calcTargets(10, 12, 1);
+		board.calcTargets(14, 0, 1);
 		targets = board.getTargets();
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 1)));
@@ -197,6 +197,9 @@ public class CTest_BoardAdjTargetTests {
 	public void testTargetsTwoSteps() {
 		board.calcTargets(21, 7, 2);
 		Set<BoardCell> targets= board.getTargets();
+
+		for (BoardCell boardCell : targets) System.out.println("boardCell = " + boardCell);
+
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(20, 6)));

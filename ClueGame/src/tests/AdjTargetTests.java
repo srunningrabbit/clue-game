@@ -109,8 +109,8 @@ public class AdjTargetTests {
 
 		testList = board.getAdjList(17, 12);				//Doorway below, room to the right
 		assertTrue(testList.contains(board.getCellAt(17, 13)));
-		assertTrue(testList.contains(board.getCellAt(21, 17)));
-		assertTrue(testList.contains(board.getCellAt(20, 16)));
+		assertTrue(testList.contains(board.getCellAt(16, 12)));
+		assertTrue(testList.contains(board.getCellAt(18, 12)));
 		assertEquals(3, testList.size());
 
 		testList = board.getAdjList(16, 4);					//Doorway on the left
@@ -304,3 +304,5 @@ public class AdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(7, 4)));
 	}
 }
+
+// GTAdrian
