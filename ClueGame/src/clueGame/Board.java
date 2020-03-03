@@ -182,6 +182,12 @@ public class Board {
 	public Set<BoardCell> getAdjList(BoardCell cell) {  // Returns adjacency list for particular cell
 		return adjacencyMatrix.get(cell);
 	}
+	
+	public Set<BoardCell> getAdjList(int row, int col) {
+		BoardCell cell = getCellAt(row, col);
+		getAdjList(cell);
+		return null;
+	}
 
 	public int getFileLength(File file) throws FileNotFoundException {	// Returns length of file
 		Scanner fileInput = new Scanner(file);
@@ -192,4 +198,15 @@ public class Board {
 		}
 		return lines;
 	}
+
+	public void calcTargets(int row, int col, int step) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Set<BoardCell> getTargets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

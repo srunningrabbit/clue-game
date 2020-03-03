@@ -177,14 +177,14 @@ public class CTest_BoardAdjTargetTests {
 	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsOneStep() {
-		board.calcTargets(21, 7, 1);
-		Set<BoardCell> targets= board.getTargets();
+		board.calcTargets(21, 5, 1);
+		Set<BoardCell> targets = board.getTargets();
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(20, 7)));
 		assertTrue(targets.contains(board.getCellAt(21, 6)));
 
-		board.calcTargets(14, 0, 1);
-		targets= board.getTargets();
+		board.calcTargets(10, 12, 1);
+		targets = board.getTargets();
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 1)));
 		assertTrue(targets.contains(board.getCellAt(13, 0)));

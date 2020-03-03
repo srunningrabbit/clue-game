@@ -58,10 +58,10 @@ public class InitTests {
 		cell = board.getCellAt(5, 18);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
-		cell = board.getCellAt(18, 13);
+		cell = board.getCellAt(18, 12);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.UP, cell.getDoorDirection());
-		cell = board.getCellAt(6, 3);
+		cell = board.getCellAt(6, 4);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
 		
