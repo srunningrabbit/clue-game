@@ -183,7 +183,7 @@ public class Board {
         }
     }
 
-    // Calculate targets within length of path
+    // Reset targets/visited before each run
     public void calcTargets(int row, int col, int pathLength) {
         targets = new HashSet<>();
         visited = new HashSet<>();
@@ -193,11 +193,16 @@ public class Board {
     // Calculate targets within length of path
     public void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
+        targets.remove(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
-            targets.add(cell);
+            if (!visited.contains(cell)) {
+                targets.add(cell);
+            } else {
+                targets.remove(cell);
+                continue;
+            }
             if (pathLength > 1) {
-                if (visited.contains(cell)) targets.remove(cell);
-                calcTargets(cell.row, cell.column, pathLength - 1);
+                calcTargetHelper(cell.row, cell.column, pathLength - 1);
             }
         }
     }
