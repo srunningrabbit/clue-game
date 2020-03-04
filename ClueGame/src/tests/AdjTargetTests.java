@@ -243,7 +243,7 @@ public class AdjTargetTests {
 	public void testTargetsSixSteps() {
 		board.calcTargets(7, 20, 6);
 		Set<BoardCell> targets = board.getTargets();
-		assertEquals(9, targets.size());
+		assertEquals(10, targets.size());
 		assertTrue(targets.contains(board.getCellAt(8, 17)));
 		assertTrue(targets.contains(board.getCellAt(5, 18)));
 		assertTrue(targets.contains(board.getCellAt(7, 14)));
@@ -253,7 +253,7 @@ public class AdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(4, 17)));
 		assertTrue(targets.contains(board.getCellAt(7, 16)));
 		assertTrue(targets.contains(board.getCellAt(6, 19)));
-
+		assertTrue(targets.contains(board.getCellAt(7, 18)));
 	}
 
 	// Test getting into a room
@@ -304,5 +304,3 @@ public class AdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(7, 4)));
 	}
 }
-
-// GTAdrian

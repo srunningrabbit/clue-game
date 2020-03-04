@@ -18,6 +18,7 @@ public class Board {
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
     private Set<BoardCell> targets;
     private Set<BoardCell> visited;
+    private int originalPathLength;
 
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -187,7 +188,9 @@ public class Board {
     public void calcTargets(int row, int col, int pathLength) {
         targets = new HashSet<>();
         visited = new HashSet<>();
+        originalPathLength = pathLength;
         calcTargetHelper(row, col, pathLength);
+        targets.remove(getCellAt(row, col));
     }
 
     // Calculate targets within length of path
@@ -195,16 +198,15 @@ public class Board {
         visited.add(getCellAt(row, col));
         targets.remove(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
+            if (isInCorner(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
             if (!visited.contains(cell)) {
                 targets.add(cell);
-            } else {
-                targets.remove(cell);
-                continue;
-            }
-            if (pathLength > 1) {
-                calcTargetHelper(cell.row, cell.column, pathLength - 1);
+                if (pathLength > 1 && cell.isWalkway()) {
+                    calcTargetHelper(cell.row, cell.column, pathLength - 1);
+                }
             }
         }
+        visited.clear();
     }
 
     public Map<Character, String> getLegend() {		// Returns room legend
@@ -248,5 +250,9 @@ public class Board {
             fileInput.nextLine();
         }
         return lines;
+    }
+
+    public boolean isInCorner(int row, int col) {
+        return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
 }
