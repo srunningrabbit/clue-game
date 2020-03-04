@@ -196,13 +196,13 @@ public class Board {
     // Calculate targets within length of path
     public void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
-        targets.remove(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
             if (isInCorner(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
             if (!visited.contains(cell)) {
-                targets.add(cell);
-                if (pathLength > 1 && cell.isWalkway()) {
-                    calcTargetHelper(cell.row, cell.column, pathLength - 1);
+                if (pathLength == 1 || cell.isDoorway()) {
+                	targets.add(cell);
+                } else {
+                	calcTargetHelper(cell.row, cell.column, pathLength - 1);
                 }
             }
         }
