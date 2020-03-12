@@ -5,7 +5,7 @@
 package clueGame;
 
 /*
- * Individual cell object in board
+Individual cell object in board
  */
 public class BoardCell {
     public int row;
@@ -51,6 +51,4 @@ public class BoardCell {
     public boolean isDoorway() {                    // If cell is a doorway
         return doorway;
     }
-
-    
 }
