@@ -29,26 +29,26 @@ public class BoardCell {
 
     @Override
     public String toString() {
-        return "Cell at location: (" + row + ", " + column + ")";
-    }
-    
-    public boolean isWalkway() {                    // If cell is a walkway
-    	return walkway;
-    }
-    
-    public boolean isRoom() {                       // If cell is part of a room
-    	return room;
-    }
-    
-    public boolean isDoorway() {                    // If cell is a doorway
-    	return doorway;
+        return "Location: (" + row + ", " + column + ")";
     }
 
-    public DoorDirection getDoorDirection() {
+    public boolean isWalkway() {                    // If cell is a walkway
+        return walkway;
+    }
+
+    public boolean isRoom() {                       // If cell is part of a room
+        return room;
+    }
+
+    public boolean isDoorway() {                    // If cell is a doorway
+        return doorway;
+    }
+
+    public DoorDirection getDoorDirection() {       // Returns door direction
         return doorDirection;
     }
 
-    public char getInitial() {
+    public char getInitial() {                      // Returns corresponding char
         return initial;
     }
 }
