@@ -246,6 +246,12 @@ public class Board {
         return targets;
     }
 
+    /**
+     * getFileLength
+     * @param   file
+     * @return  Returns number of lines in file which is ultimately the number of rows in board
+     * @throws  FileNotFoundException
+     */
     public int getFileLength(File file) throws FileNotFoundException {	// Returns length of file
         Scanner fileInput = new Scanner(file);
         int lines = 0;
@@ -256,6 +262,12 @@ public class Board {
         return lines;
     }
 
+    /**
+     * isDeadEnd(row, col)
+     * @param   row
+     * @param   col
+     * @return  Returns if cell at row, col is a dead end meaning only 1 adjacency and not a doorway
+     */
     public boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
