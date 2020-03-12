@@ -57,7 +57,7 @@ public class Board {
             String[] legendRow = fileInput.nextLine().split(", ");
             // Check if room type is correct
             if (!legendRow[2].equals("Card") && !legendRow[2].equals("Other"))
-                throw new BadConfigFormatException("Error: room type is not Card or Other");
+                throw new BadConfigFormatException("Error: Room type is not Card or Other");
             char initial = legendRow[0].charAt(0);
             String roomName = legendRow[1];
             legend.put(initial, roomName);
@@ -83,7 +83,7 @@ public class Board {
 
             // Find number of board columns or throw exception if columns are mismatched
             if (row > 0 && boardRow.length != numColumns)
-                throw new BadConfigFormatException("Error: rows do not have same number of columns");
+                throw new BadConfigFormatException("Error: Rows are not all the same length");
             numColumns = boardRow.length;
             if (numColumns > MAX_BOARD_SIZE)
                 throw new BadConfigFormatException("Error: Number of columns exceeds maximum board size of " + MAX_BOARD_SIZE);
@@ -94,7 +94,7 @@ public class Board {
                 char initial = boardRow[col].charAt(0);
                 // Check if room is valid according to legend
                 if (!legend.containsKey(initial))
-                    throw new BadConfigFormatException("Error: room not in legend");
+                    throw new BadConfigFormatException("Error: Room not in legend");
 
                 if (boardRow[col].length() > 1) {
                     // Add a direction if it is a door
