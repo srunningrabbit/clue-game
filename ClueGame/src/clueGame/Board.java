@@ -201,7 +201,7 @@ public class Board {
     public void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
-            if (isInCorner(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
+            if (isDeadEnd(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
             if (!visited.contains(cell)) {
                 if (pathLength == 1 || cell.isDoorway()) {
                     targets.add(cell);
@@ -256,7 +256,7 @@ public class Board {
         return lines;
     }
 
-    public boolean isInCorner(int row, int col) {
+    public boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
 }
