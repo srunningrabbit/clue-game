@@ -17,9 +17,9 @@ public class BoardCell {
     private boolean doorway;
 
     // Assign row and column to BoardCell
-    public BoardCell(int row, int column, char initial, DoorDirection doorDirection) {
+    public BoardCell(int row, int col, char initial, DoorDirection doorDirection) {
         this.row = row;
-        this.col = column;
+        this.col = col;
         this.initial = initial;
         this.doorDirection = doorDirection;
         walkway = initial == 'W';
