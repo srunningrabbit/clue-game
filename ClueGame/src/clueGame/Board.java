@@ -7,13 +7,16 @@ package clueGame;
 import java.io.*;
 import java.util.*;
 
+/*
+Game board that contains individual board cells
+ */
 public class Board {
     public final static int MAX_BOARD_SIZE = 50;
     private int numRows;
     private int numColumns;
     private String boardConfigFile;
     private String roomConfigFile;
-    private BoardCell[][] board;
+    private BoardCell[][] gameBoard;
     private Map<Character, String> legend;
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
     private Set<BoardCell> targets;
@@ -44,16 +47,15 @@ public class Board {
     }
 
     public BoardCell getCellAt(int row, int col) {	// Returns cell at corresponding location
-        BoardCell cell = board[row][col];
-        return cell;
+        return gameBoard[row][col];
     }
 
-    public int getBoardLength() {                    // Return length of board (number of columns)
-        return board.length;
+    private int getBoardLength() {                    // Return length of board (number of columns)
+        return gameBoard.length;
     }
 
-    public int getBoardWidth() {                     // Return width of board (number of rows)
-        return board[0].length;
+    private int getBoardWidth() {                     // Return width of board (number of rows)
+        return gameBoard[0].length;
     }
 
     public Set<BoardCell> getAdjList(int row, int col) {  // Returns adjacency list for particular cell
@@ -69,7 +71,7 @@ public class Board {
             loadRoomConfig();
             loadBoardConfig();
         } catch (BadConfigFormatException | IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         calcAdjacencies();
     }
@@ -111,7 +113,7 @@ public class Board {
         numRows = findFileLength(boardConfig);
         if (numRows > MAX_BOARD_SIZE)
             throw new BadConfigFormatException("Error: Number of rows exceeds maximum board size of " + MAX_BOARD_SIZE);
-        BoardCell[][] gameBoard = new BoardCell[numRows][];
+        BoardCell[][] board = new BoardCell[numRows][];
 
         for (int row = 0; row < numRows; row++) {
             String[] boardRow;
@@ -162,15 +164,15 @@ public class Board {
                 }
                 boardCellArray[col] = cell;
             }
-            gameBoard[row] = boardCellArray;
+            board[row] = boardCellArray;
         }
-        board = gameBoard;
+        this.gameBoard = board;
     }
 
     // Calculate adjacencies around every cell
-    public void calcAdjacencies() {
+    private void calcAdjacencies() {
         adjacencyMatrix = new HashMap<>();
-        for (BoardCell[] boardCell : board) {
+        for (BoardCell[] boardCell : gameBoard) {
             for (BoardCell cell : boardCell) {
                 // If cell is a room, the cell has no adjacencies since you can't move in a room
                 if (cell.isRoom()) {
@@ -236,7 +238,7 @@ public class Board {
     }
 
     // Calculate targets within length of path
-    public void calcTargetHelper(int row, int col, int pathLength) {
+    private void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
             if (isDeadEnd(cell.row, cell.col) && originalPathLength > 2 + pathLength) return;
@@ -257,7 +259,7 @@ public class Board {
      * @return  Returns number of lines in file which is ultimately the number of rows in board
      * @throws  FileNotFoundException
      */
-    public int findFileLength(File file) throws FileNotFoundException {	// Returns length of file
+    private int findFileLength(File file) throws FileNotFoundException {	// Returns length of file
         Scanner fileInput = new Scanner(file);
         int lines = 0;
         while (fileInput.hasNextLine()) {
@@ -273,7 +275,7 @@ public class Board {
      * @param   col
      * @return  Returns if cell at row, col is a dead end meaning only 1 adjacency and not a doorway
      */
-    public boolean isDeadEnd(int row, int col) {
+    private boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
     
