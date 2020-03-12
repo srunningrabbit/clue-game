@@ -26,6 +26,14 @@ public class BoardCell {
         room = doorDirection.equals(DoorDirection.NONE) && initial != 'W' && initial != 'X';
         doorway = !doorDirection.equals(DoorDirection.NONE);
     }
+    
+    public DoorDirection getDoorDirection() {       // Returns door direction
+        return doorDirection;
+    }
+
+    public char getInitial() {                      // Returns corresponding char
+        return initial;
+    }
 
     @Override
     public String toString() {
@@ -44,11 +52,5 @@ public class BoardCell {
         return doorway;
     }
 
-    public DoorDirection getDoorDirection() {       // Returns door direction
-        return doorDirection;
-    }
-
-    public char getInitial() {                      // Returns corresponding char
-        return initial;
-    }
+    
 }

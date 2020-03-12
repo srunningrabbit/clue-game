@@ -30,6 +30,39 @@ public class Board {
     public static Board getInstance() {
         return theInstance;
     }
+    
+    public Map<Character, String> getLegend() {		// Returns room legend
+        return legend;
+    }
+
+    public int getNumRows() {						// Returns number of rows
+        return numRows;
+    }
+
+    public int getNumColumns() {					// Returns number of columns
+        return numColumns;
+    }
+
+    public BoardCell getCellAt(int row, int col) {	// Returns cell at corresponding location
+        BoardCell cell = board[row][col];
+        return cell;
+    }
+
+    public int getBoardLength() {                    // Return length of board (number of columns)
+        return board.length;
+    }
+
+    public int getBoardWidth() {                     // Return width of board (number of rows)
+        return board[0].length;
+    }
+
+    public Set<BoardCell> getAdjList(int row, int col) {  // Returns adjacency list for particular cell
+        return adjacencyMatrix.get(getCellAt(row, col));
+    }
+
+    public Set<BoardCell> getTargets() {
+        return targets;
+    }
 
     public void initialize() {
         try {
@@ -70,7 +103,7 @@ public class Board {
         Scanner fileInput = new Scanner(boardConfig);
 
         // Find number of board rows
-        numRows = getFileLength(boardConfig);
+        numRows = findFileLength(boardConfig);
         if (numRows > MAX_BOARD_SIZE)
             throw new BadConfigFormatException("Error: Number of rows exceeds maximum board size of " + MAX_BOARD_SIZE);
         BoardCell[][] gameBoard = new BoardCell[numRows][];
@@ -212,47 +245,14 @@ public class Board {
         }
         visited.clear();
     }
-
-    public Map<Character, String> getLegend() {		// Returns room legend
-        return legend;
-    }
-
-    public int getNumRows() {						// Returns number of rows
-        return numRows;
-    }
-
-    public int getNumColumns() {					// Returns number of columns
-        return numColumns;
-    }
-
-    public BoardCell getCellAt(int row, int col) {	// Returns cell at corresponding location
-        BoardCell cell = board[row][col];
-        return cell;
-    }
-
-    public int getBoardLength() {                    // Return length of board (number of columns)
-        return board.length;
-    }
-
-    public int getBoardWidth() {                     // Return width of board (number of rows)
-        return board[0].length;
-    }
-
-    public Set<BoardCell> getAdjList(int row, int col) {  // Returns adjacency list for particular cell
-        return adjacencyMatrix.get(getCellAt(row, col));
-    }
-
-    public Set<BoardCell> getTargets() {
-        return targets;
-    }
-
+    
     /**
      * getFileLength
      * @param   file
      * @return  Returns number of lines in file which is ultimately the number of rows in board
      * @throws  FileNotFoundException
      */
-    public int getFileLength(File file) throws FileNotFoundException {	// Returns length of file
+    public int findFileLength(File file) throws FileNotFoundException {	// Returns length of file
         Scanner fileInput = new Scanner(file);
         int lines = 0;
         while (fileInput.hasNextLine()) {
@@ -261,7 +261,7 @@ public class Board {
         }
         return lines;
     }
-
+    
     /**
      * isDeadEnd(row, col)
      * @param   row
@@ -271,4 +271,6 @@ public class Board {
     public boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
+
+
 }
