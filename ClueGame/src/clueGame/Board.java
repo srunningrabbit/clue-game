@@ -57,7 +57,7 @@ public class Board {
             String[] legendRow = fileInput.nextLine().split(", ");
             // Check if room type is correct
             if (!legendRow[2].equals("Card") && !legendRow[2].equals("Other"))
-                throw new BadConfigFormatException("Error: room type is not Card or Other");
+                throw new BadConfigFormatException("Error: Room type is not Card or Other");
             char initial = legendRow[0].charAt(0);
             String roomName = legendRow[1];
             legend.put(initial, roomName);
@@ -71,6 +71,8 @@ public class Board {
 
         // Find number of board rows
         numRows = getFileLength(boardConfig);
+        if (numRows > MAX_BOARD_SIZE)
+            throw new BadConfigFormatException("Error: Number of rows exceeds maximum board size of " + MAX_BOARD_SIZE);
         BoardCell[][] gameBoard = new BoardCell[numRows][];
 
         for (int row = 0; row < numRows; row++) {
@@ -81,8 +83,10 @@ public class Board {
 
             // Find number of board columns or throw exception if columns are mismatched
             if (row > 0 && boardRow.length != numColumns)
-                throw new BadConfigFormatException("Error: rows do not have same number of columns");
+                throw new BadConfigFormatException("Error: Rows are not all the same length");
             numColumns = boardRow.length;
+            if (numColumns > MAX_BOARD_SIZE)
+                throw new BadConfigFormatException("Error: Number of columns exceeds maximum board size of " + MAX_BOARD_SIZE);
             BoardCell[] boardCellArray = new BoardCell[numColumns];
 
             for (int col = 0; col < boardRow.length; col++) {
@@ -90,7 +94,7 @@ public class Board {
                 char initial = boardRow[col].charAt(0);
                 // Check if room is valid according to legend
                 if (!legend.containsKey(initial))
-                    throw new BadConfigFormatException("Error: room not in legend");
+                    throw new BadConfigFormatException("Error: Room not in legend");
 
                 if (boardRow[col].length() > 1) {
                     // Add a direction if it is a door
@@ -197,7 +201,7 @@ public class Board {
     public void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
-            if (isInCorner(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
+            if (isDeadEnd(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
             if (!visited.contains(cell)) {
                 if (pathLength == 1 || cell.isDoorway()) {
                 	targets.add(cell);
@@ -222,8 +226,7 @@ public class Board {
     }
 
     public BoardCell getCellAt(int row, int col) {	// Returns cell at corresponding location
-        BoardCell cell = board[row][col];
-        return cell;
+        return board[row][col];
     }
 
     public int getBoardLength() {                    // Return length of board (number of columns)
@@ -242,6 +245,12 @@ public class Board {
         return targets;
     }
 
+    /**
+     * getFileLength(file)
+     * @param   file
+     * @return  returns numbers of lines in file which is essentially the number of rows
+     * @throws  FileNotFoundException
+     */
     public int getFileLength(File file) throws FileNotFoundException {	// Returns length of file
         Scanner fileInput = new Scanner(file);
         int lines = 0;
@@ -252,7 +261,13 @@ public class Board {
         return lines;
     }
 
-    public boolean isInCorner(int row, int col) {
+    /**
+     * isDeadEnd(row, col)
+     * @param   row
+     * @param   col
+     * @return  if cell is a dead end meaning cell is not a doorway and only 1 adjacent cell
+     */
+    public boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
 }

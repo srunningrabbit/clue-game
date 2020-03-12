@@ -29,7 +29,7 @@ public class BoardCell {
 
     @Override
     public String toString() {
-        return "Location: (" + row + ", " + column + ")";
+        return "Cell at location: (" + row + ", " + column + ")";
     }
     
     public boolean isWalkway() {                    // If cell is a walkway
@@ -44,11 +44,11 @@ public class BoardCell {
     	return doorway;
     }
 
-	public DoorDirection getDoorDirection() {       // Returns door direction
-		return doorDirection;
-	}
+    public DoorDirection getDoorDirection() {
+        return doorDirection;
+    }
 
-	public char getInitial() {                      // Returns corresponding char
-		return initial;
-	}
+    public char getInitial() {
+        return initial;
+    }
 }
