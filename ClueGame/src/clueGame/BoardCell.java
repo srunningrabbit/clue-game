@@ -9,7 +9,7 @@ package clueGame;
  */
 public class BoardCell {
     public int row;
-    public int column;
+    public int col;
     public char initial;
     public DoorDirection doorDirection;
     private boolean walkway;
@@ -19,7 +19,7 @@ public class BoardCell {
     // Assign row and column to BoardCell
     public BoardCell(int row, int column, char initial, DoorDirection doorDirection) {
         this.row = row;
-        this.column = column;
+        this.col = column;
         this.initial = initial;
         this.doorDirection = doorDirection;
         walkway = initial == 'W';
@@ -29,7 +29,7 @@ public class BoardCell {
 
     @Override
     public String toString() {
-        return "Location: (" + row + ", " + column + ")";
+        return "Location: (" + row + ", " + col + ")";
     }
 
     public boolean isWalkway() {                    // If cell is a walkway

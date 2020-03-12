@@ -140,7 +140,7 @@ public class Board {
                     continue;
                 }
                 int row = cell.row;
-                int col = cell.column;
+                int col = cell.col;
                 Set<BoardCell> adjacentCells = new HashSet<BoardCell>();
                 BoardCell adjCell;
                 if (row - 1 >= 0) {
@@ -201,12 +201,12 @@ public class Board {
     public void calcTargetHelper(int row, int col, int pathLength) {
         visited.add(getCellAt(row, col));
         for (BoardCell cell : getAdjList(row, col)) {
-            if (isDeadEnd(cell.row, cell.column) && originalPathLength > 2 + pathLength) return;
+            if (isDeadEnd(cell.row, cell.col) && originalPathLength > 2 + pathLength) return;
             if (!visited.contains(cell)) {
                 if (pathLength == 1 || cell.isDoorway()) {
                     targets.add(cell);
                 } else {
-                    calcTargetHelper(cell.row, cell.column, pathLength - 1);
+                    calcTargetHelper(cell.row, cell.col, pathLength - 1);
                 }
             }
         }

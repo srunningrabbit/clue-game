@@ -1,0 +1,6 @@
+Error: rows do not have same number of columns
+Error: room not in legend
+Error: room type is not Card or Other
+Error: rows do not have same number of columns
+Error: room not in legend
+Error: room type is not Card or Other
