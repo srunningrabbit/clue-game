@@ -79,6 +79,11 @@ public class Board {
         boardConfigFile = boardLayout;
         roomConfigFile = roomLegend;
     }
+    
+    //Load all files?
+    public void loadConfigFiles() {
+    	//TODO read in player and weapons config files
+    }
 
     // Load room legend configuration
     public void loadRoomConfig() throws IOException, BadConfigFormatException {
@@ -270,6 +275,23 @@ public class Board {
      */
     public boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
+    }
+    
+    //Pick out an answer
+    public void selectAnswer() {
+    	//TODO select 3 cards to be the solution
+    }
+    
+    //Handle a suggestion
+    public Card handleSuggestion() {
+    	//TODO complete
+    	return null;
+    }
+    
+    //handle accusation making
+    public boolean checkAccusation(Solution accusation) {
+    	//TODO complete
+    	return false;
     }
 
 
