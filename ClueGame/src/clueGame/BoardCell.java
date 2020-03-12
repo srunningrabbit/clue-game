@@ -10,8 +10,8 @@ package clueGame;
 public class BoardCell {
     public int row;
     public int col;
-    public char initial;
-    public DoorDirection doorDirection;
+    private char initial;
+    private DoorDirection doorDirection;
     private boolean walkway;
     private boolean room;
     private boolean doorway;

@@ -146,40 +146,40 @@ public class Board {
                 if (row - 1 >= 0) {
                     adjCell = getCellAt(row - 1, col);
                     if (cell.isDoorway()) {
-                        if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.UP))
+                        if (adjCell.isWalkway() && cell.getDoorDirection().equals(DoorDirection.UP))
                             adjacentCells.add(adjCell);
                     } else if (cell.isWalkway()) {
-                        if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.doorDirection.equals(DoorDirection.DOWN))
+                        if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.getDoorDirection().equals(DoorDirection.DOWN))
                             adjacentCells.add(adjCell);
                     }
                 }
                 if (row + 1 < getBoardLength()) {
                     adjCell = getCellAt(row + 1, col);
                     if (cell.isDoorway()) {
-                        if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.DOWN))
+                        if (adjCell.isWalkway() && cell.getDoorDirection().equals(DoorDirection.DOWN))
                             adjacentCells.add(adjCell);
                     } else if (cell.isWalkway()) {
-                        if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.doorDirection.equals(DoorDirection.UP))
+                        if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.getDoorDirection().equals(DoorDirection.UP))
                             adjacentCells.add(adjCell);
                     }
                 }
                 if (col - 1 >= 0) {
                     adjCell = getCellAt(row, col - 1);
                     if (cell.isDoorway()) {
-                        if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.LEFT))
+                        if (adjCell.isWalkway() && cell.getDoorDirection().equals(DoorDirection.LEFT))
                             adjacentCells.add(adjCell);
                     } else if (cell.isWalkway()) {
-                        if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.doorDirection.equals(DoorDirection.RIGHT))
+                        if (adjCell.isWalkway() || adjCell.isDoorway()  && adjCell.getDoorDirection().equals(DoorDirection.RIGHT))
                             adjacentCells.add(adjCell);
                     }
                 }
                 if (col + 1 < getBoardWidth()) {
                     adjCell = getCellAt(row, col + 1);
                     if (cell.isDoorway()) {
-                        if (adjCell.isWalkway() && cell.doorDirection.equals(DoorDirection.RIGHT))
+                        if (adjCell.isWalkway() && cell.getDoorDirection().equals(DoorDirection.RIGHT))
                             adjacentCells.add(adjCell);
                     } else if (cell.isWalkway()) {
-                        if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.doorDirection.equals(DoorDirection.LEFT))
+                        if (adjCell.isWalkway() || adjCell.isDoorway() && adjCell.getDoorDirection().equals(DoorDirection.LEFT))
                             adjacentCells.add(adjCell);
                     }
                 }
