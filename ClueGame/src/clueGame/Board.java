@@ -41,6 +41,8 @@ public class Board {
         return theInstance;
     }
     
+    // Getters //
+    
     public Map<Character, String> getLegend() {		// Returns room legend
         return legend;
     }
@@ -76,6 +78,10 @@ public class Board {
     public ArrayList<Player> getPlayers() {					// Returns player list (for testing)		
     	return players;
     }
+    
+    public int getNumPlayers() {							// Returns numbers of players in the game
+    	return players.size();		
+    }
 
     public ArrayList<String> getWeapons() {                 // Returns weapon list
         return weapons;
@@ -88,6 +94,8 @@ public class Board {
     public ArrayList<Card> getDeck() {
         return deck;
     }
+    
+    //			//
 
     public void initialize() {
         try {
@@ -102,7 +110,7 @@ public class Board {
         createDeck();
         shuffleDeck();
         shuffleDeck();
-        
+        //dealCards();
     }
 
     // Set both the board config file and room config file
@@ -403,6 +411,11 @@ public class Board {
     		deck.remove(index);    		
     	}
     	deck = tempDeck;
+    }
+    
+    // Deals the deck cards
+    public void dealCards() {
+    	//TODO deal the cards with a similar amount for each player
     }
 
     // Pick out an answer

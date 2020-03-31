@@ -174,12 +174,31 @@ public class GameSetupTests {
 
 	@Test
 	public void testPlayerHandSize() {
-		// TODO See if players have similar amount of cards in their hand
+		ArrayList<Player> testPlayers = board.getPlayers();
 		
+		// See if players have similar amount of cards in their hand
+		boolean areClose = true;
+		int handSize = testPlayers.get(0).getHand().size();
+		for(int i = 1; i < testPlayers.size(); i++) {
+			int currentHand = testPlayers.get(i).getHand().size();
+			if(Math.abs(handSize - currentHand) > 1) {
+				areClose = false;
+			}
+		}
+		assertTrue(areClose);		
 	}
 
 	@Test
 	public void testUniquePlayerHands() {
-		// TODO Make sure no card is owned by more than 1 player, all unique hands
+		ArrayList<Player> testPlayers = board.getPlayers();
+		Set<Card> testDeck = new HashSet<Card>();
+		
+		// Make sure no card is owned by more than 1 player, all unique hands
+		for(Player player : testPlayers) {
+			ArrayList<Card> testHand = player.getHand();
+			for(Card card : testHand) {
+				assertTrue(testDeck.add(card));
+			}
+		}
 	}
 }
