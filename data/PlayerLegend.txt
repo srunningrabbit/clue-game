@@ -1,0 +1,6 @@
+Player 1, Red, Human, 0;7
+Player 2, Orange, Computer, 8;0
+Player 3, Yellow, Computer, 15;0
+Player 4, Green, Computer, 21;4
+Player 5, Blue, Computer, 21;15
+Player 6, Purple, Computer, 14;20
