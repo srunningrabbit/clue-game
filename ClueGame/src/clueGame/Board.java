@@ -18,6 +18,7 @@ public class Board {
     private String boardConfigFile;
     private String roomConfigFile;
     private String playerConfigFile;
+    private String weaponConfigFile;
     private BoardCell[][] gameBoard;
     private Map<Character, String> legend;
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
@@ -25,6 +26,9 @@ public class Board {
     private Set<BoardCell> visited;
     private int originalPathLength;
     private ArrayList<Player> players;
+    private ArrayList<String> weapons;
+    private ArrayList<String> rooms;
+    private Set<Card> deck;
 
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -72,29 +76,43 @@ public class Board {
     public ArrayList<Player> getPlayers() {					// Returns player list (for testing)		
     	return players;
     }
-    
+
+    public ArrayList<String> getWeapons() {                 // Returns weapon list
+        return weapons;
+    }
+
+    public ArrayList<String> getRooms() {                   // Returns room list
+        return rooms;
+    }
+
+    public Set<Card> getDeck() {
+        return deck;
+    }
 
     public void initialize() {
         try {
             loadRoomConfig();
             loadBoardConfig();
             loadPlayerConfig();
+            loadWeaponConfig();
         } catch (BadConfigFormatException | IOException e) {
             System.err.println(e.getMessage());
         }
         calcAdjacencies();
+        createDeck();
     }
 
     // Set both the board config file and room config file
-    public void setConfigFiles(String boardLayout, String roomLegend, String playerLegend) {
+    public void setConfigFiles(String boardLayout, String roomLegend, String playerLegend, String weaponLegend) {
         boardConfigFile = boardLayout;
         roomConfigFile = roomLegend;
         playerConfigFile = playerLegend;
+        weaponConfigFile = weaponLegend;
     }
     
-    //Load all files?
+    // Load all files?
     public void loadConfigFiles() {
-    	//TODO read in player and weapons config files
+    	// TODO read in player and weapons config files
     }
     
     // Read in player into player Set
@@ -102,13 +120,14 @@ public class Board {
     	players = new ArrayList<Player>();
     	File playerConfig = new File(playerConfigFile);
         Scanner fileInput = new Scanner(playerConfig);
+
         while (fileInput.hasNextLine()) {
             String[] player = fileInput.nextLine().split(", ");
             if (!player[2].equals("Human") && !player[2].equals("Computer"))
                 throw new BadConfigFormatException("Error: Player type is not Human or Computer");
             Player p;
             String name = player[0];
-            //color setter
+            // Color setter
             Color color = null;
             switch(player[1]) {
             case "Red":
@@ -130,11 +149,11 @@ public class Board {
             	color = Color.PINK;
             	break;
             }
-            //location
+            // Location
             String[] coordinates = player[3].split(";");
             int col = Integer.parseInt(coordinates[0]);
             int row = Integer.parseInt(coordinates[1]);
-            //if human, initialize human
+            // If human, initialize human
             if (player[2].equals("Human")) {
             	p = new HumanPlayer(name, col, row, color);
             } else {
@@ -143,14 +162,26 @@ public class Board {
             players.add(p);
         }
         fileInput.close();
-    	
+    }
+
+    // Read in weapons
+    public void loadWeaponConfig() throws IOException, BadConfigFormatException {
+        weapons = new ArrayList<>();
+        File weaponConfig = new File(weaponConfigFile);
+        Scanner fileInput = new Scanner(weaponConfig);
+
+        while (fileInput.hasNextLine()) {
+            weapons.add(fileInput.nextLine());
+        }
+        fileInput.close();
     }
 
     // Load room legend configuration
     public void loadRoomConfig() throws IOException, BadConfigFormatException {
+        legend = new HashMap<>();
+        rooms = new ArrayList<>();
         File roomConfig = new File(roomConfigFile);
         Scanner fileInput = new Scanner(roomConfig);
-        legend = new HashMap<>();
 
         while (fileInput.hasNextLine()) {
             String[] legendRow = fileInput.nextLine().split(", ");
@@ -159,7 +190,10 @@ public class Board {
                 throw new BadConfigFormatException("Error: Room type is not Card or Other");
             char initial = legendRow[0].charAt(0);
             String roomName = legendRow[1];
+            String roomType = legendRow[2];
             legend.put(initial, roomName);
+            if (roomType.equals("Card"))
+                rooms.add(roomName);
         }
         fileInput.close();
     }
@@ -340,23 +374,36 @@ public class Board {
     private boolean isDeadEnd(int row, int col) {
         return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
-    
-    //Pick out an answer
+
+    // Create a new deck of cards with each type of card
+    public void createDeck() {
+        deck = new HashSet<>();
+
+        for (Player player : players) {
+            deck.add(new Card(player.getName(), CardType.PERSON));
+        }
+        for (String weapon : weapons) {
+            deck.add(new Card(weapon, CardType.WEAPON));
+        }
+        for (String room : rooms) {
+            deck.add(new Card(room, CardType.ROOM));
+        }
+    }
+
+    // Pick out an answer
     public void selectAnswer() {
     	//TODO select 3 cards to be the solution
     }
     
-    //Handle a suggestion
+    // Handle a suggestion
     public Card handleSuggestion() {
     	//TODO complete
     	return null;
     }
     
-    //handle accusation making
+    // Handle accusation making
     public boolean checkAccusation(Solution accusation) {
     	//TODO complete
     	return false;
     }
-
-
 }
