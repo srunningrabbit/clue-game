@@ -34,7 +34,7 @@ public class CTest_FileInitTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("data/CTest_ClueLayout.csv", "data/CTest_ClueLegend.txt","data/PlayerLegend.txt");
+		board.setConfigFiles("data/CTest_ClueLayout.csv", "data/CTest_ClueLegend.txt","data/PlayerLegend.txt", "data/WeaponLegend.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}

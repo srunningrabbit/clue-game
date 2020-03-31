@@ -4,11 +4,7 @@
 
 package tests;
 
-import clueGame.Board;
-import clueGame.BoardCell;
-import clueGame.ComputerPlayer;
-import clueGame.HumanPlayer;
-import clueGame.Player;
+import clueGame.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,8 +12,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class GameSetupTests {
 	private static Board board;
@@ -25,7 +21,7 @@ public class GameSetupTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt","data/PlayerLegend.txt");
+		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt","data/PlayerLegend.txt", "data/WeaponLegend.txt");
 		board.initialize();
 	}
 
@@ -35,7 +31,7 @@ public class GameSetupTests {
 
 	@Test
 	public void testPlayerTypes() {
-		//Test for at least one human and one computer
+		// Test for at least one human and one computer
 		boolean foundHuman = false;
 		boolean foundComp = false;
 		ArrayList<Player> testPlayers = board.getPlayers();
@@ -53,7 +49,7 @@ public class GameSetupTests {
 
 	@Test
 	public void testFirstPlayer() {
-		//Test first player name, color, type, and location
+		// Test first player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player firstPlayer = testPlayers.get(0);
 		assertEquals("Player 1", firstPlayer.getName());
@@ -65,7 +61,7 @@ public class GameSetupTests {
 
 	@Test
 	public void testThirdPlayer() {
-		//Test third player name, color, type, and location
+		// Test third player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player thirdPlayer = testPlayers.get(2);
 		assertEquals("Player 3", thirdPlayer.getName());
@@ -77,7 +73,7 @@ public class GameSetupTests {
 
 	@Test
 	public void testLastPlayer() {
-		//Test last player name, color, type, and location
+		// Test last player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player lastPlayer = testPlayers.get(5);
 		assertEquals("Player 6", lastPlayer.getName());
@@ -93,37 +89,88 @@ public class GameSetupTests {
 
 	@Test
 	public void testCardAmount() {
-		// TODO Check if amount of cards is = 21 (6 suspects, 6 weapons, 9 rooms)
+		// Test amount of cards in the deck
+		Set<Card> testDeck = board.getDeck();
+		assertEquals(testDeck.size(), 21);
 	}
 
 	@Test
 	public void testPlayerCardAmount() {
-		// TODO Check amount of player cards, 6
+		// Test amount of player cards in deck
+		Set<Card> testDeck = board.getDeck();
+		int playerCount = 0;
+		for (Card card : testDeck) {
+			if (card.getCardType().equals(CardType.PERSON))
+				playerCount++;
+		}
+		// Compare size against player list size
+		ArrayList<Player> testPlayers = board.getPlayers();
+		assertEquals(playerCount, 6);
+		assertEquals(playerCount, testPlayers.size());
 	}
 
 	@Test
 	public void testWeaponCardAmount() {
-		// TODO Check amount of player cards, 6
+		// Test amount of weapon cards in deck
+		Set<Card> testDeck = board.getDeck();
+		int weaponCount = 0;
+		for (Card card : testDeck) {
+			if (card.getCardType().equals(CardType.WEAPON))
+				weaponCount++;
+		}
+		// Compare size against weapon list size
+		ArrayList<String> testWeapons = board.getWeapons();
+		assertEquals(weaponCount, 6);
+		assertEquals(weaponCount, testWeapons.size());
 	}
 
 	@Test
 	public void testRoomCardAmount() {
-		// TODO Check amount of player cards, 9
+		// Test amount of room cards in deck
+		Set<Card> testDeck = board.getDeck();
+		int roomCount = 0;
+		for (Card card : testDeck) {
+			if (card.getCardType().equals(CardType.ROOM))
+				roomCount++;
+		}
+		// Compare size against room list size
+		ArrayList<String> testRooms = board.getRooms();
+		assertEquals(roomCount, 9);
+		assertEquals(roomCount, testRooms.size());
 	}
 
 	@Test
 	public void testRandomHand() {
-		// TODO Test a random hand by pulling a random suspect, weapon, room to see if they're in deck
+		Set<Card> testDeck = board.getDeck();
+		ArrayList<Player> testPlayers = board.getPlayers();
+		ArrayList<String> testWeapons = board.getWeapons();
+		ArrayList<String> testRooms = board.getRooms();
+
+		// Grab a random player, weapon, and room to see if they're in deck
+		Random rand = new Random();
+		String randomPlayer = testPlayers.get(rand.nextInt(testPlayers.size())).getName();
+		String randomWeapon = testWeapons.get(rand.nextInt(testWeapons.size()));
+		String randomRoom = testRooms.get(rand.nextInt(testRooms.size()));
+		boolean foundPlayer = false;
+		boolean foundWeapon = false;
+		boolean foundRoom = false;
+		for (Card card : testDeck) {
+			if (card.getCardName().equals(randomPlayer)) {
+				foundPlayer = true;
+			} else if (card.getCardName().equals(randomWeapon)) {
+				foundWeapon = true;
+			} else if (card.getCardName().equals(randomRoom)) {
+				foundRoom = true;
+			}
+		}
+		assertTrue(foundPlayer);
+		assertTrue(foundWeapon);
+		assertTrue(foundRoom);
 	}
 
 	/*
 	Test card dealing
 	 */
-
-	@Test
-	public void testDeckSize() {
-		// TODO Deck needs to have (players + weapons + rooms) amount of cards
-	}
 
 	@Test
 	public void testPlayerHandSize() {
