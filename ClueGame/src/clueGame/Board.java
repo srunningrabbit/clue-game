@@ -28,7 +28,7 @@ public class Board {
     private ArrayList<Player> players;
     private ArrayList<String> weapons;
     private ArrayList<String> rooms;
-    private Set<Card> deck;
+    private ArrayList<Card> deck;
 
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -85,7 +85,7 @@ public class Board {
         return rooms;
     }
 
-    public Set<Card> getDeck() {
+    public ArrayList<Card> getDeck() {
         return deck;
     }
 
@@ -100,6 +100,9 @@ public class Board {
         }
         calcAdjacencies();
         createDeck();
+        shuffleDeck();
+        shuffleDeck();
+        
     }
 
     // Set both the board config file and room config file
@@ -377,7 +380,7 @@ public class Board {
 
     // Create a new deck of cards with each type of card
     public void createDeck() {
-        deck = new HashSet<>();
+        deck = new ArrayList<Card>();
 
         for (Player player : players) {
             deck.add(new Card(player.getName(), CardType.PERSON));
@@ -388,6 +391,18 @@ public class Board {
         for (String room : rooms) {
             deck.add(new Card(room, CardType.ROOM));
         }
+    }
+    
+    // Shuffle the deck
+    public void shuffleDeck() {
+    	ArrayList<Card> tempDeck = new ArrayList<Card>();
+    	Random random = new Random();
+    	for(int i = deck.size(); i > 0; i--) {
+    		int index = random.nextInt(deck.size());
+    		tempDeck.add(deck.get(index));
+    		deck.remove(index);    		
+    	}
+    	deck = tempDeck;
     }
 
     // Pick out an answer

@@ -90,14 +90,14 @@ public class GameSetupTests {
 	@Test
 	public void testCardAmount() {
 		// Test amount of cards in the deck
-		Set<Card> testDeck = board.getDeck();
+		ArrayList<Card> testDeck = board.getDeck();
 		assertEquals(testDeck.size(), 21);
 	}
 
 	@Test
 	public void testPlayerCardAmount() {
 		// Test amount of player cards in deck
-		Set<Card> testDeck = board.getDeck();
+		ArrayList<Card> testDeck = board.getDeck();
 		int playerCount = 0;
 		for (Card card : testDeck) {
 			if (card.getCardType().equals(CardType.PERSON))
@@ -112,7 +112,7 @@ public class GameSetupTests {
 	@Test
 	public void testWeaponCardAmount() {
 		// Test amount of weapon cards in deck
-		Set<Card> testDeck = board.getDeck();
+		ArrayList<Card> testDeck = board.getDeck();
 		int weaponCount = 0;
 		for (Card card : testDeck) {
 			if (card.getCardType().equals(CardType.WEAPON))
@@ -127,7 +127,7 @@ public class GameSetupTests {
 	@Test
 	public void testRoomCardAmount() {
 		// Test amount of room cards in deck
-		Set<Card> testDeck = board.getDeck();
+		ArrayList<Card> testDeck = board.getDeck();
 		int roomCount = 0;
 		for (Card card : testDeck) {
 			if (card.getCardType().equals(CardType.ROOM))
@@ -141,7 +141,7 @@ public class GameSetupTests {
 
 	@Test
 	public void testRandomHand() {
-		Set<Card> testDeck = board.getDeck();
+		ArrayList<Card> testDeck = board.getDeck();
 		ArrayList<Player> testPlayers = board.getPlayers();
 		ArrayList<String> testWeapons = board.getWeapons();
 		ArrayList<String> testRooms = board.getRooms();
@@ -175,6 +175,7 @@ public class GameSetupTests {
 	@Test
 	public void testPlayerHandSize() {
 		// TODO See if players have similar amount of cards in their hand
+		
 	}
 
 	@Test
