@@ -4,6 +4,7 @@
 
 package clueGame;
 
+import java.awt.Color;
 import java.io.*;
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class Board {
     private int numColumns;
     private String boardConfigFile;
     private String roomConfigFile;
+    private String playerConfigFile;
     private BoardCell[][] gameBoard;
     private Map<Character, String> legend;
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
@@ -71,7 +73,6 @@ public class Board {
     	return players;
     }
     
-    //Other code? idk what to call this sections
 
     public void initialize() {
         try {
@@ -85,9 +86,10 @@ public class Board {
     }
 
     // Set both the board config file and room config file
-    public void setConfigFiles(String boardLayout, String roomLegend) {
+    public void setConfigFiles(String boardLayout, String roomLegend, String playerLegend) {
         boardConfigFile = boardLayout;
         roomConfigFile = roomLegend;
+        playerConfigFile = playerLegend;
     }
     
     //Load all files?
@@ -95,9 +97,53 @@ public class Board {
     	//TODO read in player and weapons config files
     }
     
-    public void loadPlayerConfig() {
+    // Read in player into player Set
+    public void loadPlayerConfig() throws BadConfigFormatException, IOException {
     	players = new ArrayList<Player>();
-    	//TODO read in player into player Set
+    	File playerConfig = new File(playerConfigFile);
+        Scanner fileInput = new Scanner(playerConfig);
+        while (fileInput.hasNextLine()) {
+            String[] player = fileInput.nextLine().split(", ");
+            if (!player[2].equals("Human") && !player[2].equals("Computer"))
+                throw new BadConfigFormatException("Error: Player type is not Human or Computer");
+            Player p;
+            String name = player[0];
+            //color setter
+            Color color = null;
+            switch(player[1]) {
+            case "Red":
+            	color = Color.RED;
+            	break;
+            case "Orange":
+            	color = Color.ORANGE;
+            	break;
+            case "Yellow":
+            	color = Color.YELLOW;
+            	break;
+            case "Green":
+            	color = Color.GREEN;
+            	break;
+            case "Blue":
+            	color = Color.BLUE;
+            	break;
+            case "Pink":
+            	color = Color.PINK;
+            	break;
+            }
+            //location
+            String[] coordinates = player[3].split(";");
+            int col = Integer.parseInt(coordinates[0]);
+            int row = Integer.parseInt(coordinates[1]);
+            //if human, initialize human
+            if (player[2].equals("Human")) {
+            	p = new HumanPlayer(name, col, row, color);
+            } else {
+            	p = new ComputerPlayer(name, col, row, color);
+            }
+            players.add(p);
+        }
+        fileInput.close();
+    	
     }
 
     // Load room legend configuration
@@ -115,6 +161,7 @@ public class Board {
             String roomName = legendRow[1];
             legend.put(initial, roomName);
         }
+        fileInput.close();
     }
 
     // Load board layout configuration
@@ -180,6 +227,7 @@ public class Board {
             board[row] = boardCellArray;
         }
         this.gameBoard = board;
+        fileInput.close();
     }
 
     // Calculate adjacencies around every cell
@@ -279,6 +327,7 @@ public class Board {
             lines++;
             fileInput.nextLine();
         }
+        fileInput.close();
         return lines;
     }
     

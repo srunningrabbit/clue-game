@@ -23,7 +23,7 @@ public class InitTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt");
+		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt","data/PlayerLegend.txt");
 		board.initialize();
 	}
 	

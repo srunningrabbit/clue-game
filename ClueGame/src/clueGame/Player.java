@@ -8,6 +8,13 @@ public class Player {
 	private int row;
 	private Color color;
 	
+	public Player(String name, int col, int row, Color color) {
+		this.playerName = name;
+		this.col = col;
+		this.row = row;
+		this.color = color;
+	}
+	
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}

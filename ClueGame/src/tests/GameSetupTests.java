@@ -25,7 +25,7 @@ public class GameSetupTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt");
+		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt","data/PlayerLegend.txt");
 		board.initialize();
 	}
 
@@ -35,11 +35,10 @@ public class GameSetupTests {
 
 	@Test
 	public void testPlayerTypes() {
-		// TODO Test for at least one human and one computer
+		//Test for at least one human and one computer
 		boolean foundHuman = false;
 		boolean foundComp = false;
-		Set<Player> testPlayers = board.getPlayers();
-		
+		ArrayList<Player> testPlayers = board.getPlayers();
 		for(Player player: testPlayers) {
 			if(player.getClass() == HumanPlayer.class) {
 				foundHuman = true;
@@ -47,12 +46,14 @@ public class GameSetupTests {
 			else if (player.getClass() == ComputerPlayer.class) {
 				foundComp = true;
 			}
-			assertTrue(foundHuman & foundComp);
-		}		
+		}	
+		assertTrue(foundHuman);
+		assertTrue(foundComp);
 	}
 
 	@Test
 	public void testFirstPlayer() {
+		//Test first player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player firstPlayer = testPlayers.get(0);
 		assertEquals("Player 1", firstPlayer.getName());
@@ -64,17 +65,19 @@ public class GameSetupTests {
 
 	@Test
 	public void testThirdPlayer() {
+		//Test third player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player thirdPlayer = testPlayers.get(2);
 		assertEquals("Player 3", thirdPlayer.getName());
 		assertEquals(Color.YELLOW, thirdPlayer.getColor());
 		assertEquals(ComputerPlayer.class, thirdPlayer.getClass());
-		assertEquals(8, thirdPlayer.getColumn());
+		assertEquals(15, thirdPlayer.getColumn());
 		assertEquals(0, thirdPlayer.getRow());
 	}
 
 	@Test
 	public void testLastPlayer() {
+		//Test last player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player lastPlayer = testPlayers.get(5);
 		assertEquals("Player 6", lastPlayer.getName());

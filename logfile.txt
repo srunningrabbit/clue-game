@@ -1,0 +1,18 @@
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
+Error: Rows are not all the same length
+Error: Room not in legend
+Error: Room type is not Card or Other
