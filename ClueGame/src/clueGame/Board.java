@@ -22,6 +22,7 @@ public class Board {
     private Set<BoardCell> targets;
     private Set<BoardCell> visited;
     private int originalPathLength;
+    private ArrayList<Player> players;
 
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -65,11 +66,18 @@ public class Board {
     public Set<BoardCell> getTargets() {
         return targets;
     }
+        
+    public ArrayList<Player> getPlayers() {					// Returns player list (for testing)		
+    	return players;
+    }
+    
+    //Other code? idk what to call this sections
 
     public void initialize() {
         try {
             loadRoomConfig();
             loadBoardConfig();
+            loadPlayerConfig();
         } catch (BadConfigFormatException | IOException e) {
             System.err.println(e.getMessage());
         }
@@ -85,6 +93,11 @@ public class Board {
     //Load all files?
     public void loadConfigFiles() {
     	//TODO read in player and weapons config files
+    }
+    
+    public void loadPlayerConfig() {
+    	players = new ArrayList<Player>();
+    	//TODO read in player into player Set
     }
 
     // Load room legend configuration

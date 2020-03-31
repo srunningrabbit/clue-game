@@ -4,12 +4,30 @@ import java.awt.Color;
 
 public class Player {
 	private String playerName;
-	private int row;
 	private int col;
+	private int row;
 	private Color color;
 	
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
+	}
+	
+	//Getters for testing purposes
+	
+	public String getName() {
+		return playerName;
+	}
+	
+	public int getColumn() {
+		return col;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 
 }

@@ -6,10 +6,18 @@ package tests;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
+import clueGame.Player;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class GameSetupTests {
 	private static Board board;
@@ -28,21 +36,52 @@ public class GameSetupTests {
 	@Test
 	public void testPlayerTypes() {
 		// TODO Test for at least one human and one computer
+		boolean foundHuman = false;
+		boolean foundComp = false;
+		Set<Player> testPlayers = board.getPlayers();
+		
+		for(Player player: testPlayers) {
+			if(player.getClass() == HumanPlayer.class) {
+				foundHuman = true;
+			}
+			else if (player.getClass() == ComputerPlayer.class) {
+				foundComp = true;
+			}
+			assertTrue(foundHuman & foundComp);
+		}		
 	}
 
 	@Test
 	public void testFirstPlayer() {
-		// TODO See if first player has a name, color, type, location
+		ArrayList<Player> testPlayers = board.getPlayers();
+		Player firstPlayer = testPlayers.get(0);
+		assertEquals("Player 1", firstPlayer.getName());
+		assertEquals(Color.RED, firstPlayer.getColor());
+		assertEquals(HumanPlayer.class, firstPlayer.getClass());
+		assertEquals(0, firstPlayer.getColumn());
+		assertEquals(7, firstPlayer.getRow());
 	}
 
 	@Test
 	public void testThirdPlayer() {
-		// TODO See if first player has a name, color, type, location
+		ArrayList<Player> testPlayers = board.getPlayers();
+		Player thirdPlayer = testPlayers.get(2);
+		assertEquals("Player 3", thirdPlayer.getName());
+		assertEquals(Color.YELLOW, thirdPlayer.getColor());
+		assertEquals(ComputerPlayer.class, thirdPlayer.getClass());
+		assertEquals(8, thirdPlayer.getColumn());
+		assertEquals(0, thirdPlayer.getRow());
 	}
 
 	@Test
 	public void testLastPlayer() {
-		// TODO See if first player has a name, color, type, location
+		ArrayList<Player> testPlayers = board.getPlayers();
+		Player lastPlayer = testPlayers.get(5);
+		assertEquals("Player 6", lastPlayer.getName());
+		assertEquals(Color.PINK, lastPlayer.getColor());
+		assertEquals(ComputerPlayer.class, lastPlayer.getClass());
+		assertEquals(14, lastPlayer.getColumn());
+		assertEquals(20, lastPlayer.getRow());
 	}
 
 	/*
