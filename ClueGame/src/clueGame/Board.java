@@ -141,24 +141,26 @@ public class Board {
             // Color setter
             Color color = null;
             switch(player[1]) {
-            case "Red":
-            	color = Color.RED;
-            	break;
-            case "Orange":
-            	color = Color.ORANGE;
-            	break;
-            case "Yellow":
-            	color = Color.YELLOW;
-            	break;
-            case "Green":
-            	color = Color.GREEN;
-            	break;
-            case "Blue":
-            	color = Color.BLUE;
-            	break;
-            case "Pink":
-            	color = Color.PINK;
-            	break;
+                case "Red":
+                    color = Color.RED;
+                    break;
+                case "Orange":
+                    color = Color.ORANGE;
+                    break;
+                case "Yellow":
+                    color = Color.YELLOW;
+                    break;
+                case "Green":
+                    color = Color.GREEN;
+                    break;
+                case "Blue":
+                    color = Color.BLUE;
+                    break;
+                case "Pink":
+                    color = Color.PINK;
+                    break;
+                default:
+                    break;
             }
             // Location
             String[] coordinates = player[3].split(";");
@@ -415,7 +417,6 @@ public class Board {
     
     // Deals the deck cards
     public void dealCards() {
-    	//TODO deal the cards with a similar amount for each player
     	int numPlayers = getNumPlayers();
     	for (int i = 0; i < deck.size(); i++) {
     		Card card = deck.get(i);
@@ -425,18 +426,18 @@ public class Board {
 
     // Pick out an answer
     public void selectAnswer() {
-    	//TODO select 3 cards to be the solution
+    	// TODO select 3 cards to be the solution
     }
     
     // Handle a suggestion
     public Card handleSuggestion() {
-    	//TODO complete
+    	// TODO complete
     	return null;
     }
     
     // Handle accusation making
     public boolean checkAccusation(Solution accusation) {
-    	//TODO complete
+    	// TODO complete
     	return false;
     }
 }
