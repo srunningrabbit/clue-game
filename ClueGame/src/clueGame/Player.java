@@ -15,6 +15,7 @@ public class Player {
 		this.col = col;
 		this.row = row;
 		this.color = color;
+		this.hand = new ArrayList<Card>(); 
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
@@ -43,6 +44,8 @@ public class Player {
 		return hand;
 	}
 	
-	//addHand
+	public void addCard(Card card) {
+		hand.add(card);
+	}
 
 }

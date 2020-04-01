@@ -110,7 +110,7 @@ public class Board {
         createDeck();
         shuffleDeck();
         shuffleDeck();
-        //dealCards();
+        dealCards();
     }
 
     // Set both the board config file and room config file
@@ -416,6 +416,11 @@ public class Board {
     // Deals the deck cards
     public void dealCards() {
     	//TODO deal the cards with a similar amount for each player
+    	int numPlayers = getNumPlayers();
+    	for (int i = 0; i < deck.size(); i++) {
+    		Card card = deck.get(i);
+    		players.get(i % numPlayers).addCard(card);
+    	}
     }
 
     // Pick out an answer
