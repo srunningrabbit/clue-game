@@ -1,0 +1,411 @@
+commit 875f648c1c6374a2c71aeaaf7a0fe96a8eccf33c
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Tue Mar 31 19:42:06 2020 -0600
+
+    Refactored with SonarLint
+
+commit 5c99235d261ee0648ff85444c627f3a46ae8198c
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Mar 31 18:18:12 2020 -0600
+
+    Dealing cards complete, test pass
+
+commit d52a29e7697a110fa5c524f2d35632d30d44de85
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Mar 31 17:55:20 2020 -0600
+
+    Card dealing failing tests complete
+
+commit 8d96ecda753027d46bc167f4b12d508ad9a51583
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Mar 31 17:08:31 2020 -0600
+
+    Refractored change in deck type through tests
+
+commit 62c21af27fe11fcae06d03ec9730c8d7de0b3d01
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Tue Mar 31 15:09:31 2020 -0600
+
+    Deck creation tests passing
+
+commit a170b6a15a645dc81dfdc1256f6e66ca1dc6b8d0
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Tue Mar 31 13:29:10 2020 -0600
+
+    Deck creation tests failing
+
+commit b4966fee0f004c6369effb1ed7ed48f56856a790
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Mar 31 00:40:31 2020 -0600
+
+    Player config files read, tests passing, closed various Scanner objects
+
+commit 46db61d9d1d02cad2a25733980e071ba4d5cdb3e
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Mar 30 23:23:12 2020 -0600
+
+    Player config file failing tests complete
+
+commit 0dffb8db6505fe7f54d62fb2473fdd7055e936d6
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Mon Mar 30 21:22:59 2020 -0600
+
+    Added test class with skeleton test methods
+
+commit 99839c15cd8038371d6f8b922c6e21b7758c7606
+Merge: cb0ac92 1367ca5
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:43:32 2020 -0600
+
+    Merge branch 'master' of https://github.com/srunningrabbit/Clue-Game
+
+commit cb0ac923935193bacef6671629c1ba3216bbc364
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:43:13 2020 -0600
+
+    Stub classes and methods created for player/cards
+
+commit 1367ca5e8d0c813a451a23456ece5863c2bd3261
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Thu Mar 12 13:24:18 2020 -0600
+
+    Used SonarLint to find other small refactoring issues
+
+commit eaf3998d5721064e5a6d8d92e9159a59a84c59ec
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:13:35 2020 -0600
+
+    Rearranged getter location, 1 function name changed to distinguish from getters
+
+commit 5af5092718a0b4262dfa1c54045ddd6b92683aaf
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:08:29 2020 -0600
+
+    Made some BoardCell instance variables private, used getters
+
+commit ae1de8e83dea59a45abefc8933a1bb8f52f513aa
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:04:09 2020 -0600
+
+    Changes variable names in BoardCell construction to match instance variables better
+
+commit d7c362887b407ed3b15c98d7c06ecf8e8ca1fb2c
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Mar 12 13:02:33 2020 -0600
+
+    Changes row/column variable names to match in both classes
+
+commit 3fbed0106bac0d37f1bbbd2cf383e0bd33d9a3ba
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Thu Mar 12 09:32:50 2020 -0600
+
+    Added more descriptive comments above helper functions
+
+commit bd42a70fed0c256e5cbd2b597bead7c822a5dbe3
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Thu Mar 12 09:30:53 2020 -0600
+
+    Made isInCorner "isDeadEnd" for clarity
+
+commit ec02651a3ece8eab1b8ac47360e76cde3d10d2b4
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Thu Mar 12 09:26:48 2020 -0600
+
+    Reformatted existing thrown exception messages, made them clearer
+
+commit 110fe22dfdbc024b4fb224bcb3b714a230705e4a
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Thu Mar 12 09:24:07 2020 -0600
+
+    Added new exceptions regarding max board size
+
+commit 77b2414ba91a8a91fd65d22527d280f9f02038ac
+Author: Shania Jo RunningRabbit <shaniajorunningrabbit@gmail.com>
+Date:   Wed Mar 11 19:05:34 2020 -0600
+
+    Refactored a bit and added a couple new thrown exceptions
+
+commit c255195aa6c2d3149532953e33ba0b74628d5832
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Mar 3 22:38:50 2020 -0700
+
+    Simplifed CalcTargets
+
+commit b0dc88edfef775d29a6d108319401e5cdc782d32
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Tue Mar 3 22:20:49 2020 -0700
+
+    All passing tests
+
+commit 7806280ffe50c96e23d43f5abb686d5ac6f19e78
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Mon Mar 2 23:15:48 2020 -0700
+
+    Changed calcTarget
+
+commit 53829740e9a01522891434f23d2c6bff8a3fe3e9
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Mon Mar 2 21:57:53 2020 -0700
+
+    Passing adjacency tests, failing target tests
+
+commit cbd154354f156343a1e67d2773f1783eaf39eae5
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Mar 2 18:39:18 2020 -0700
+
+    C14A1 Folder Complete
+
+commit 2ba048384a6f1932758ad75960634f8563224ea2
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Mar 2 18:36:55 2020 -0700
+
+    Failing adjacency tests complete
+
+commit aea975c43098b1be74dca877c00b13f8b250a7cd
+Merge: b860e8e fd493bc
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Sun Mar 1 21:09:33 2020 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+commit b860e8e833356ceeafb57ec100a35b3d926935c5
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Sun Mar 1 21:09:14 2020 -0700
+
+    Changed comments in AdjTargetTests to match our spreadsheet
+
+commit fd493bc6f1a6fe8453c72e20636c13ce88b4b621
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Sun Mar 1 21:00:25 2020 -0700
+
+    Added assignment folder with spreadsheet
+
+commit dd92aecc31dbc271782a734d6c9fec2276125daa
+Author: Shania Jo RunningRabbit <srunningrabbit@mymail.mines.edu>
+Date:   Sun Mar 1 20:54:49 2020 -0700
+
+    Added skeleton methods for AdjTargetTests, reverted Board.java to make tests fail
+
+commit eddbf60d1fd77fbea7b1d0f08c2775ed33a18f23
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 28 13:36:15 2020 -0700
+
+    Added everything to C13A2 assignment folder
+
+commit b846822c6fcdab785949525e9bc7b0ac725de60f
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 28 13:12:06 2020 -0700
+
+    Cleaned up repo and moved assignments to folder
+
+commit 959c0bed3ece0cea0ff121e667a4503d91a07eec
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 18:28:40 2020 -0700
+
+    Passing adjacency tests
+
+commit 2f5e1c6a51f133fd7c320115450eb1e6d046c200
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 27 15:32:49 2020 -0700
+
+    Import AdjTests
+
+commit f6681be99465f641ff741943977ccea4aa5c56d5
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 27 13:45:53 2020 -0700
+
+    File paths corrected
+
+commit 4961293d1570868a359388cef5b79eb8488fbb39
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 13:36:45 2020 -0700
+
+    Deleted data folder
+
+commit ac18f5df9495624ed73c40f5ca7c8190c28ae79d
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 13:32:08 2020 -0700
+
+    Fixed board layout file
+
+commit 7a9445be1ce4d6d3c4c2e2e89a453309ab699df6
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 12:44:01 2020 -0700
+
+    Added new booleans to BoardCell
+
+commit a97515dfe59e3e8057e68a4289d7a17aacbea61a
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 12:34:45 2020 -0700
+
+    Added log file creation for exceptions
+
+commit ebb04a4c4dbea626e9d6e0189c86af0e7a4a065f
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 12:05:33 2020 -0700
+
+    All tests are passing
+
+commit 7fbe1798f6f299b7730234ab89b5685de64b4d53
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 27 00:11:29 2020 -0700
+
+    FileInitTests pass with CTest_ClueLayout.csv and CTest_ClueLegend.txt
+
+commit 91bf95838b543083450ea51828578e48b4f57107
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Wed Feb 26 23:22:07 2020 -0700
+
+    Made our tests pass
+
+commit ab5e0d386c710aebbca218036513b76791570bd9
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Wed Feb 26 10:32:14 2020 -0700
+
+    Added Part 1 folder
+
+commit 04c3c974f558260f1822d00634846a40da9b7263
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Wed Feb 26 10:21:01 2020 -0700
+
+    Added extra comments and formatted things a bit
+
+commit 6a2044a8d9a515741f282e2623ecf2e2a0578031
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Tue Feb 25 14:00:07 2020 -0700
+
+    Part 1 complete, failing tests
+
+commit eade159cab47fef3f64cac17da8f488c58fa9497
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Feb 24 22:32:49 2020 -0700
+
+    Added git log to A2
+
+commit 3d28092cd2db368fce38a14a190ea8bd71ef27e1
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Feb 24 22:29:20 2020 -0700
+
+    Changed comment to Part 2
+
+commit e1cdc65e9b99b9ef3bac3b1d3d9374d2771dc6a0
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Mon Feb 24 22:19:23 2020 -0700
+
+    Added contents to 'Part 2' folder in assignment folder
+
+commit 0d17c479c3bd5a17a669f37efb599d8f0e225090
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Mon Feb 24 22:17:21 2020 -0700
+
+    Fixed target calculation
+
+commit 9a03b087f31939badac4bcc7df7e582c99f8fa8e
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Mon Feb 24 21:48:59 2020 -0700
+
+    All adjecency tests pass
+
+commit 2869eff0b1122629c7a0af5e59b8ceba0c06d25c
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Mon Feb 24 21:27:16 2020 -0700
+
+    Tried to finish up Part 2 stuff
+
+commit 806d16a83b95ec6e4dbe18c14f4aa06a22b69368
+Merge: ced52ec 738c08d
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 22:52:05 2020 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+commit ced52ece541f078044b1495d5b08b8755415f9ab
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 22:51:30 2020 -0700
+
+    Added back adjacency calculation and (untested) target calculation
+
+commit 738c08df0e8b7068588a145c740c45615cd82726
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 22:22:26 2020 -0700
+
+    Added Part I of project
+
+commit 3c3b6ce3e65ea9065fbf44c0f7eccb3dcd33af39
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 17:23:15 2020 -0700
+
+    Added target tests and rest of adjacency tests
+
+commit 58bc796391d198c406eaf2a5bc345b4e34f1899d
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 17:21:22 2020 -0700
+
+    Removed project files since we aren't done yet
+
+commit c1f16422067e2be7989173be1c3d5dd0d571b151
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Fri Feb 21 17:15:20 2020 -0700
+
+    Added submission folder
+
+commit a0bb565f8d3c6f2666bef130982641daa9e8470f
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 20 14:31:33 2020 -0700
+
+    Failing adjecency tests complete
+
+commit 11a0feaaf1a18eeca8efb090051350dbeeaac67b
+Merge: ecda48d b3dd8b8
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 20 13:51:21 2020 -0700
+
+    Merge branch 'master' of https://github.com/srunningrabbit/Clue-Game
+
+commit ecda48d70e76ae174eeccfded075e774a32f1ba2
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 20 13:51:17 2020 -0700
+
+    Tests file started
+
+commit b3dd8b87c9166332e59aff3c8eb2267540670de8
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 20 13:41:58 2020 -0700
+
+    Calculated adjacencies
+
+commit 53a1ef58459568fa7327da32f5333f547abf8889
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 20 13:30:55 2020 -0700
+
+    Added C12A1 assignment
+
+commit f629c4bcd7f3d830014cdc44d7edcce92abbdfd0
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 20 13:13:33 2020 -0700
+
+    Board layout created
+
+commit 51f5b9111ca769bd634ab90051fb594e8f82fa81
+Author: Amira Ramirez <apramirezgonzalez@mymail.mines.edu>
+Date:   Thu Feb 20 12:45:18 2020 -0700
+
+    Rooms Picked
+
+commit fb680ad51907cfc021e907343445caf1f80ec579
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 20 12:31:07 2020 -0700
+
+    Added some members variables and methods
+
+commit 1358e0b1169b94c14eba80614404ea7a243be082
+Author: srunningrabbit <srunningrabbit@mymail.mines.edu>
+Date:   Thu Feb 20 11:44:13 2020 -0700
+
+    Created ClueGame project
+
+commit e84b374a17f131a5943b5d83baeb9c5971a7d482
+Author: Shania <shaniajorunningrabbit@gmail.com>
+Date:   Thu Feb 20 11:30:50 2020 -0700
+
+    Initial commit
