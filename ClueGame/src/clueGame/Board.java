@@ -432,7 +432,7 @@ public class Board {
     
     // Set Solution TESTING PURPOSES ONLY
     public void setAnswer(Solution solution) {
-    	// TODO sets answer
+    	this.solution = solution;
     }
     
     // Handle a suggestion
