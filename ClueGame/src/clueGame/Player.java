@@ -10,10 +10,10 @@ public class Player {
 	private Color color;
 	private ArrayList<Card> hand;
 	
-	public Player(String name, int col, int row, Color color) {
+	public Player(String name, int row, int col, Color color) {
 		this.playerName = name;
-		this.col = col;
 		this.row = row;
+		this.col = col;
 		this.color = color;
 		this.hand = new ArrayList<Card>(); 
 	}

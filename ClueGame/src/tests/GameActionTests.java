@@ -4,6 +4,8 @@ import clueGame.*;
 
 import static org.junit.Assert.*;
 
+import java.awt.Color;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,12 +20,26 @@ public class GameActionTests {
 	}
 	
 
-	// Target location Tests (Computer)
+	// Target Location Tests (Computer)
 	@Test
-	public void computerLocationTest() {		
-		//TODO If no rooms in list, select randomly 
-		//TODO If room in list that was not just visited, must select it
-		//TODO If room just visited is in list, each target (including room) selected randomly
+	public void computerLocationTest() {
+		// No room in target list, random selection
+		ComputerPlayer testPlayer = new ComputerPlayer("Tester", 9, 6, Color.RED);
+		board.calcTargets(testPlayer.getRow(), testPlayer.getColumn(), 1);
+		BoardCell testLocation = testPlayer.pickLocation(board.getTargets());
+		//TODO I dont remember how we tested random picking lol
+		
+		// If room in list that was not just visited, must select it
+		testPlayer = new ComputerPlayer("Tester", 7, 4, Color.RED);
+		board.calcTargets(testPlayer.getRow(), testPlayer.getColumn(), 1);
+		testLocation = testPlayer.pickLocation(board.getTargets());
+		assertEquals(testLocation, board.getCellAt(6, 4));
+				
+		// If room just visited is in list, each target (including room) selected randomly (after picking door, leaving)
+		testPlayer = new ComputerPlayer("Tester", 16, 3, Color.RED);
+		board.calcTargets(testPlayer.getRow(), testPlayer.getColumn(), 2);
+		testLocation = testPlayer.pickLocation(board.getTargets());
+		//TODO same random picking test + must not be room
 	}
 
 	// Accusation Tests (Board)
