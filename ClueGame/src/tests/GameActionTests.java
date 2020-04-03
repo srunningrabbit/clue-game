@@ -45,10 +45,23 @@ public class GameActionTests {
 	// Accusation Tests (Board)
 	@Test
 	public void checkAccusations() {
-		//TODO Test solution that is correct
-		//TODO Test solution with wrong person
-		//TODO Test solution with wrong weapon
-		//TODO Test solution with wrong room
+		Solution testSolution = new Solution("Killer","Weapon","Room");
+		board.setAnswer(testSolution);
+		
+		// Test solution that is correct
+		assertTrue(board.checkAccusation(testSolution));
+		
+		// Test solution with wrong person
+		testSolution = new Solution("Plebian","Weapon","Room");
+		assertFalse(board.checkAccusation(testSolution));
+		
+		// Test solution with wrong weapon
+		testSolution = new Solution("Killer","Flower","Room");
+		assertFalse(board.checkAccusation(testSolution));
+		
+		// Test solution with wrong room
+		testSolution = new Solution("Killer","Weapon","Outdoors");
+		assertFalse(board.checkAccusation(testSolution));
 	}
 
 	// Suggestion tests

@@ -29,6 +29,7 @@ public class Board {
     private ArrayList<String> weapons;
     private ArrayList<String> rooms;
     private ArrayList<Card> deck;
+    private Solution solution;
 
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -427,6 +428,11 @@ public class Board {
     // Pick out an answer
     public void selectAnswer() {
     	// TODO select 3 cards to be the solution
+    }
+    
+    // Set Solution TESTING PURPOSES ONLY
+    public void setAnswer(Solution solution) {
+    	// TODO sets answer
     }
     
     // Handle a suggestion
