@@ -7,4 +7,8 @@ public class HumanPlayer extends Player {
 	public HumanPlayer(String name, int col, int row, Color color) {
 		super(name, col, row, color);
 	}
+	
+	public Card disproveSuggestion(Solution suggestion) {
+		return null;
+	}
 }
