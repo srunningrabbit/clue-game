@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -29,7 +30,23 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		return null;
+		Random random = new Random();
+		Board board = Board.getInstance();
+		char currInitial = board.getCellAt(this.getRow(), this.getColumn()).getInitial();
+		
+		//if a room is in reach and not previously in it, must return it
+		for(BoardCell cell : targets) {
+			if(cell.isDoorway() && cell.getInitial() != currInitial) {
+				return cell;
+			}
+		}
+		//else pick a random location
+		int index = random.nextInt(targets.size());
+		Iterator<BoardCell> iter = targets.iterator();
+		for (int i = 0; i < index; i++) {
+		    iter.next();
+		}
+		return iter.next();
 	}
 	
 	public void makeAccusation() {
