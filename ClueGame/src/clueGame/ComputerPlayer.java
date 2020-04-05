@@ -34,13 +34,13 @@ public class ComputerPlayer extends Player {
 		Board board = Board.getInstance();
 		char currInitial = board.getCellAt(this.getRow(), this.getColumn()).getInitial();
 		
-		//if a room is in reach and not previously in it, must return it
+		// If a room is in reach and not previously in it, must return it
 		for(BoardCell cell : targets) {
 			if(cell.isDoorway() && cell.getInitial() != currInitial) {
 				return cell;
 			}
 		}
-		//else pick a random location
+		// Else pick a random location
 		int index = random.nextInt(targets.size());
 		Iterator<BoardCell> iter = targets.iterator();
 		for (int i = 0; i < index; i++) {

@@ -1,6 +1,6 @@
 package clueGame;
 
-public class Solution {
+public class Solution implements Comparable<Solution>{
 	
 	private String person;
 	private String weapon;
@@ -22,6 +22,15 @@ public class Solution {
 
 	public String getRoom() {
 		return room;
+	}
+	
+	@Override
+	public int compareTo(Solution otherSol) {
+		if(this.person.equals(otherSol.getPerson()) && this.weapon.equals(otherSol.getWeapon()) && this.room.equals(otherSol.getRoom())) {
+			return 0;
+		} else {
+			return -1;
+		}
 	}
 	
 	//TESTING PURPOSES ONLY

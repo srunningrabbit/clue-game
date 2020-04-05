@@ -443,7 +443,10 @@ public class Board {
     
     // Handle accusation making
     public boolean checkAccusation(Solution accusation) {
-    	// TODO complete
-    	return false;
+    	if(accusation.compareTo(solution) == 0) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 }
