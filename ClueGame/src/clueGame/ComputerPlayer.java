@@ -15,6 +15,7 @@ public class ComputerPlayer extends Player {
 	
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
+		seenCards = new HashSet<Card>();
 	}
 
 	public ArrayList<Card> getPossiblePeople() {

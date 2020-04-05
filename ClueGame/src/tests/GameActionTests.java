@@ -77,7 +77,7 @@ public class GameActionTests {
 	public void creatingComputerSuggestion() {	// Computer
 		ComputerPlayer testPlayer = new ComputerPlayer("Tester", 3, 3, Color.RED);
 		testPlayer.possibleCard(new Card("Weapon 1", CardType.WEAPON));
-		testPlayer.possibleCard(new Card("Person 1", CardType.PERSON));
+		testPlayer.possibleCard(new Card("Person 1", CardType.PERSON));			//!!!!!! set deck to a test deck (or createSuggestion uses read in deck
 		testPlayer.createSuggestion();
 		Solution testSuggestion = testPlayer.getSuggestion();
 
