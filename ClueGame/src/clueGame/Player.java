@@ -47,5 +47,13 @@ public class Player {
 	public void addCard(Card card) {
 		hand.add(card);
 	}
+	
+	public Solution getSuggestion() {
+		return null; //not sure if will use computerPlayer's overriden function (made me make one in Player class)
+	}
+
+	public void createSuggestion() {
+		//not sure if will use computerPlayer's overriden function (made me make one in Player class)
+	}
 
 }

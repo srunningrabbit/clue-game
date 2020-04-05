@@ -169,9 +169,9 @@ public class Board {
             int row = Integer.parseInt(coordinates[1]);
             // If human, initialize human
             if (player[2].equals("Human")) {
-            	p = new HumanPlayer(name, col, row, color);
+            	p = new HumanPlayer(name, row, col, color);
             } else {
-            	p = new ComputerPlayer(name, col, row, color);
+            	p = new ComputerPlayer(name, row, col, color);
             }
             players.add(p);
         }
@@ -436,7 +436,7 @@ public class Board {
     }
     
     // Handle a suggestion
-    public Card handleSuggestion() {
+    public Card handleSuggestion(Solution suggestion, Player accuser) {
     	// TODO complete
     	return null;
     }

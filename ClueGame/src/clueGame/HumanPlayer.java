@@ -11,4 +11,8 @@ public class HumanPlayer extends Player {
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}
+	
+	public void createSuggestion() {
+		
+	}
 }
