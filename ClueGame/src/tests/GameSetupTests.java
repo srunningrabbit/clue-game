@@ -53,8 +53,8 @@ public class GameSetupTests {
 		assertEquals("Player 1", firstPlayer.getName());
 		assertEquals(Color.RED, firstPlayer.getColor());
 		assertEquals(HumanPlayer.class, firstPlayer.getClass());
-		assertEquals(0, firstPlayer.getColumn());
-		assertEquals(7, firstPlayer.getRow());
+		assertEquals(0, firstPlayer.getRow());
+		assertEquals(7, firstPlayer.getColumn());
 	}
 
 	@Test
@@ -65,8 +65,8 @@ public class GameSetupTests {
 		assertEquals("Player 3", thirdPlayer.getName());
 		assertEquals(Color.YELLOW, thirdPlayer.getColor());
 		assertEquals(ComputerPlayer.class, thirdPlayer.getClass());
-		assertEquals(15, thirdPlayer.getColumn());
-		assertEquals(0, thirdPlayer.getRow());
+		assertEquals(15, thirdPlayer.getRow());
+		assertEquals(0, thirdPlayer.getColumn());
 	}
 
 	@Test
@@ -77,8 +77,8 @@ public class GameSetupTests {
 		assertEquals("Player 6", lastPlayer.getName());
 		assertEquals(Color.PINK, lastPlayer.getColor());
 		assertEquals(ComputerPlayer.class, lastPlayer.getClass());
-		assertEquals(14, lastPlayer.getColumn());
-		assertEquals(20, lastPlayer.getRow());
+		assertEquals(14, lastPlayer.getRow());
+		assertEquals(20, lastPlayer.getColumn());
 	}
 
 	/*

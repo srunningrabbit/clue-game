@@ -33,7 +33,7 @@ public class Solution implements Comparable<Solution>{
 		}
 	}
 	
-	//TESTING PURPOSES ONLY
+	// TESTING PURPOSES ONLY
 	
 	public void setPerson(String person) {
 		this.person = person;
@@ -48,7 +48,7 @@ public class Solution implements Comparable<Solution>{
 	}
 	
 	public boolean hasCard(Card card) {
-		return false;
+		return person.equals(card.getCardName()) || weapon.equals(card.getCardName()) || room.equals(card.getCardName());
 	}
 	
 }

@@ -20,4 +20,9 @@ public class Card {
 	public boolean equals() {
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return cardName;
+	}
 }

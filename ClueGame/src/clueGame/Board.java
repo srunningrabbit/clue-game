@@ -26,6 +26,7 @@ public class Board {
     private Set<BoardCell> visited;
     private int originalPathLength;
     private ArrayList<Player> players;
+    private static int currentPlayerIndex = 0;
     private ArrayList<String> weapons;
     private ArrayList<String> rooms;
     private ArrayList<Card> deck;
@@ -79,7 +80,11 @@ public class Board {
     public ArrayList<Player> getPlayers() {					// Returns player list (for testing)		
     	return players;
     }
-    
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     public int getNumPlayers() {							// Returns numbers of players in the game
     	return players.size();		
     }
@@ -112,6 +117,7 @@ public class Board {
         shuffleDeck();
         shuffleDeck();
         dealCards();
+        selectAnswer();
     }
 
     // Set both the board config file and room config file
@@ -165,8 +171,8 @@ public class Board {
             }
             // Location
             String[] coordinates = player[3].split(";");
-            int col = Integer.parseInt(coordinates[0]);
-            int row = Integer.parseInt(coordinates[1]);
+            int row = Integer.parseInt(coordinates[0]);
+            int col = Integer.parseInt(coordinates[1]);
             // If human, initialize human
             if (player[2].equals("Human")) {
             	p = new HumanPlayer(name, row, col, color);
@@ -403,6 +409,12 @@ public class Board {
             deck.add(new Card(room, CardType.ROOM));
         }
     }
+
+    // Set cards in deck TESTING PURPOSES ONLY
+    public void setDeck(ArrayList<Card> newDeck) {
+        deck.clear();
+        deck = newDeck;
+    }
     
     // Shuffle the deck
     public void shuffleDeck() {
@@ -427,7 +439,27 @@ public class Board {
 
     // Pick out an answer
     public void selectAnswer() {
-    	// TODO select 3 cards to be the solution
+    	String person = "";
+        String weapon = "";
+        String room = "";
+    	boolean foundPerson = false;
+        boolean foundWeapon = false;
+        boolean foundRoom = false;
+    	for (Card card : deck) {
+            if (card.getCardType().equals(CardType.PERSON)) {
+                person = card.getCardName();
+                foundPerson = true;
+            } else if (card.getCardType().equals(CardType.WEAPON)) {
+                weapon = card.getCardName();
+                foundWeapon = true;
+            } else if (card.getCardType().equals(CardType.ROOM)) {
+                room = card.getCardName();
+                foundRoom = true;
+            }
+            if (foundPerson && foundWeapon && foundRoom) {
+                solution = new Solution(person, weapon, room);
+            }
+        }
     }
     
     // Set Solution TESTING PURPOSES ONLY
@@ -437,16 +469,43 @@ public class Board {
     
     // Handle a suggestion
     public Card handleSuggestion(Solution suggestion, Player accuser) {
-    	// TODO complete
+        // If accuser can disprove, null
+        if (accuser.disproveSuggestion(suggestion) != null) return null;
+        int currentPlayer = players.indexOf(accuser);
+
+        // Check if a human disapproves suggestion, prefer the other player before human
+        boolean humanDisapproval = false;
+        Card correctCard = new Card(null, null);
+
+        Player next;
+        int nextPlayer = currentPlayer;
+        do {
+            // Assure that loop doesn't go past ArrayList size and loops back to front
+            nextPlayer++;
+            if (nextPlayer > players.size() - 1) {
+                nextPlayer = 0;
+            }
+            next = players.get(nextPlayer);
+            Card card = next.disproveSuggestion(suggestion);
+
+            // If card isn't null, it returned a possibly shown card
+            if (card != null) {
+                if (next instanceof HumanPlayer) {
+                    humanDisapproval = true;
+                    correctCard = card;
+                } else if (next instanceof ComputerPlayer) { // If computer can disprove, prefer computer first
+                    return card;
+                }
+            }
+        } while (!next.equals(accuser));
+
+        // Since computer didn't disprove, human can disprove
+        if (humanDisapproval) return correctCard;
     	return null;
     }
     
     // Handle accusation making
     public boolean checkAccusation(Solution accusation) {
-    	if(accusation.compareTo(solution) == 0) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+        return accusation.compareTo(solution) == 0;
     }
 }

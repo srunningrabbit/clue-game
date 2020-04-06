@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Player {
 	private String playerName;
-	private int col;
 	private int row;
+	private int col;
 	private Color color;
 	private ArrayList<Card> hand;
 	
@@ -19,10 +19,15 @@ public class Player {
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
+		for (Card card : hand) {
+			if (card.getCardName().equals(suggestion.getPerson()) || card.getCardName().equals(suggestion.getWeapon()) || card.getCardName().equals(suggestion.getRoom())) {
+				return card;
+			}
+		}
 		return null;
 	}
 	
-	//Getters for testing purposes
+	// TESTING PURPOSES ONLY
 	
 	public String getName() {
 		return playerName;
@@ -43,7 +48,11 @@ public class Player {
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
-	
+
+	public void setHand(ArrayList<Card> hand) {
+		this.hand = hand;
+	}
+
 	public void addCard(Card card) {
 		hand.add(card);
 	}
