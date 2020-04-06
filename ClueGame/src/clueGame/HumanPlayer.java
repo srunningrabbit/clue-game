@@ -8,9 +8,9 @@ public class HumanPlayer extends Player {
 		super(name, row, col, color);
 	}
 	
-	public Card disproveSuggestion(Solution suggestion) {
-		return null;
-	}
+//	public Card disproveSuggestion(Solution suggestion) {
+//		return null;
+//	}
 	
 	public void createSuggestion() {
 		

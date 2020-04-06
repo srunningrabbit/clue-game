@@ -17,6 +17,34 @@ public class GameActionTests {
 		board = Board.getInstance();
 		board.setConfigFiles("data/ClueLayout.csv", "data/ClueRooms.txt","data/PlayerLegend.txt", "data/WeaponLegend.txt");
 		board.initialize();
+
+		// Created new test players for testing
+		ArrayList<Player> newPlayers = new ArrayList<>();
+		newPlayers.add(new HumanPlayer("Person 1", 3, 19, Color.RED));
+		newPlayers.add(new ComputerPlayer("Person 2", 10, 1, Color.ORANGE));
+		newPlayers.add(new ComputerPlayer("Person 3", 20, 1, Color.YELLOW));
+		newPlayers.add(new ComputerPlayer("Person 4", 3, 3, Color.GREEN));
+		newPlayers.add(new ComputerPlayer("Person 5", 20, 10, Color.BLUE));
+		board.setPlayers(newPlayers);
+
+		// Created new deck for testing
+		ArrayList<Card> newDeck = new ArrayList<>();
+		newDeck.add(new Card("Home Decoration", CardType.ROOM));
+		newDeck.add(new Card("Room Decoration", CardType.ROOM));
+		newDeck.add(new Card("Kitchen Decoration", CardType.ROOM));
+		newDeck.add(new Card("Weapon 1", CardType.WEAPON));
+		newDeck.add(new Card("Weapon 2", CardType.WEAPON));
+		newDeck.add(new Card("Weapon 3", CardType.WEAPON));
+		newDeck.add(new Card("Weapon 4", CardType.WEAPON));
+		newDeck.add(new Card("Weapon 5", CardType.WEAPON));
+		newDeck.add(new Card("Person 1", CardType.PERSON));
+		newDeck.add(new Card("Person 2", CardType.PERSON));
+		newDeck.add(new Card("Person 3", CardType.PERSON));
+		newDeck.add(new Card("Person 4", CardType.PERSON));
+		newDeck.add(new Card("Person 5", CardType.PERSON));
+		board.setDeck(newDeck);
+		board.shuffleDeck();
+		board.dealCards();
 	}
 
 	/*
@@ -75,9 +103,15 @@ public class GameActionTests {
 	 */
 	@Test
 	public void creatingComputerSuggestion() {	// Computer
-		ComputerPlayer testPlayer = new ComputerPlayer("Tester", 3, 3, Color.RED);
+		// Grabbing the 4th player
+		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(3);
 		testPlayer.possibleCard(new Card("Weapon 1", CardType.WEAPON));
-		testPlayer.possibleCard(new Card("Person 1", CardType.PERSON));			//!!!!!! set deck to a test deck (or createSuggestion uses read in deck
+		testPlayer.possibleCard(new Card("Person 1", CardType.PERSON));
+		ArrayList<Card> testSeenCards = board.getDeck();
+		// Remove cards to make sure that the player sees them as possibilities
+		testSeenCards.removeIf(card -> card.getCardName().equals("Weapon 1"));
+		testSeenCards.removeIf(card -> card.getCardName().equals("Person 1"));
+		testPlayer.setSeenCards(testSeenCards);
 		testPlayer.createSuggestion();
 		Solution testSuggestion = testPlayer.getSuggestion();
 
@@ -90,7 +124,7 @@ public class GameActionTests {
 		// If only one person not seen, it's selected (can be same test as weapon)
 		assertEquals("Person 1", testSuggestion.getPerson());
 
-		testPlayer = new ComputerPlayer("Tester", 3, 3, Color.RED);
+		testPlayer = new ComputerPlayer("Player 4", 3, 3, Color.RED);
 		testPlayer.possibleCard(new Card("Weapon 1", CardType.WEAPON));
 		testPlayer.possibleCard(new Card("Weapon 2", CardType.WEAPON));
 		testPlayer.possibleCard(new Card("Weapon 3", CardType.WEAPON));
@@ -101,29 +135,46 @@ public class GameActionTests {
 		testSuggestion = testPlayer.getSuggestion();
 
 		// If multiple weapons not seen, one of them is randomly selected
-		assertTrue(testPlayer.getPossibleWeapons().contains(testSuggestion.getWeapon()));
+		boolean seenWeapon = false;
+		for (Card card : testPlayer.getPossibleWeapons()) {
+			if (card.getCardName().equals(testSuggestion.getWeapon())) {
+				seenWeapon = true;
+				break;
+			}
+		}
+		assertTrue(seenWeapon);
 
 		// If multiple persons not seen, one of them is randomly selected
-		assertTrue(testPlayer.getPossiblePeople().contains(testSuggestion.getPerson()));
+		boolean seenPerson = false;
+		for (Card card : testPlayer.getPossiblePeople()) {
+			if (card.getCardName().equals(testSuggestion.getPerson())) {
+				seenPerson = true;
+				break;
+			}
+		}
+		assertTrue(seenPerson);
 	}	
 	
 	@Test
 	public void disproveSuggestion() { // Player
-		Solution testSolution = new Solution("Killer", "Weapon", "Room");
-		board.setAnswer(testSolution);
+		Player testPlayer = new Player("Tester", 9, 6, Color.RED);
+		ArrayList<Card> newHand = new ArrayList<>();
+		newHand.add(new Card("Killer", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayer.setHand(newHand);
 
 		// If player has only one matching card it should be returned
-		Player testPlayer = new Player("Tester", 9, 6, Color.RED);
 		Card card = testPlayer.disproveSuggestion(new Solution("Killer", "Spoon", "Closet"));
 		assertEquals("Killer", card.getCardName());
 
 		// If players has >1 matching card, returned card should be chosen randomly
 		card = testPlayer.disproveSuggestion(new Solution("Killer", "Weapon", "Closet"));
-		assertTrue(card.getCardName() == "Killer" || card.getCardName() == "Weapon");
+		assertTrue(card.getCardName().equals("Killer") || card.getCardName().equals("Weapon"));
 
 		// If player has no matching cards, null is returned
 		card = testPlayer.disproveSuggestion(new Solution("Man", "Spoon", "Closet"));
-		assertEquals(null, card);
+		assertNull(card);
 	}	
 	
 	@Test
@@ -133,42 +184,80 @@ public class GameActionTests {
 		
 		// Suggestion no one can disprove returns null
 		Solution testSuggestion = new Solution("","","");
-		assertEquals(null, board.handleSuggestion(testSuggestion, testPlayers.get(1)));
+		assertNull(board.handleSuggestion(testSuggestion, testPlayers.get(1)));
 		
 		// Suggestion only accusing player can disprove returns null
-		testPlayers.get(1).createSuggestion();
-		testSuggestion = testPlayers.get(1).getSuggestion(); 								//!!!! not sure if will use computerPlayer's overriden function (made me make one in Player class)
-		assertEquals(null, board.handleSuggestion(testSuggestion, testPlayers.get(1)));
+		ArrayList<Card> oldHand = testPlayers.get(1).getHand();
+		ArrayList<Card> newHand = new ArrayList<>();
+		newHand.add(new Card("", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(1).setHand(newHand);
+
+		assertNull(board.handleSuggestion(testSuggestion, testPlayers.get(1)));
+		testPlayers.get(1).setHand(oldHand);
 		
 		// Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-		testPlayers.get(0).createSuggestion();
-		testSuggestion = testPlayers.get(0).getSuggestion();
+		oldHand = testPlayers.get(0).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(0).setHand(newHand);
+
 		Card testCard = board.handleSuggestion(testSuggestion, testPlayers.get(1));
 		assertTrue(testSuggestion.hasCard(testCard));
+		testPlayers.get(0).setHand(oldHand);
 		
 		// Suggestion only human can disprove, but human is accuser, returns null
-		testPlayers.get(0).createSuggestion();
-		testSuggestion = testPlayers.get(0).getSuggestion();
-		assertEquals(null, board.handleSuggestion(testSuggestion, testPlayers.get(0)));
+		oldHand = testPlayers.get(0).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(0).setHand(newHand);
+
+		assertNull(board.handleSuggestion(testSuggestion, testPlayers.get(0)));
+		testPlayers.get(0).setHand(oldHand);
 		
 		// Suggestion that two players can disprove, correct player (based on starting with next player in list) returns answer
-		testPlayers.get(1).createSuggestion();
-		testSuggestion = testPlayers.get(1).getSuggestion();
-		testPlayers.get(2).createSuggestion();
-		String otherRoom = testPlayers.get(2).getSuggestion().getRoom();
-		testSuggestion.setRoom(otherRoom);
+		ArrayList<Card> oldHand1 = testPlayers.get(1).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(1).setHand(newHand);
+
+		ArrayList<Card> oldHand2 = testPlayers.get(2).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("Killer", CardType.PERSON));
+		newHand.add(new Card("", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(2).setHand(newHand);
 		
 		testCard = board.handleSuggestion(testSuggestion, testPlayers.get(0));
 		assertTrue(testPlayers.get(1).getHand().contains(testCard));
+		testPlayers.get(1).setHand(oldHand1);
+		testPlayers.get(2).setHand(oldHand2);
 		
 		// Suggestion that human and another player can disprove, other player is next in list, ensure other player returns answer
-		testPlayers.get(0).createSuggestion();
-		testSuggestion = testPlayers.get(1).getSuggestion();
-		testPlayers.get(3).createSuggestion();
-		otherRoom = testPlayers.get(3).getSuggestion().getRoom();
-		testSuggestion.setRoom(otherRoom);
+		oldHand1 = testPlayers.get(0).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("", CardType.PERSON));
+		newHand.add(new Card("Weapon", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(0).setHand(newHand);
+
+		oldHand2 = testPlayers.get(1).getHand();
+		newHand = new ArrayList<>();
+		newHand.add(new Card("Killer", CardType.PERSON));
+		newHand.add(new Card("", CardType.WEAPON));
+		newHand.add(new Card("Room", CardType.ROOM));
+		testPlayers.get(1).setHand(newHand);
 		
 		testCard = board.handleSuggestion(testSuggestion, testPlayers.get(2));
-		assertTrue(testPlayers.get(3).getHand().contains(testCard));
+		assertTrue(testPlayers.get(1).getHand().contains(testCard));
+		testPlayers.get(0).setHand(oldHand1);
+		testPlayers.get(1).setHand(oldHand2);
 	}
 }

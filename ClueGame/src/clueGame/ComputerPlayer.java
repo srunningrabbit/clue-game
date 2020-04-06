@@ -10,12 +10,12 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 	private ArrayList<Card> possiblePeople = new ArrayList<>();
 	private ArrayList<Card> possibleWeapons = new ArrayList<>();
-	private Set<Card> seenCards;
+	private ArrayList<Card> seenCards;
 	private Solution suggestion;
 	
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
-		seenCards = new HashSet<Card>();
+		seenCards = this.getHand();
 	}
 
 	public ArrayList<Card> getPossiblePeople() {
@@ -29,7 +29,11 @@ public class ComputerPlayer extends Player {
 	public Solution getSuggestion() {
 		return suggestion;
 	}
-	
+
+	public void setSeenCards(ArrayList<Card> seenCards) {
+		this.seenCards = seenCards;
+	}
+
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random random = new Random();
 		Board board = Board.getInstance();
@@ -59,7 +63,7 @@ public class ComputerPlayer extends Player {
 		Board board = Board.getInstance();
 		Random rand = new Random();
 		for (Card card : board.getDeck()) {
-			if (!seenCards.contains(card)) {
+			if (!seenCards.contains(card) && card != null) {
 				possibleCard(card);
 			}
 		}
@@ -84,6 +88,7 @@ public class ComputerPlayer extends Player {
 		String room = board.getLegend().get(board.getCellAt(this.getRow(), this.getColumn()).getInitial());
 
 		suggestion = new Solution(person, weapon, room);
+		seenCards.add(board.handleSuggestion(suggestion, this));
 	}
 
 	// Add unseen cards to corresponding lists, people or weapons
