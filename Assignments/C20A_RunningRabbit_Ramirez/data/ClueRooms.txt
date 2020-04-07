@@ -1,0 +1,11 @@
+F, Food Court, Card
+T, Textiles, Card
+C, Cookshop and Tableware, Card
+P, Playland, Card
+L, Lighting, Card
+B, Bathshop, Card
+R, Rugs and Flooring, Card
+H, Home Decoration, Card
+O, Home Organization, Card
+X, Closet, Other
+W, Walkway, Other
