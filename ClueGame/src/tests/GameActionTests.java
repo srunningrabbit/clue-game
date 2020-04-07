@@ -1,3 +1,7 @@
+/*
+ * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
+ */
+
 package tests;
 
 import clueGame.*;
