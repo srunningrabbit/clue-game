@@ -10,6 +10,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ClueGameGUI extends JFrame {
+	private static final int MARGIN_SIZE = 10;
 
 	public ClueGameGUI() {
 		setTitle("Clue Game");
@@ -25,19 +26,25 @@ public class ClueGameGUI extends JFrame {
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
+		// Separate panel for the label and text field
+		JPanel turnPanel = new JPanel();
+		turnPanel.setLayout(new GridBagLayout());
+
 		// Label for current player text field
 		JLabel label = new JLabel("Current Turn");
 		c.gridx = 0;
-		c.insets = new Insets(0, 0, 5, 10);
-		panel.add(label, c);
+		c.gridy = 0;
+		c.insets = new Insets(0, 0, MARGIN_SIZE / 2, MARGIN_SIZE);
+		turnPanel.add(label, c);
 
 		// Field for showing current player
 		JTextField name = new JTextField(15); // not sure if this should be a text field or something else
 		name.setEditable(false);
-		c.gridx = 0;
-		c.insets = new Insets(5, 0, 0, 10);
-		panel.add(name, c);
+		c.gridy = 1;
+		c.insets = new Insets(MARGIN_SIZE / 2, 0, 0, MARGIN_SIZE);
+		turnPanel.add(name, c);
 
+		panel.add(turnPanel);
 		return panel;
 	}
 
@@ -46,11 +53,11 @@ public class ClueGameGUI extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton nextPlayer = new JButton("Next Player");
-		c.insets = new Insets(0, 10, 0, 5);
+		c.insets = new Insets(0, MARGIN_SIZE, 0, MARGIN_SIZE);
 		panel.add(nextPlayer, c);
 
 		JButton makeAccusation = new JButton("Make an Accusation");
-		c.insets = new Insets(0, 5, 0, 0);
+		c.insets = new Insets(0, MARGIN_SIZE, 0, 0);
 		panel.add(makeAccusation, c);
 	}
 
@@ -61,31 +68,41 @@ public class ClueGameGUI extends JFrame {
 		// Die roll entry
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel("Roll");
+		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
 		JTextField info = new JTextField(4);
 		info.setEditable(false);
 		panel.add(label);
 		panel.add(info);
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
+		TitledBorder titledBorder = new TitledBorder(new EtchedBorder(), "Die");
+		titledBorder.setTitleJustification(TitledBorder.CENTER);
+		panel.setBorder(titledBorder);
 		rowPanel.add(panel);
 
 		// Guess entry
 		panel = new JPanel();
+		panel.setLayout(new GridLayout(0,1));
 		label = new JLabel("Guess");
-		info = new JTextField(20);
+		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
+		info = new JTextField(25);
 		info.setEditable(false);
 		panel.add(label);
 		panel.add(info);
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		titledBorder = new TitledBorder(new EtchedBorder(), "Guess");
+		titledBorder.setTitleJustification(TitledBorder.CENTER);
+		panel.setBorder(titledBorder);
 		rowPanel.add(panel);
 
 		// Response entry
 		panel = new JPanel();
 		label = new JLabel("Response");
+		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
 		info = new JTextField(15);
 		info.setEditable(false);
 		panel.add(label);
 		panel.add(info);
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+		titledBorder = new TitledBorder(new EtchedBorder(), "Response");
+		titledBorder.setTitleJustification(TitledBorder.CENTER);
+		panel.setBorder(titledBorder);
 		rowPanel.add(panel);
 
 		return rowPanel;
