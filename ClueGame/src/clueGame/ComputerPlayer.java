@@ -18,6 +18,10 @@ public class ComputerPlayer extends Player {
 		seenCards = this.getHand();
 	}
 
+	/*
+	Getters and setters, including those for testing purposes
+	 */
+
 	public ArrayList<Card> getPossiblePeople() {
 		return possiblePeople;
 	}
@@ -33,6 +37,10 @@ public class ComputerPlayer extends Player {
 	public void setSeenCards(ArrayList<Card> seenCards) {
 		this.seenCards = seenCards;
 	}
+
+	/*
+	Methods
+	 */
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random random = new Random();

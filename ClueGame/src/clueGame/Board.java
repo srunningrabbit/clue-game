@@ -4,15 +4,16 @@
 
 package clueGame;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
 /*
 Game board that contains individual board cells
  */
-public class Board {
-    public final static int MAX_BOARD_SIZE = 50;
+public class Board extends JPanel {
+    private final static int MAX_BOARD_SIZE = 50;
     private int numRows;
     private int numColumns;
     private String boardConfigFile;
@@ -26,7 +27,6 @@ public class Board {
     private Set<BoardCell> visited;
     private int originalPathLength;
     private ArrayList<Player> players;
-    private static int currentPlayerIndex = 0;
     private ArrayList<String> weapons;
     private ArrayList<String> rooms;
     private ArrayList<Card> deck;
@@ -43,7 +43,9 @@ public class Board {
         return theInstance;
     }
     
-    // Getters //
+    /*
+    Getters and setters, including those used for testing
+     */
     
     public Map<Character, String> getLegend() {		// Returns room legend
         return legend;
@@ -89,6 +91,15 @@ public class Board {
     	return players.size();		
     }
 
+    public HumanPlayer getHumanPlayer() {
+        for (Player player : players) {
+            if (player instanceof HumanPlayer) {
+                return (HumanPlayer) player;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<String> getWeapons() {                 // Returns weapon list
         return weapons;
     }
@@ -100,15 +111,24 @@ public class Board {
     public ArrayList<Card> getDeck() {
         return deck;
     }
-    
-    //			//
+
+    public void setDeck(ArrayList<Card> newDeck) {
+        deck.clear();
+        deck = newDeck;
+    }
+
+    public void setAnswer(Solution solution) {
+        this.solution = solution;
+    }
+
+    /*
+    Methods
+     */
 
     public void initialize() {
         try {
-            loadRoomConfig();
-            loadBoardConfig();
-            loadPlayerConfig();
-            loadWeaponConfig();
+            loadConfigFiles();
+            setSize(numColumns * BoardCell.getCellSize(), numRows * BoardCell.getCellSize());
         } catch (BadConfigFormatException | IOException e) {
             System.err.println(e.getMessage());
         }
@@ -129,8 +149,11 @@ public class Board {
     }
     
     // Load all files?
-    public void loadConfigFiles() {
-    	// TODO read in player and weapons config files
+    public void loadConfigFiles() throws IOException, BadConfigFormatException {
+    	loadPlayerConfig();
+    	loadRoomConfig();
+        loadWeaponConfig();
+        loadBoardConfig();
     }
     
     // Read in player into player Set
@@ -409,12 +432,6 @@ public class Board {
             deck.add(new Card(room, CardType.ROOM));
         }
     }
-
-    // Set cards in deck TESTING PURPOSES ONLY
-    public void setDeck(ArrayList<Card> newDeck) {
-        deck.clear();
-        deck = newDeck;
-    }
     
     // Shuffle the deck
     public void shuffleDeck() {
@@ -462,11 +479,6 @@ public class Board {
         }
     }
     
-    // Set Solution TESTING PURPOSES ONLY
-    public void setAnswer(Solution solution) {
-    	this.solution = solution;
-    }
-    
     // Handle a suggestion
     public Card handleSuggestion(Solution suggestion, Player accuser) {
         // If accuser can disprove, null
@@ -507,5 +519,15 @@ public class Board {
     // Handle accusation making
     public boolean checkAccusation(Solution accusation) {
         return accusation.compareTo(solution) == 0;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (BoardCell[] boardCells : gameBoard) {
+            for (BoardCell boardCell : boardCells) {
+                boardCell.draw(g);
+            }
+        }
     }
 }

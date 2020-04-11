@@ -18,16 +18,9 @@ public class Player {
 		this.hand = new ArrayList<Card>(); 
 	}
 	
-	public Card disproveSuggestion(Solution suggestion) {
-		for (Card card : hand) {
-			if (card.getCardName().equals(suggestion.getPerson()) || card.getCardName().equals(suggestion.getWeapon()) || card.getCardName().equals(suggestion.getRoom())) {
-				return card;
-			}
-		}
-		return null;
-	}
-	
-	// TESTING PURPOSES ONLY
+	/*
+	Getters and setters, including those for testing purposes
+	 */
 	
 	public String getName() {
 		return playerName;
@@ -58,11 +51,23 @@ public class Player {
 	}
 	
 	public Solution getSuggestion() {
-		return null; //not sure if will use computerPlayer's overriden function (made me make one in Player class)
+		return null; // not sure if will use computerPlayer's overriden function (made me make one in Player class)
 	}
+
+	/*
+	Methods
+	 */
 
 	public void createSuggestion() {
-		//not sure if will use computerPlayer's overriden function (made me make one in Player class)
+		// not sure if will use computerPlayer's overriden function (made me make one in Player class)
 	}
 
+	public Card disproveSuggestion(Solution suggestion) {
+		for (Card card : hand) {
+			if (card.getCardName().equals(suggestion.getPerson()) || card.getCardName().equals(suggestion.getWeapon()) || card.getCardName().equals(suggestion.getRoom())) {
+				return card;
+			}
+		}
+		return null;
+	}
 }

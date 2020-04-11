@@ -9,16 +9,25 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueGameGUI extends JFrame {
+public class ClueGameGUI extends JPanel {
 	private static final int MARGIN_SIZE = 10;
 
 	public ClueGameGUI() {
-		setTitle("Clue Game");
-		setSize(750,250);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(2,0));
-		setLocationRelativeTo(null);
+		setUp();
+		setVisible(true);
 	}
+
+	private void setUp() {
+	    // Adding first row
+        JPanel panel = createWhoseTurn();
+        createButtons(panel);
+        add(panel);
+
+        // Adding second row
+        panel = createFields();
+        add(panel);
+    }
 
 	// Creates whose turn is it panel
 	public JPanel createWhoseTurn() {
@@ -69,10 +78,12 @@ public class ClueGameGUI extends JFrame {
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel("Roll");
 		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
+		panel.add(label);
+
 		JTextField info = new JTextField(4);
 		info.setEditable(false);
-		panel.add(label);
 		panel.add(info);
+
 		TitledBorder titledBorder = new TitledBorder(new EtchedBorder(), "Die");
 		titledBorder.setTitleJustification(TitledBorder.CENTER);
 		panel.setBorder(titledBorder);
@@ -83,10 +94,12 @@ public class ClueGameGUI extends JFrame {
 		panel.setLayout(new GridLayout(0,1));
 		label = new JLabel("Guess");
 		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
+		panel.add(label);
+
 		info = new JTextField(25);
 		info.setEditable(false);
-		panel.add(label);
 		panel.add(info);
+
 		titledBorder = new TitledBorder(new EtchedBorder(), "Guess");
 		titledBorder.setTitleJustification(TitledBorder.CENTER);
 		panel.setBorder(titledBorder);
@@ -96,30 +109,17 @@ public class ClueGameGUI extends JFrame {
 		panel = new JPanel();
 		label = new JLabel("Response");
 		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
+		panel.add(label);
+
 		info = new JTextField(15);
 		info.setEditable(false);
-		panel.add(label);
 		panel.add(info);
+
 		titledBorder = new TitledBorder(new EtchedBorder(), "Response");
 		titledBorder.setTitleJustification(TitledBorder.CENTER);
 		panel.setBorder(titledBorder);
 		rowPanel.add(panel);
 
 		return rowPanel;
-	}
-
-	public static void main(String[] args) {
-		ClueGameGUI gui = new ClueGameGUI();
-
-		// Adding first row
-		JPanel panel = gui.createWhoseTurn();
-		gui.createButtons(panel);
-		gui.add(panel);
-
-		// Adding second row
-		panel = gui.createFields();
-		gui.add(panel);
-
-		gui.setVisible(true);
 	}
 }

@@ -9,6 +9,10 @@ public class Card {
 		this.cardType = cardType;
 	}
 
+	/*
+	Getters
+	 */
+
 	public String getCardName() {
 		return cardName;
 	}
@@ -16,7 +20,11 @@ public class Card {
 	public CardType getCardType() {
 		return cardType;
 	}
-	
+
+	/*
+	Methods
+	 */
+
 	public boolean equals() {
 		return false;
 	}
