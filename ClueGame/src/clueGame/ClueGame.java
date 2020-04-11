@@ -1,3 +1,7 @@
+/*
+ * Shania Jo RunningRabbit and Amira Ramirez Gonzalez
+ */
+
 package clueGame;
 
 import javax.swing.*;
@@ -22,11 +26,30 @@ public class ClueGame extends JFrame {
     // Create menu bar on top
     public void createMenuBar() {
         JMenu menu = new JMenu("File");
+        JDialog dialog = new JDialog();
+        menu.add(createDetectiveNotesItem(dialog));
         menu.add(createFileExitItem());
 
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         menuBar.add(menu);
+    }
+
+    // Add Detective Notes option in file drop down
+    public JMenuItem createDetectiveNotesItem(JDialog dialog) {
+        JMenuItem item = new JMenuItem("Detective Notes");
+        class DetectiveNotesListener extends JFrame implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                // Create new detectiveNotes object, add to a dialog box
+                DetectiveNotesGUI detectiveNotes = new DetectiveNotesGUI();
+                dialog.add(detectiveNotes);
+                dialog.setSize(650, 650);
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
+            }
+        }
+        item.addActionListener(new DetectiveNotesListener());
+        return item;
     }
 
     // Add exit option in file drop down

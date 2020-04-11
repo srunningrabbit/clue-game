@@ -5,6 +5,7 @@
 package clueGame;
 
 import java.awt.*;
+import java.util.Scanner;
 
 /*
 Individual cell object in board
@@ -18,6 +19,7 @@ public class BoardCell {
     private boolean closet;
     private boolean room;
     private boolean doorway;
+    private boolean name;
     private static final int CELL_SIZE = 25;
 
     // Assign row and column to BoardCell
@@ -46,6 +48,14 @@ public class BoardCell {
 
     public static int getCellSize() {
         return CELL_SIZE;
+    }
+
+    public boolean containsName() {
+        return name;
+    }
+
+    public void hasName(boolean name) {
+        this.name = name;
     }
 
     /*
@@ -78,10 +88,20 @@ public class BoardCell {
                 }
             }
         } else if (walkway) {
-            g.setColor(Color.orange);
+            g.setColor(Color.white);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
             g.setColor(Color.darkGray);
             g.drawRect(x, y, CELL_SIZE - 1, CELL_SIZE - 1);
+        }
+
+        if (name) {
+            g.setColor(Color.BLACK);
+            Scanner input = new Scanner(Board.getInstance().getLegend().get(initial));
+            y -= 30;
+            while (input.hasNext()) {
+                g.drawString(input.next(), x, y);
+                y += 10;
+            }
         }
     }
 

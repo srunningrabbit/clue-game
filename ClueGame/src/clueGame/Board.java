@@ -87,6 +87,14 @@ public class Board extends JPanel {
         this.players = players;
     }
 
+    public ArrayList<String> getPlayerNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Player player : players) {
+            names.add(player.getName());
+        }
+        return names;
+    }
+
     public int getNumPlayers() {							// Returns numbers of players in the game
     	return players.size();		
     }
@@ -295,6 +303,8 @@ public class Board extends JPanel {
                     }
                     // Add cell with second character
                     cell = new BoardCell(row, col, initial, doorDirection);
+                    if (boardRow[col].charAt(1) == 'N')
+                        cell.hasName(true);
                 } else {
                     // Add cell without second character
                     cell = new BoardCell(row, col, initial, DoorDirection.NONE);
@@ -524,10 +534,20 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // Draw each board cell
         for (BoardCell[] boardCells : gameBoard) {
             for (BoardCell boardCell : boardCells) {
                 boardCell.draw(g);
             }
+        }
+
+        // Set player locations on board
+        for (Player player : players) {
+            g.setColor(player.getColor());
+            g.fillOval(player.getColumn() * BoardCell.getCellSize(),
+                    player.getRow() * BoardCell.getCellSize(),
+                    BoardCell.getCellSize() - 1,
+                    BoardCell.getCellSize() - 1);
         }
     }
 }
