@@ -8,8 +8,11 @@ import java.awt.*;
 import java.util.Scanner;
 
 /*
+BoardCell
+
 Individual cell object in board
  */
+
 public class BoardCell {
     public int row;
     public int col;
@@ -50,10 +53,6 @@ public class BoardCell {
         return CELL_SIZE;
     }
 
-    public boolean containsName() {
-        return name;
-    }
-
     public void hasName(boolean name) {
         this.name = name;
     }
@@ -62,12 +61,14 @@ public class BoardCell {
     Methods
      */
 
+    // Draws the board cell according to what it is
     public void draw(Graphics g) {
         int x = col * CELL_SIZE;
         int y = row * CELL_SIZE;
         if (room || doorway || closet) {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            // Draw a rectangle to represent a door in a doorway
             if (doorway) {
                 g.setColor(Color.darkGray);
                 switch (doorDirection) {
@@ -94,10 +95,11 @@ public class BoardCell {
             g.drawRect(x, y, CELL_SIZE - 1, CELL_SIZE - 1);
         }
 
+        // Draw name of room if cell contains a name
         if (name) {
             g.setColor(Color.BLACK);
             Scanner input = new Scanner(Board.getInstance().getLegend().get(initial));
-            y -= 30;
+            y -= 30; // Start y position further back to account for cells that will be drawn after
             while (input.hasNext()) {
                 g.drawString(input.next(), x, y);
                 y += 10;

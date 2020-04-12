@@ -6,6 +6,12 @@ package clueGame;
 
 import java.io.*;
 
+/*
+BadConfigFormatException
+
+An exception that is thrown when config files are improper
+ */
+
 public class BadConfigFormatException extends Exception{
 
 	public BadConfigFormatException() {

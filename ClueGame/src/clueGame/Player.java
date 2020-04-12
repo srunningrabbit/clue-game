@@ -7,6 +7,12 @@ package clueGame;
 import java.awt.*;
 import java.util.ArrayList;
 
+/*
+Player
+
+A generic player in the game
+ */
+
 public class Player {
 	private String playerName;
 	private int row;
@@ -53,10 +59,6 @@ public class Player {
 	public void addCard(Card card) {
 		hand.add(card);
 	}
-	
-	public Solution getSuggestion() {
-		return null; // not sure if will use computerPlayer's overriden function (made me make one in Player class)
-	}
 
 	/*
 	Methods
@@ -68,10 +70,6 @@ public class Player {
 				row * BoardCell.getCellSize(),
 				BoardCell.getCellSize() - 1,
 				BoardCell.getCellSize() - 1);
-	}
-
-	public void createSuggestion() {
-		// not sure if will use computerPlayer's overriden function (made me make one in Player class)
 	}
 
 	public Card disproveSuggestion(Solution suggestion) {

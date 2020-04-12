@@ -9,6 +9,12 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+/*
+ClueGameGUI
+
+Displays the control panel to the game, buttons that allow the game to progress
+ */
+
 public class ClueGameGUI extends JPanel {
 	private static final int MARGIN_SIZE = 10;
 

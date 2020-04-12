@@ -4,6 +4,12 @@
 
 package clueGame;
 
+/*
+Solution
+
+Generic solution for the game, can be answer, suggestion, or accusation
+ */
+
 public class Solution implements Comparable<Solution>{
 	
 	private String person;

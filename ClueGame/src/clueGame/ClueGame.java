@@ -12,6 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/*
+ClueGame
+
+Main driver for the game, involves displaying everything and updating everything
+ */
+
 public class ClueGame extends JFrame {
     private final static int MARGIN = 75;
     private static Board board = Board.getInstance();

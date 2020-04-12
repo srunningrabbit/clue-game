@@ -4,6 +4,12 @@
 
 package clueGame;
 
+/*
+Card
+
+Represents a card in the deck, can be a person, weapon, or room
+ */
+
 public class Card {
 	private String cardName;
 	private CardType cardType;
@@ -28,10 +34,6 @@ public class Card {
 	/*
 	Methods
 	 */
-
-	public boolean equals() {
-		return false;
-	}
 
 	@Override
 	public String toString() {

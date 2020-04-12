@@ -6,10 +6,15 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
+
+/*
+ComputerPlayer
+
+A computer player in the game, a child of Player
+ */
 
 public class ComputerPlayer extends Player {
 	private ArrayList<Card> possiblePeople = new ArrayList<>();
@@ -46,6 +51,7 @@ public class ComputerPlayer extends Player {
 	Methods
 	 */
 
+	// Pick location on board from targets
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random random = new Random();
 		Board board = Board.getInstance();

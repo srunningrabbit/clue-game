@@ -10,8 +10,11 @@ import java.io.*;
 import java.util.*;
 
 /*
+Board
+
 Game board that contains individual board cells
  */
+
 public class Board extends JPanel {
     private final static int MAX_BOARD_SIZE = 50;
     private int numRows;
@@ -38,15 +41,14 @@ public class Board extends JPanel {
     // Constructor is private to ensure only one can be created
     private Board() {}
 
-    // This method returns the only Board
-    public static Board getInstance() {
-        return theInstance;
-    }
-    
     /*
     Getters and setters, including those used for testing
      */
-    
+
+    public static Board getInstance() {
+        return theInstance;
+    }
+
     public Map<Character, String> getLegend() {		// Returns room legend
         return legend;
     }
@@ -284,6 +286,7 @@ public class Board extends JPanel {
                 if (boardRow[col].length() > 1) {
                     // Add a direction if it is a door
                     DoorDirection doorDirection = DoorDirection.NONE;
+                    boolean name = false;
                     switch (boardRow[col].charAt(1)) {
                         case 'U':
                             doorDirection = DoorDirection.UP;
@@ -298,13 +301,14 @@ public class Board extends JPanel {
                             doorDirection = DoorDirection.RIGHT;
                             break;
                         case 'N':
+                            name = true;
+                            break;
                         default:
                             break;
                     }
                     // Add cell with second character
                     cell = new BoardCell(row, col, initial, doorDirection);
-                    if (boardRow[col].charAt(1) == 'N')
-                        cell.hasName(true);
+                    cell.hasName(name);
                 } else {
                     // Add cell without second character
                     cell = new BoardCell(row, col, initial, DoorDirection.NONE);
@@ -399,33 +403,6 @@ public class Board extends JPanel {
             }
         }
         visited.clear();
-    }
-    
-    /**
-     * getFileLength
-     * @param   file
-     * @return  Returns number of lines in file which is ultimately the number of rows in board
-     * @throws  FileNotFoundException
-     */
-    private int findFileLength(File file) throws FileNotFoundException {	// Returns length of file
-        Scanner fileInput = new Scanner(file);
-        int lines = 0;
-        while (fileInput.hasNextLine()) {
-            lines++;
-            fileInput.nextLine();
-        }
-        fileInput.close();
-        return lines;
-    }
-    
-    /**
-     * isDeadEnd(row, col)
-     * @param   row
-     * @param   col
-     * @return  Returns if cell at row, col is a dead end meaning only 1 adjacency and not a doorway
-     */
-    private boolean isDeadEnd(int row, int col) {
-        return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
 
     // Create a new deck of cards with each type of card
@@ -531,6 +508,7 @@ public class Board extends JPanel {
         return accusation.compareTo(solution) == 0;
     }
 
+    // Paint the board
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -545,5 +523,32 @@ public class Board extends JPanel {
         for (Player player : players) {
             player.draw(g);
         }
+    }
+
+    /**
+     * getFileLength
+     * @param   file
+     * @return  Returns number of lines in file which is ultimately the number of rows in board
+     * @throws  FileNotFoundException
+     */
+    private int findFileLength(File file) throws FileNotFoundException {	// Returns length of file
+        Scanner fileInput = new Scanner(file);
+        int lines = 0;
+        while (fileInput.hasNextLine()) {
+            lines++;
+            fileInput.nextLine();
+        }
+        fileInput.close();
+        return lines;
+    }
+
+    /**
+     * isDeadEnd(row, col)
+     * @param   row
+     * @param   col
+     * @return  Returns if cell at row, col is a dead end meaning only 1 adjacency and not a doorway
+     */
+    private boolean isDeadEnd(int row, int col) {
+        return getAdjList(row, col).size() == 1 && !getCellAt(row, col).isDoorway();
     }
 }

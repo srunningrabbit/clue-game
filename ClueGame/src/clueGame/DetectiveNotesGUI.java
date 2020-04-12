@@ -10,6 +10,12 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+/*
+DetectiveNotesGUI
+
+A panel for displaying notes that can be used by the human player if they choose
+ */
+
 public class DetectiveNotesGUI extends JPanel {
     public DetectiveNotesGUI() {
         setLayout(new GridLayout(3, 0));

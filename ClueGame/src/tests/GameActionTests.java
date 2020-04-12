@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Set;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
