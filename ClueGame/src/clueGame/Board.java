@@ -543,11 +543,7 @@ public class Board extends JPanel {
 
         // Set player locations on board
         for (Player player : players) {
-            g.setColor(player.getColor());
-            g.fillOval(player.getColumn() * BoardCell.getCellSize(),
-                    player.getRow() * BoardCell.getCellSize(),
-                    BoardCell.getCellSize() - 1,
-                    BoardCell.getCellSize() - 1);
+            player.draw(g);
         }
     }
 }

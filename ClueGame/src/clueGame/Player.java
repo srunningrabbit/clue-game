@@ -4,7 +4,7 @@
 
 package clueGame;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -61,6 +61,14 @@ public class Player {
 	/*
 	Methods
 	 */
+
+	public void draw(Graphics g) {
+		g.setColor(color);
+		g.fillOval(col * BoardCell.getCellSize(),
+				row * BoardCell.getCellSize(),
+				BoardCell.getCellSize() - 1,
+				BoardCell.getCellSize() - 1);
+	}
 
 	public void createSuggestion() {
 		// not sure if will use computerPlayer's overriden function (made me make one in Player class)
