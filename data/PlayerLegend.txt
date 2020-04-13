@@ -1,6 +1,6 @@
-Player 1, Red, Human, 0;7
-Player 2, Orange, Computer, 8;0
-Player 3, Yellow, Computer, 15;0
-Player 4, Green, Computer, 21;4
-Player 5, Blue, Computer, 21;15
-Player 6, Pink, Computer, 14;20
+Mr. Rouge, Red, Human, 0;7
+Tangerine Jr., Orange, Computer, 8;0
+Mrs. Amber, Yellow, Computer, 15;0
+Sir Emerald, Green, Computer, 21;4
+Dr. Azure, Blue, Computer, 21;15
+Miss Rose, Pink, Computer, 14;20

@@ -115,6 +115,11 @@ public class ClueGame extends JFrame {
 
         return playerPanel;
     }
+    
+    public static void showStartingMessage() {
+    	JFrame frame = new JFrame("Initial Message");
+    	JOptionPane.showMessageDialog(frame, "You are Mr. Rouge, press Next Player to begin play", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public static void main(String[] args) {
         ClueGame game = new ClueGame();
@@ -141,5 +146,6 @@ public class ClueGame extends JFrame {
 
         game.setLocationRelativeTo(null);
         game.setVisible(true);
+        game.showStartingMessage();
     }
 }

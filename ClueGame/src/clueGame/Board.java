@@ -158,7 +158,7 @@ public class Board extends JPanel {
         weaponConfigFile = weaponLegend;
     }
     
-    // Load all files?
+    // Load all files
     public void loadConfigFiles() throws IOException, BadConfigFormatException {
     	loadPlayerConfig();
     	loadRoomConfig();

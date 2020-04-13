@@ -50,7 +50,7 @@ public class GameSetupTests {
 		// Test first player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player firstPlayer = testPlayers.get(0);
-		assertEquals("Player 1", firstPlayer.getName());
+		assertEquals("Mr. Rouge", firstPlayer.getName());
 		assertEquals(Color.RED, firstPlayer.getColor());
 		assertEquals(HumanPlayer.class, firstPlayer.getClass());
 		assertEquals(0, firstPlayer.getRow());
@@ -62,7 +62,7 @@ public class GameSetupTests {
 		// Test third player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player thirdPlayer = testPlayers.get(2);
-		assertEquals("Player 3", thirdPlayer.getName());
+		assertEquals("Mrs. Amber", thirdPlayer.getName());
 		assertEquals(Color.YELLOW, thirdPlayer.getColor());
 		assertEquals(ComputerPlayer.class, thirdPlayer.getClass());
 		assertEquals(15, thirdPlayer.getRow());
@@ -74,7 +74,7 @@ public class GameSetupTests {
 		// Test last player name, color, type, and location
 		ArrayList<Player> testPlayers = board.getPlayers();
 		Player lastPlayer = testPlayers.get(5);
-		assertEquals("Player 6", lastPlayer.getName());
+		assertEquals("Miss Rose", lastPlayer.getName());
 		assertEquals(Color.PINK, lastPlayer.getColor());
 		assertEquals(ComputerPlayer.class, lastPlayer.getClass());
 		assertEquals(14, lastPlayer.getRow());
