@@ -1,0 +1,6 @@
+Mr. Rouge, Red, Human, 0;7
+Tangerine Jr., Orange, Computer, 8;0
+Mrs. Amber, Yellow, Computer, 15;0
+Sir Emerald, Green, Computer, 21;4
+Dr. Azure, Blue, Computer, 21;15
+Miss Rose, Pink, Computer, 14;20
