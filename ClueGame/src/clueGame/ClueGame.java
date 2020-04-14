@@ -19,7 +19,7 @@ Main driver for the game, involves displaying everything and updating everything
  */
 
 public class ClueGame extends JFrame {
-    private final static int MARGIN = 75;
+    private final static int MARGIN = 80;
     private static Board board = Board.getInstance();
 
     public ClueGame() {
@@ -118,7 +118,8 @@ public class ClueGame extends JFrame {
     
     public static void showStartingMessage() {
     	JFrame frame = new JFrame("Initial Message");
-    	JOptionPane.showMessageDialog(frame, "You are Mr. Rouge, press Next Player to begin play", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
+    	String playerName = Board.getInstance().getHumanPlayer().getName();
+    	JOptionPane.showMessageDialog(frame, "You are " + playerName + ", press Next Player to begin play", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
@@ -138,14 +139,14 @@ public class ClueGame extends JFrame {
         game.add(displayPlayerCards(), BorderLayout.LINE_END);
 
         // Set size of window depending on content sizes
-        int width = gui.getPreferredSize().width + MARGIN + cardsPanel.getWidth();
-        if (board.getWidth() > width)
-            width += (board.getWidth() - width);
+        int width = gui.getPreferredSize().width + MARGIN;
+        if (board.getWidth() + cardsPanel.getPreferredSize().width > width)
+            width += (board.getWidth() + cardsPanel.getPreferredSize().width) - width;
         int height = board.getHeight() + MARGIN + gui.getPreferredSize().height;
         game.setSize(width, height);
 
         game.setLocationRelativeTo(null);
         game.setVisible(true);
-        game.showStartingMessage();
+        showStartingMessage();
     }
 }
