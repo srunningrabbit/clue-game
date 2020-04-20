@@ -19,6 +19,7 @@ public class Player {
 	private int col;
 	private Color color;
 	private ArrayList<Card> hand;
+	private int dieRoll;
 	
 	public Player(String name, int row, int col, Color color) {
 		this.playerName = name;
@@ -58,6 +59,22 @@ public class Player {
 
 	public void addCard(Card card) {
 		hand.add(card);
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public int getDieRoll() {
+		return dieRoll;
+	}
+
+	public void setDieRoll(int dieRoll) {
+		this.dieRoll = dieRoll;
 	}
 
 	/*

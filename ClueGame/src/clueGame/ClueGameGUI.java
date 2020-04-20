@@ -5,6 +5,8 @@
 package clueGame;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -15,13 +17,17 @@ ClueGameGUI
 Displays the control panel to the game, buttons that allow the game to progress
  */
 
-public class ClueGameGUI extends JPanel {
+public class ClueGameGUI extends JPanel implements MouseListener {
 	private static final int MARGIN_SIZE = 10;
+	private Board board;
 
 	public ClueGameGUI() {
+		board = Board.getInstance();
 		setLayout(new GridLayout(2,0));
 		setUp();
 		setVisible(true);
+		board.addMouseListener(this);
+		addMouseListener(this);
 	}
 
 	private void setUp() {
@@ -87,7 +93,6 @@ public class ClueGameGUI extends JPanel {
 		panel.add(label);
 
 		JTextField info = new JTextField(4);
-		info.setEditable(false);
 		panel.add(info);
 
 		TitledBorder titledBorder = new TitledBorder(new EtchedBorder(), "Die");
@@ -127,5 +132,40 @@ public class ClueGameGUI extends JPanel {
 		rowPanel.add(panel);
 
 		return rowPanel;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int cellSize = BoardCell.getCellSize();
+		for (BoardCell target : board.getTargets()) {
+			if (target.col * cellSize < e.getX() && e.getX() < target.col * cellSize + cellSize) {
+				if (target.row * cellSize < e.getY() && e.getY() < target.row * cellSize + cellSize) {
+					board.getHumanPlayer().setRow(target.row);
+					board.getHumanPlayer().setCol(target.col);
+					board.repaint();
+					break;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
 	}
 }
