@@ -23,6 +23,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 	private static final int MARGIN_SIZE = 10;
 	private Board board;
 	private JTextField currentPlayerName;
+	private JTextField dieRoll;
 	private boolean canAdvanceTurn = true;
 
 	public ClueGameGUI() {
@@ -85,6 +86,9 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 					//could add an error message here
 					return;
 				}
+				int roll = ClueGame.dieRoll();
+				board.setDieRoll(roll);
+				dieRoll.setText(Integer.toString(roll));
 				canAdvanceTurn = false;  		//turns true when player moves
 				board.nextPlayer();
 				board.hasMoved = false;
@@ -94,7 +98,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 				if(player instanceof HumanPlayer) {
 					//show targets ...
 				} else if(player instanceof ComputerPlayer) {
-					//pick location
+					((ComputerPlayer) player).makeMove();
+					board.repaint();
 					canAdvanceTurn = true;
 				}
 				
@@ -120,7 +125,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
 		panel.add(label);
 
-		JTextField info = new JTextField(4);
+		JTextField info = new JTextField(6);
+		dieRoll = info;
 		panel.add(info);
 
 		TitledBorder titledBorder = new TitledBorder(new EtchedBorder(), "Die");

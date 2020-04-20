@@ -36,6 +36,7 @@ public class Board extends JPanel {
     private Solution solution;
     private Player currentPlayer;
     public boolean hasMoved; 
+    public int dieRoll;
     
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
@@ -139,6 +140,10 @@ public class Board extends JPanel {
     public void setAnswer(Solution solution) {
         this.solution = solution;
     }
+    
+    public void setDieRoll(int roll) {
+    	dieRoll = roll;
+    }
 
     /*
     Methods
@@ -158,6 +163,7 @@ public class Board extends JPanel {
         dealCards();
         selectAnswer();
         currentPlayer = players.get(players.size()-1);
+        dieRoll = 1;
     }
 
     // Set both the board config file and room config file
@@ -522,8 +528,7 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), 2); //change depending on player
+        calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), dieRoll); //change depending on player
         // Draw each board cell
         boolean isHuman = currentPlayer instanceof HumanPlayer;
         for (BoardCell[] boardCells : gameBoard) {

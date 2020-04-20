@@ -75,6 +75,15 @@ public class ComputerPlayer extends Player {
 	public void makeAccusation() {
 		
 	}
+	
+	public void makeMove() {
+		Board board = Board.getInstance();
+		board.calcTargets(this.row, this.col, board.dieRoll);
+		Set<BoardCell> targets = board.getTargets();
+		BoardCell cell = pickLocation(targets);
+		this.row = cell.row;
+		this.col = cell.col;
+	}
 
 	// Create a new suggestion that contains a person, a weapon, and a room
 	public void createSuggestion() {

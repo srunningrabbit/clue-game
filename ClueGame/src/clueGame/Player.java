@@ -15,8 +15,8 @@ A generic player in the game
 
 public class Player {
 	private String playerName;
-	private int row;
-	private int col;
+	protected int row;
+	protected int col;
 	private Color color;
 	private ArrayList<Card> hand;
 	private int dieRoll;
