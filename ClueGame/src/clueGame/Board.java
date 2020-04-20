@@ -308,7 +308,7 @@ public class Board extends JPanel {
                     }
                     // Add cell with second character
                     cell = new BoardCell(row, col, initial, doorDirection);
-                    cell.hasName(name);
+                    cell.setHasName(name);
                 } else {
                     // Add cell without second character
                     cell = new BoardCell(row, col, initial, DoorDirection.NONE);
@@ -512,6 +512,7 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        calcTargets(getHumanPlayer().getRow(), getHumanPlayer().getColumn(), 2);
         // Draw each board cell
         for (BoardCell[] boardCells : gameBoard) {
             for (BoardCell boardCell : boardCells) {

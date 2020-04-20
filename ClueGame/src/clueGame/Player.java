@@ -35,13 +35,13 @@ public class Player {
 	public String getName() {
 		return playerName;
 	}
+
+	public int getRow() {
+		return row;
+	}
 	
 	public int getColumn() {
 		return col;
-	}
-	
-	public int getRow() {
-		return row;
 	}
 	
 	public Color getColor() {

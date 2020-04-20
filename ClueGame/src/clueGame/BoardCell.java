@@ -53,7 +53,7 @@ public class BoardCell {
         return CELL_SIZE;
     }
 
-    public void hasName(boolean name) {
+    public void setHasName(boolean name) {
         this.name = name;
     }
 
@@ -65,7 +65,10 @@ public class BoardCell {
     public void draw(Graphics g) {
         int x = col * CELL_SIZE;
         int y = row * CELL_SIZE;
-        if (room || doorway || closet) {
+        if (Board.getInstance().getTargets().contains(this)) {
+            g.setColor(Color.CYAN);
+            g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        } else if (room || doorway || closet) {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
             // Draw a rectangle to represent a door in a doorway
