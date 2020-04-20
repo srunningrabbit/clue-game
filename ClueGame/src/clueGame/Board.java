@@ -34,7 +34,9 @@ public class Board extends JPanel {
     private ArrayList<String> rooms;
     private ArrayList<Card> deck;
     private Solution solution;
-
+    private Player currentPlayer;
+    public boolean hasMoved; 
+    
     // Variable used for singleton pattern
     private static Board theInstance = new Board();
 
@@ -117,6 +119,13 @@ public class Board extends JPanel {
     public ArrayList<String> getRooms() {                   // Returns room list
         return rooms;
     }
+    
+    public Player getCurrentPlayer() {						// Return whose turn it is
+    	if (currentPlayer instanceof HumanPlayer) {
+    		return (HumanPlayer) currentPlayer;
+    	} else 
+    		return (ComputerPlayer) currentPlayer;
+    }
 
     public ArrayList<Card> getDeck() {
         return deck;
@@ -148,6 +157,7 @@ public class Board extends JPanel {
         shuffleDeck();
         dealCards();
         selectAnswer();
+        currentPlayer = players.get(players.size()-1);
     }
 
     // Set both the board config file and room config file
@@ -512,18 +522,31 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        calcTargets(getHumanPlayer().getRow(), getHumanPlayer().getColumn(), 2);
+        
+        calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), 2); //change depending on player
         // Draw each board cell
+        boolean isHuman = currentPlayer instanceof HumanPlayer;
         for (BoardCell[] boardCells : gameBoard) {
             for (BoardCell boardCell : boardCells) {
                 boardCell.draw(g);
             }
+        }
+        if(isHuman && !hasMoved) {
+        	for (BoardCell boardCell : targets) {
+                boardCell.drawTarget(g);
+        	}
         }
 
         // Set player locations on board
         for (Player player : players) {
             player.draw(g);
         }
+    }
+  
+    
+    public Player nextPlayer() {
+    	currentPlayer =  players.get((players.indexOf(currentPlayer)+1) % players.size());
+    	return currentPlayer;
     }
 
     /**

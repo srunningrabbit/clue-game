@@ -65,10 +65,7 @@ public class BoardCell {
     public void draw(Graphics g) {
         int x = col * CELL_SIZE;
         int y = row * CELL_SIZE;
-        if (Board.getInstance().getTargets().contains(this)) {
-            g.setColor(Color.CYAN);
-            g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
-        } else if (room || doorway || closet) {
+        if (room || doorway || closet) {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
             // Draw a rectangle to represent a door in a doorway
@@ -108,6 +105,13 @@ public class BoardCell {
                 y += 10;
             }
         }
+    }
+    
+    public void drawTarget(Graphics g) {
+    	int x = col * CELL_SIZE;
+        int y = row * CELL_SIZE;
+        g.setColor(Color.CYAN);
+        g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
     }
 
     @Override

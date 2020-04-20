@@ -5,6 +5,8 @@
 package clueGame;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
@@ -20,6 +22,8 @@ Displays the control panel to the game, buttons that allow the game to progress
 public class ClueGameGUI extends JPanel implements MouseListener {
 	private static final int MARGIN_SIZE = 10;
 	private Board board;
+	private JTextField currentPlayerName;
+	private boolean canAdvanceTurn = true;
 
 	public ClueGameGUI() {
 		board = Board.getInstance();
@@ -61,6 +65,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		// Field for showing current player
 		JTextField name = new JTextField(15); // not sure if this should be a text field or something else
 		name.setEditable(false);
+		currentPlayerName = name;
 		c.gridy = 1;
 		c.insets = new Insets(MARGIN_SIZE / 2, 0, 0, MARGIN_SIZE);
 		turnPanel.add(name, c);
@@ -69,11 +74,34 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		return panel;
 	}
 
-	// Adds button to first row
+	// Adds buttons to first row
 	public void createButtons(JPanel panel) {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton nextPlayer = new JButton("Next Player");
+		nextPlayer.addActionListener(new ActionListener() {			// Handles next player functionality
+			public void actionPerformed(ActionEvent e) {
+				if(!canAdvanceTurn) {
+					//could add an error message here
+					return;
+				}
+				canAdvanceTurn = false;  		//turns true when player moves
+				board.nextPlayer();
+				board.hasMoved = false;
+				board.repaint();
+				Player player = board.getCurrentPlayer();
+				currentPlayerName.setText(player.getName());
+				if(player instanceof HumanPlayer) {
+					//show targets ...
+				} else if(player instanceof ComputerPlayer) {
+					//pick location
+					canAdvanceTurn = true;
+				}
+				
+			}
+		}
+		);
+		
 		c.insets = new Insets(0, MARGIN_SIZE, 0, MARGIN_SIZE);
 		panel.add(nextPlayer, c);
 
@@ -138,11 +166,13 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int cellSize = BoardCell.getCellSize();
 		for (BoardCell target : board.getTargets()) {
-			if (target.col * cellSize < e.getX() && e.getX() < target.col * cellSize + cellSize) {
+			if (target.col * cellSize < e.getX() && e.getX() < target.col * cellSize + cellSize && !board.hasMoved) {
 				if (target.row * cellSize < e.getY() && e.getY() < target.row * cellSize + cellSize) {
 					board.getHumanPlayer().setRow(target.row);
 					board.getHumanPlayer().setCol(target.col);
+					board.hasMoved = true;
 					board.repaint();
+					canAdvanceTurn = true;
 					break;
 				}
 			}
