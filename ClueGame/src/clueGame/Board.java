@@ -440,7 +440,7 @@ public class Board extends JPanel {
     public void shuffleDeck() {
     	ArrayList<Card> tempDeck = new ArrayList<Card>();
     	Random random = new Random();
-    	for(int i = deck.size(); i > 0; i--) {
+    	for (int i = deck.size(); i > 0; i--) {
     		int index = random.nextInt(deck.size());
     		tempDeck.add(deck.get(index));
     		deck.remove(index);    		
@@ -528,7 +528,7 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), dieRoll); //change depending on player
+        calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), dieRoll); // change depending on player
         // Draw each board cell
         boolean isHuman = currentPlayer instanceof HumanPlayer;
         for (BoardCell[] boardCells : gameBoard) {
@@ -536,6 +536,7 @@ public class Board extends JPanel {
                 boardCell.draw(g);
             }
         }
+
         if(isHuman && !hasMoved) {
         	for (BoardCell boardCell : targets) {
                 boardCell.drawTarget(g);
@@ -550,7 +551,7 @@ public class Board extends JPanel {
   
     
     public Player nextPlayer() {
-    	currentPlayer =  players.get((players.indexOf(currentPlayer)+1) % players.size());
+    	currentPlayer =  players.get((players.indexOf(currentPlayer) + 1) % players.size());
     	return currentPlayer;
     }
 

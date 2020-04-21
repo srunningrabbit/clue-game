@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 /*
 ClueGame
@@ -121,10 +120,6 @@ public class ClueGame extends JFrame {
     	JFrame frame = new JFrame("Initial Message");
     	String playerName = Board.getInstance().getHumanPlayer().getName();
     	JOptionPane.showMessageDialog(frame, "You are " + playerName + ", press Next Player to begin play", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public static int dieRoll() {
-        return (int) (6.0 * Math.random()) + 1;
     }
 
     public static void main(String[] args) {

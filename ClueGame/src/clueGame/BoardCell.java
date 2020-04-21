@@ -106,7 +106,8 @@ public class BoardCell {
             }
         }
     }
-    
+
+    // Draws target cell if cell is in board.targets
     public void drawTarget(Graphics g) {
     	int x = col * CELL_SIZE;
         int y = row * CELL_SIZE;

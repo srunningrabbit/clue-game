@@ -80,24 +80,24 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton nextPlayer = new JButton("Next Player");
-		nextPlayer.addActionListener(new ActionListener() {			// Handles next player functionality
+		nextPlayer.addActionListener(new ActionListener() {	// Handles next player functionality
 			public void actionPerformed(ActionEvent e) {
-				if(!canAdvanceTurn) {
+				if (!canAdvanceTurn) {
 					//could add an error message here
 					return;
 				}
-				int roll = ClueGame.dieRoll();
+				int roll = dieRoll();
 				board.setDieRoll(roll);
 				dieRoll.setText(Integer.toString(roll));
-				canAdvanceTurn = false;  		//turns true when player moves
+				canAdvanceTurn = false; // Turns true when player moves
 				board.nextPlayer();
 				board.hasMoved = false;
 				board.repaint();
 				Player player = board.getCurrentPlayer();
 				currentPlayerName.setText(player.getName());
-				if(player instanceof HumanPlayer) {
-					//show targets ...
-				} else if(player instanceof ComputerPlayer) {
+				if (player instanceof HumanPlayer) {
+					// show targets ...
+				} else if (player instanceof ComputerPlayer) {
 					((ComputerPlayer) player).makeMove();
 					board.repaint();
 					canAdvanceTurn = true;
@@ -125,7 +125,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, label.getFont().getSize()));
 		panel.add(label);
 
-		JTextField info = new JTextField(6);
+		JTextField info = new JTextField(4);
+		info.setEditable(false);
 		dieRoll = info;
 		panel.add(info);
 
@@ -168,12 +169,20 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		return rowPanel;
 	}
 
+	public static int dieRoll() {
+		return (int) (6.0 * Math.random()) + 1;
+	}
+
+	// When mouse is clicked, method checks if that click is on a valid target
+	// If valid, player can move to that spot
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int cellSize = BoardCell.getCellSize();
+		boolean clickedTarget = false;
 		for (BoardCell target : board.getTargets()) {
 			if (target.col * cellSize < e.getX() && e.getX() < target.col * cellSize + cellSize && !board.hasMoved) {
 				if (target.row * cellSize < e.getY() && e.getY() < target.row * cellSize + cellSize) {
+					clickedTarget = true;
 					board.getHumanPlayer().setRow(target.row);
 					board.getHumanPlayer().setCol(target.col);
 					board.hasMoved = true;
@@ -182,6 +191,11 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 					break;
 				}
 			}
+		}
+		// Error message is square is selected that is not a target
+		if (!clickedTarget && board.getCurrentPlayer() instanceof HumanPlayer) {
+			JFrame frame = new JFrame("Target Selection Error");
+			JOptionPane.showMessageDialog(frame, "You need to select a target location highlighted in cyan.", "Target Selection Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
