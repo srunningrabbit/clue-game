@@ -112,7 +112,7 @@ public class ComputerPlayer extends Player {
 		}
 
 		// Room is automatically the room the player is in
-		String room = board.getLegend().get(board.getCellAt(this.getRow(), this.getColumn()).getInitial());
+		String room = this.getCurrentRoomName();
 
 		suggestion = new Solution(person, weapon, room);
 		seenCards.add(board.handleSuggestion(suggestion, this));

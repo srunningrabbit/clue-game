@@ -77,6 +77,10 @@ public class Player {
 		this.dieRoll = dieRoll;
 	}
 
+	public String getCurrentRoomName() {
+		return Board.getInstance().getLegend().get(Board.getInstance().getCellAt(row, col).getInitial());
+	}
+
 	/*
 	Methods
 	 */

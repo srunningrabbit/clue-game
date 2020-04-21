@@ -47,7 +47,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
     }
 
 	// Creates whose turn is it panel
-	public JPanel createWhoseTurn() {
+	private JPanel createWhoseTurn() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -76,14 +76,19 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 	}
 
 	// Adds buttons to first row
-	public void createButtons(JPanel panel) {
+	private void createButtons(JPanel panel) {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton nextPlayer = new JButton("Next Player");
 		nextPlayer.addActionListener(new ActionListener() {	// Handles next player functionality
 			public void actionPerformed(ActionEvent e) {
 				if (!canAdvanceTurn) {
-					//could add an error message here
+					JFrame frame = new JFrame("Cannot Advance Turn");
+					JOptionPane.showMessageDialog(
+							frame,
+							"You need to complete your turn before moving on.",
+							"Cannot Advance Turn",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				int roll = dieRoll();
@@ -100,13 +105,15 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 				} else if (player instanceof ComputerPlayer) {
 					((ComputerPlayer) player).makeMove();
 					board.repaint();
+					if (board.getCellAt(player.getRow(), player.getColumn()).isDoorway()) {
+						((ComputerPlayer) player).createSuggestion();
+					}
 					canAdvanceTurn = true;
 				}
-				
+
 			}
 		}
 		);
-		
 		c.insets = new Insets(0, MARGIN_SIZE, 0, MARGIN_SIZE);
 		panel.add(nextPlayer, c);
 
@@ -115,8 +122,47 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		panel.add(makeAccusation, c);
 	}
 
+	public void createSuggestionGUI() {
+		Player player = board.getCurrentPlayer();
+		if (player instanceof HumanPlayer) {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			String selectedPerson = "";
+			String selectedWeapon = "";
+			String selectedRoom = board.getCurrentPlayer().getCurrentRoomName();
+
+			// Selection of people
+			JComboBox people = new JComboBox();
+			for (Player person : board.getPlayers()) {
+				people.addItem(person.getName());
+			}
+			panel.add(people);
+
+			// Selection of weapons
+			JComboBox weapons = new JComboBox();
+			for (String weapon : board.getWeapons()) {
+				weapons.addItem(weapon);
+			}
+			panel.add(weapons);
+
+			// Selection of room, only one option which is room player is in
+			JComboBox rooms = new JComboBox();
+			rooms.addItem(board.getCurrentPlayer().getCurrentRoomName());
+			rooms.setEditable(false);
+			panel.add(rooms);
+
+			// Show dialog with drop down boxes for options
+			JOptionPane.showMessageDialog(null, panel, "Create Suggestion", JOptionPane.QUESTION_MESSAGE);
+			selectedPerson = (String) people.getSelectedItem();
+			selectedWeapon = (String) weapons.getSelectedItem();
+
+			Solution suggestion = new Solution(selectedPerson, selectedWeapon, selectedRoom);
+			board.handleSuggestion(suggestion, player);
+		}
+	}
+
 	// Creates bottom row fields
-	public JPanel createFields() {
+	private JPanel createFields() {
 		JPanel rowPanel = new JPanel();
 
 		// Die roll entry
@@ -169,7 +215,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		return rowPanel;
 	}
 
-	public static int dieRoll() {
+	private static int dieRoll() {
 		return (int) (6.0 * Math.random()) + 1;
 	}
 
@@ -187,15 +233,22 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 					board.getHumanPlayer().setCol(target.col);
 					board.hasMoved = true;
 					board.repaint();
+					if (board.getCurrentPlayer() instanceof HumanPlayer && board.getCellAt(target.row, target.col).isDoorway()) {
+						createSuggestionGUI();
+					}
 					canAdvanceTurn = true;
 					break;
 				}
 			}
 		}
 		// Error message is square is selected that is not a target
-		if (!clickedTarget && board.getCurrentPlayer() instanceof HumanPlayer) {
+		if (!clickedTarget && board.getCurrentPlayer() instanceof HumanPlayer && !board.hasMoved) {
 			JFrame frame = new JFrame("Target Selection Error");
-			JOptionPane.showMessageDialog(frame, "You need to select a target location highlighted in cyan.", "Target Selection Error", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(
+					frame,
+					"You need to select a target location highlighted in cyan.",
+					"Target Selection Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
