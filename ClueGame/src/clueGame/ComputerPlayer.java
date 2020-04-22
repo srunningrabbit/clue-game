@@ -21,10 +21,12 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> possibleWeapons = new ArrayList<>();
 	private ArrayList<Card> seenCards;
 	private Solution suggestion;
+	private char lastRoom;
 	
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
 		seenCards = this.getHand();
+		lastRoom = ' ';
 	}
 
 	/*
@@ -55,11 +57,12 @@ public class ComputerPlayer extends Player {
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random random = new Random();
 		Board board = Board.getInstance();
-		char currInitial = board.getCellAt(this.getRow(), this.getColumn()).getInitial();
+		//char currInitial = board.getCellAt(this.getRow(), this.getColumn()).getInitial();
 		
 		// If a room is in reach and not previously in it, must return it
 		for(BoardCell cell : targets) {
-			if(cell.isDoorway() && cell.getInitial() != currInitial) {
+			if(cell.isDoorway() && cell.getInitial() != lastRoom) {
+				lastRoom = cell.getInitial();
 				return cell;
 			}
 		}
