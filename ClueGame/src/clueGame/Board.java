@@ -31,6 +31,7 @@ public class Board extends JPanel {
     private Set<BoardCell> visited;
     private int originalPathLength;
     private ArrayList<Player> players;
+    private ArrayList<Player> playersDeck;
     private ArrayList<String> weapons;
     private ArrayList<String> rooms;
     private ArrayList<Card> deck;
@@ -85,8 +86,12 @@ public class Board extends JPanel {
         return targets;
     }
         
-    public ArrayList<Player> getPlayers() {					// Returns player list (for testing)		
+    public ArrayList<Player> getPlayers() {					// Returns player list 		
     	return players;
+    }
+    
+    public ArrayList<Player> getPlayersInDeck() {			// Returns player list (including players that have lost)		
+    	return playersDeck;
     }
 
     public void setPlayers(ArrayList<Player> players) {
@@ -190,6 +195,7 @@ public class Board extends JPanel {
     // Read in player into player Set
     public void loadPlayerConfig() throws BadConfigFormatException, IOException {
     	players = new ArrayList<Player>();
+    	playersDeck = new ArrayList<Player>();
     	File playerConfig = new File(playerConfigFile);
         Scanner fileInput = new Scanner(playerConfig);
 
@@ -234,6 +240,7 @@ public class Board extends JPanel {
             	p = new ComputerPlayer(name, row, col, color);
             }
             players.add(p);
+            playersDeck.add(p);
         }
         fileInput.close();
     }
@@ -493,7 +500,11 @@ public class Board extends JPanel {
     // Handle a suggestion
     public Card handleSuggestion(Solution suggestion, Player accuser) {
         // If accuser can disprove, null
-        if (accuser.disproveSuggestion(suggestion) != null) return null;
+    	if(accuser instanceof ComputerPlayer) ((ComputerPlayer)accuser).setFakeSuggestion(false);
+        if (accuser.disproveSuggestion(suggestion) != null) {
+        	if(accuser instanceof ComputerPlayer) ((ComputerPlayer)accuser).setFakeSuggestion(true);
+        	return null;
+        }
         int currentPlayer = players.indexOf(accuser);
 
         // Check if a human disapproves suggestion, prefer the other player before human
@@ -567,6 +578,10 @@ public class Board extends JPanel {
     public Player nextPlayer() {
     	currentPlayer =  players.get((players.indexOf(currentPlayer) + 1) % players.size());
     	return currentPlayer;
+    }
+    
+    public void removePlayer(Player player) {
+    	players.remove(players.indexOf(player));
     }
 
     /**

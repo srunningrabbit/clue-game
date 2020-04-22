@@ -38,15 +38,15 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 	}
 
 	private void setUp() {
-	    // Adding first row
-        JPanel panel = createWhoseTurn();
-        createButtons(panel);
-        add(panel);
+		// Adding first row
+		JPanel panel = createWhoseTurn();
+		createButtons(panel);
+		add(panel);
 
-        // Adding second row
-        panel = createFields();
-        add(panel);
-    }
+		// Adding second row
+		panel = createFields();
+		add(panel);
+	}
 
 	// Creates whose turn is it panel
 	private JPanel createWhoseTurn() {
@@ -66,7 +66,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		turnPanel.add(label, c);
 
 		// Field for showing current player
-		JTextField name = new JTextField(15); // not sure if this should be a text field or something else
+		JTextField name = new JTextField(15); 
 		name.setEditable(false);
 		currentPlayerName = name;
 		c.gridy = 1;
@@ -92,6 +92,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
+			currentGuess.setText("");
+			currentResponse.setText("");
 			int roll = dieRoll();
 			board.setDieRoll(roll);
 			dieRoll.setText(Integer.toString(roll));
@@ -104,6 +106,11 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 			if (player instanceof HumanPlayer) {
 				// show targets ...
 			} else if (player instanceof ComputerPlayer) {
+				if(((ComputerPlayer) player).hasAccusation() && !((ComputerPlayer)player).getIsFakeSuggestion()) {
+					((ComputerPlayer) player).makeAccusation();
+					canAdvanceTurn = true;
+					return;
+				} 
 				((ComputerPlayer) player).makeMove();
 				board.repaint();
 				if (board.getCellAt(player.getRow(), player.getColumn()).isDoorway()) {
@@ -112,10 +119,13 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 						currentResponse.setText(ComputerPlayer.getLastSeenCard().getCardName());
 					} else {
 						currentResponse.setText("");
+						((ComputerPlayer) player).foundSolution(player.getSuggestion());
+						
 					}
 					currentGuess.setText(player.getSuggestion().toString());
 				}
 				canAdvanceTurn = true;
+
 			}
 
 		});
@@ -137,12 +147,12 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 			// Accusation can only be made at beginning of turn before human moves
 			if (board.hasMoved) return;
 
-			Solution accusation = createSuggestionGUI();
+			Solution accusation = createAccusationGUI();
 			if (accusation != null) {
 				if (accusation.compareTo(board.getSolution()) > 0) {
 					JOptionPane.showMessageDialog(
 							null,
-							"You guessed correctly! The murderer was " + accusation.getPerson() + "who used a " + accusation.getWeapon() + " to kill in " + accusation.getRoom() + ".",
+							"You guessed correctly! The murderer was " + accusation.getPerson() + " who used a " + accusation.getWeapon() + " to kill in " + accusation.getRoom() + ".",
 							"You won!",
 							JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
@@ -196,7 +206,59 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 			panel.add(rooms);
 
 			// Show dialog with drop down boxes for options
-			int result = JOptionPane.showConfirmDialog(null, panel, "Create Suggestion or Accusation", JOptionPane.OK_CANCEL_OPTION);
+			int result = JOptionPane.showConfirmDialog(null, panel, "Create a Suggestion", JOptionPane.OK_CANCEL_OPTION);
+			if (result != JOptionPane.CANCEL_OPTION && result != JOptionPane.CLOSED_OPTION) {
+				selectedPerson = (String) people.getSelectedItem();
+				selectedWeapon = (String) weapons.getSelectedItem();
+			} else {
+				return null;
+			}
+
+			Solution suggestion = new Solution(selectedPerson, selectedWeapon, selectedRoom);
+			currentGuess.setText(suggestion.toString());
+			return suggestion;
+		}
+		return null;
+	}
+
+	public Solution createAccusationGUI() {
+		Player player = board.getCurrentPlayer();
+		if (player instanceof HumanPlayer) {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 2));
+			String selectedPerson = "";
+			String selectedWeapon = "";
+			String selectedRoom = board.getCurrentPlayer().getCurrentRoomName();
+
+			// Selection of people
+			JComboBox people = new JComboBox();
+			for (Player person : board.getPlayersInDeck()) {//
+				people.addItem(person.getName());
+			}
+			JLabel label = new JLabel("Person");
+			panel.add(label);
+			panel.add(people);
+
+			// Selection of weapons
+			JComboBox weapons = new JComboBox();
+			for (String weapon : board.getWeapons()) {
+				weapons.addItem(weapon);
+			}
+			label = new JLabel("Weapon");
+			panel.add(label);
+			panel.add(weapons);
+
+			// Selection of room
+			JComboBox rooms = new JComboBox();
+			for (String room : board.getRooms()) {
+				rooms.addItem(room);
+			}
+			label = new JLabel("Room");
+			panel.add(label);
+			panel.add(rooms);
+
+			// Show dialog with drop down boxes for options
+			int result = JOptionPane.showConfirmDialog(null, panel, "Create an Accusation", JOptionPane.OK_CANCEL_OPTION);
 			if (result != JOptionPane.CANCEL_OPTION && result != JOptionPane.CLOSED_OPTION) {
 				selectedPerson = (String) people.getSelectedItem();
 				selectedWeapon = (String) weapons.getSelectedItem();
@@ -298,17 +360,17 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 							currentResponse.setText(card.getCardName());
 							String cardInfo = card.getCardName() + " ";
 							switch (card.getCardType()) {
-								case PERSON:
-									cardInfo += "(person)";
-									break;
-								case WEAPON:
-									cardInfo += "(weapon)";
-									break;
-								case ROOM:
-									cardInfo += "(room)";
-									break;
-								default:
-									break;
+							case PERSON:
+								cardInfo += "(person)";
+								break;
+							case WEAPON:
+								cardInfo += "(weapon)";
+								break;
+							case ROOM:
+								cardInfo += "(room)";
+								break;
+							default:
+								break;
 							}
 							JOptionPane.showMessageDialog(
 									null,
@@ -322,6 +384,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 									"Nobody was able to disprove your suggestion...",
 									"Nobody Disproved",
 									JOptionPane.INFORMATION_MESSAGE);
+							canAdvanceTurn = true;
 							return;
 						}
 					}

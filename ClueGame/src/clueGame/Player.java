@@ -14,11 +14,11 @@ A generic player in the game
  */
 
 public class Player {
-	private String playerName;
+	protected String playerName;
 	protected int row;
 	protected int col;
 	private Color color;
-	private ArrayList<Card> hand;
+	protected ArrayList<Card> hand;
 	private int dieRoll;
 	private Solution suggestion;
 	

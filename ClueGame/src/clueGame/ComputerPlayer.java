@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 /*
 ComputerPlayer
 
@@ -20,14 +22,22 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> possiblePeople = new ArrayList<>();
 	private ArrayList<Card> possibleWeapons = new ArrayList<>();
 	private ArrayList<Card> seenCards;
+	private ArrayList<String> stringSeenCards;
 	private Solution suggestion;
 	private char lastRoom;
 	private static Card lastSeenCard;
+	private boolean hasAccusation;
+	private Solution accusation;
+	private boolean madeFakeSuggestion;
+	
 	
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
 		seenCards = this.getHand();
 		lastRoom = ' ';
+		hasAccusation = false;
+		stringSeenCards = new ArrayList<String>();
+		madeFakeSuggestion = true;
 	}
 
 	/*
@@ -49,6 +59,13 @@ public class ComputerPlayer extends Player {
 	public static Card getLastSeenCard() {
 		return lastSeenCard;
 	}
+	 public void setFakeSuggestion(boolean b) {
+		 madeFakeSuggestion = b;
+	 }
+	 
+	 public boolean getIsFakeSuggestion() {
+		 return madeFakeSuggestion;
+	 }
 
 	/*
 	Methods
@@ -57,8 +74,6 @@ public class ComputerPlayer extends Player {
 	// Pick location on board from targets
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random random = new Random();
-		Board board = Board.getInstance();
-		//char currInitial = board.getCellAt(this.getRow(), this.getColumn()).getInitial();
 		
 		// If a room is in reach and not previously in it, must return it
 		for(BoardCell cell : targets) {
@@ -77,7 +92,35 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void makeAccusation() {
+		Board board = Board.getInstance();
+		if (accusation != null) {
+			if (accusation.compareTo(board.getSolution()) > 0) {
+				JOptionPane.showMessageDialog(
+						null,
+						playerName + " guessed correctly! The murderer was " + accusation.getPerson() + " who used a " + accusation.getWeapon() + " to kill in " + accusation.getRoom() + ".",
+						playerName + " won!",
+						JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+			} else {
+				JOptionPane.showMessageDialog(
+						null,
+						playerName + " accused the murderer was " + accusation.getPerson() + " who used a " + accusation.getWeapon() + " to kill in " + accusation.getRoom() + ". The accusation was incorrect.",
+						playerName + " loses!",
+						JOptionPane.INFORMATION_MESSAGE);
+				board.removePlayer(this);
+			}
+		}
 		
+	}
+	
+	// If a suggestion was not disproved
+	public void foundSolution(Solution accusation) {
+		hasAccusation = true;
+		this.accusation = accusation;
+	}
+	
+	public boolean hasAccusation() {
+		return hasAccusation;
 	}
 	
 	public void makeMove() {
@@ -122,7 +165,8 @@ public class ComputerPlayer extends Player {
 		lastSeenCard = board.handleSuggestion(super.getSuggestion(), this);
 		seenCards.add(lastSeenCard);
 	}
-
+	
+	
 	// Add unseen cards to corresponding lists, people or weapons
 	public void possibleCard(Card card) {
 		if (card.getCardType().equals(CardType.PERSON))
