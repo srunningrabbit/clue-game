@@ -20,7 +20,7 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> possiblePeople = new ArrayList<>();
 	private ArrayList<Card> possibleWeapons = new ArrayList<>();
 	private ArrayList<Card> seenCards;
-	private Solution suggestion;
+	private static Card lastSeenCard;
 	
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
@@ -39,12 +39,12 @@ public class ComputerPlayer extends Player {
 		return possibleWeapons;
 	}
 
-	public Solution getSuggestion() {
-		return suggestion;
-	}
-
 	public void setSeenCards(ArrayList<Card> seenCards) {
 		this.seenCards = seenCards;
+	}
+
+	public static Card getLastSeenCard() {
+		return lastSeenCard;
 	}
 
 	/*
@@ -114,8 +114,9 @@ public class ComputerPlayer extends Player {
 		// Room is automatically the room the player is in
 		String room = this.getCurrentRoomName();
 
-		suggestion = new Solution(person, weapon, room);
-		seenCards.add(board.handleSuggestion(suggestion, this));
+		super.setSuggestion(new Solution(person, weapon, room));
+		lastSeenCard = board.handleSuggestion(super.getSuggestion(), this);
+		seenCards.add(lastSeenCard);
 	}
 
 	// Add unseen cards to corresponding lists, people or weapons

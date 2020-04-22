@@ -22,7 +22,6 @@ public class BoardCell {
     private boolean closet;
     private boolean room;
     private boolean doorway;
-    private boolean name;
     private static final int CELL_SIZE = 25;
 
     // Assign row and column to BoardCell
@@ -53,10 +52,6 @@ public class BoardCell {
         return CELL_SIZE;
     }
 
-    public void setHasName(boolean name) {
-        this.name = name;
-    }
-
     /*
     Methods
      */
@@ -69,41 +64,12 @@ public class BoardCell {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
             // Draw a rectangle to represent a door in a doorway
-            if (doorway) {
-                g.setColor(Color.darkGray);
-                switch (doorDirection) {
-                    case UP:
-                        g.fillRect(x, y, CELL_SIZE, 5);
-                        break;
-                    case DOWN:
-                        g.fillRect(x, y + CELL_SIZE - 5, CELL_SIZE, 5);
-                        break;
-                    case LEFT:
-                        g.fillRect(x, y, 5, CELL_SIZE);
-                        break;
-                    case RIGHT:
-                        g.fillRect(x + CELL_SIZE - 5, y, 5, CELL_SIZE);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            if (doorway) drawDoorway(g, x, y);
         } else if (walkway) {
             g.setColor(Color.white);
             g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
-            g.setColor(Color.darkGray);
+            g.setColor(Color.GRAY);
             g.drawRect(x, y, CELL_SIZE - 1, CELL_SIZE - 1);
-        }
-
-        // Draw name of room if cell contains a name
-        if (name) {
-            g.setColor(Color.BLACK);
-            Scanner input = new Scanner(Board.getInstance().getLegend().get(initial));
-            y -= 30; // Start y position further back to account for cells that will be drawn after
-            while (input.hasNext()) {
-                g.drawString(input.next(), x, y);
-                y += 10;
-            }
         }
     }
 
@@ -113,6 +79,41 @@ public class BoardCell {
         int y = row * CELL_SIZE;
         g.setColor(Color.CYAN);
         g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        if (doorway) drawDoorway(g, x, y);
+    }
+
+    // Draw the doorway portion of the cell
+    private void drawDoorway(Graphics g, int x, int y) {
+        g.setColor(Color.darkGray);
+        switch (doorDirection) {
+            case UP:
+                g.fillRect(x, y, CELL_SIZE, 5);
+                break;
+            case DOWN:
+                g.fillRect(x, y + CELL_SIZE - 5, CELL_SIZE, 5);
+                break;
+            case LEFT:
+                g.fillRect(x, y, 5, CELL_SIZE);
+                break;
+            case RIGHT:
+                g.fillRect(x + CELL_SIZE - 5, y, 5, CELL_SIZE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Draw the name of the room
+    public void drawName(Graphics g) {
+        int x = col * CELL_SIZE;
+        int y = row * CELL_SIZE;
+        g.setColor(Color.BLACK);
+        Scanner input = new Scanner(Board.getInstance().getLegend().get(initial));
+        while (input.hasNext()) {
+            g.setFont(new Font("Arial", Font.BOLD, 12));
+            g.drawString(input.next(), x, y);
+            y += 10;
+        }
     }
 
     @Override
