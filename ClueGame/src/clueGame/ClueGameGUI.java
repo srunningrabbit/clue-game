@@ -24,6 +24,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 	private Board board;
 	private JTextField currentPlayerName;
 	private JTextField dieRoll;
+	private JTextField currentGuess;
+	private JTextField currentResponse;
 	private boolean canAdvanceTurn = true;
 
 	public ClueGameGUI() {
@@ -80,53 +82,89 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton nextPlayer = new JButton("Next Player");
-		nextPlayer.addActionListener(new ActionListener() {	// Handles next player functionality
-			public void actionPerformed(ActionEvent e) {
-				if (!canAdvanceTurn) {
-					JFrame frame = new JFrame("Cannot Advance Turn");
-					JOptionPane.showMessageDialog(
-							frame,
-							"You need to complete your turn before moving on.",
-							"Cannot Advance Turn",
-							JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				int roll = dieRoll();
-				board.setDieRoll(roll);
-				dieRoll.setText(Integer.toString(roll));
-				canAdvanceTurn = false; // Turns true when player moves
-				board.nextPlayer();
-				board.hasMoved = false;
-				board.repaint();
-				Player player = board.getCurrentPlayer();
-				currentPlayerName.setText(player.getName());
-				if (player instanceof HumanPlayer) {
-					// show targets ...
-				} else if (player instanceof ComputerPlayer) {
-					((ComputerPlayer) player).makeMove();
-					board.repaint();
-					if (board.getCellAt(player.getRow(), player.getColumn()).isDoorway()) {
-						((ComputerPlayer) player).createSuggestion();
-					}
-					canAdvanceTurn = true;
-				}
-
+		// Handles next player functionality
+		nextPlayer.addActionListener(e -> {
+			if (!canAdvanceTurn) {
+				JOptionPane.showMessageDialog(
+						null,
+						"You need to complete your turn before moving on.",
+						"Cannot Advance Turn",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
-		}
-		);
+			int roll = dieRoll();
+			board.setDieRoll(roll);
+			dieRoll.setText(Integer.toString(roll));
+			canAdvanceTurn = false; // Turns true when player moves
+			board.nextPlayer();
+			board.hasMoved = false;
+			board.repaint();
+			Player player = board.getCurrentPlayer();
+			currentPlayerName.setText(player.getName());
+			if (player instanceof HumanPlayer) {
+				// show targets ...
+			} else if (player instanceof ComputerPlayer) {
+				((ComputerPlayer) player).makeMove();
+				board.repaint();
+				if (board.getCellAt(player.getRow(), player.getColumn()).isDoorway()) {
+					((ComputerPlayer) player).createSuggestion();
+					if (ComputerPlayer.getLastSeenCard() != null) {
+						currentResponse.setText(ComputerPlayer.getLastSeenCard().getCardName());
+					} else {
+						currentResponse.setText("");
+					}
+					currentGuess.setText(player.getSuggestion().toString());
+				}
+				canAdvanceTurn = true;
+			}
+
+		});
 		c.insets = new Insets(0, MARGIN_SIZE, 0, MARGIN_SIZE);
 		panel.add(nextPlayer, c);
 
+		// Handles accusation making from human player
 		JButton makeAccusation = new JButton("Make an Accusation");
+		makeAccusation.addActionListener(e -> {
+			// If it isn't the human's turn, human cannot make accusation
+			if (board.getCurrentPlayer() instanceof ComputerPlayer) {
+				JOptionPane.showMessageDialog(
+						null,
+						"You must wait your turn to make an accusation",
+						"Cannot Make Accusation",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+
+			// Accusation can only be made at beginning of turn before human moves
+			if (board.hasMoved) return;
+
+			Solution accusation = createSuggestionGUI();
+			if (accusation != null) {
+				if (accusation.compareTo(board.getSolution()) > 0) {
+					JOptionPane.showMessageDialog(
+							null,
+							"You guessed correctly! The murderer was " + accusation.getPerson() + "who used a " + accusation.getWeapon() + " to kill in " + accusation.getRoom() + ".",
+							"You won!",
+							JOptionPane.INFORMATION_MESSAGE);
+					System.exit(0);
+				} else {
+					JOptionPane.showMessageDialog(
+							null,
+							"Your accusation was incorrect.",
+							"You lose!",
+							JOptionPane.INFORMATION_MESSAGE);
+					System.exit(0);
+				}
+			}
+		});
 		c.insets = new Insets(0, MARGIN_SIZE, 0, 0);
 		panel.add(makeAccusation, c);
 	}
 
-	public void createSuggestionGUI() {
+	public Solution createSuggestionGUI() {
 		Player player = board.getCurrentPlayer();
 		if (player instanceof HumanPlayer) {
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(0, 1));
+			panel.setLayout(new GridLayout(0, 2));
 			String selectedPerson = "";
 			String selectedWeapon = "";
 			String selectedRoom = board.getCurrentPlayer().getCurrentRoomName();
@@ -136,6 +174,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 			for (Player person : board.getPlayers()) {
 				people.addItem(person.getName());
 			}
+			JLabel label = new JLabel("Person");
+			panel.add(label);
 			panel.add(people);
 
 			// Selection of weapons
@@ -143,22 +183,32 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 			for (String weapon : board.getWeapons()) {
 				weapons.addItem(weapon);
 			}
+			label = new JLabel("Weapon");
+			panel.add(label);
 			panel.add(weapons);
 
 			// Selection of room, only one option which is room player is in
 			JComboBox rooms = new JComboBox();
 			rooms.addItem(board.getCurrentPlayer().getCurrentRoomName());
-			rooms.setEditable(false);
+			rooms.setEnabled(false);
+			label = new JLabel("Room");
+			panel.add(label);
 			panel.add(rooms);
 
 			// Show dialog with drop down boxes for options
-			JOptionPane.showMessageDialog(null, panel, "Create Suggestion", JOptionPane.QUESTION_MESSAGE);
-			selectedPerson = (String) people.getSelectedItem();
-			selectedWeapon = (String) weapons.getSelectedItem();
+			int result = JOptionPane.showConfirmDialog(null, panel, "Create Suggestion or Accusation", JOptionPane.OK_CANCEL_OPTION);
+			if (result != JOptionPane.CANCEL_OPTION && result != JOptionPane.CLOSED_OPTION) {
+				selectedPerson = (String) people.getSelectedItem();
+				selectedWeapon = (String) weapons.getSelectedItem();
+			} else {
+				return null;
+			}
 
 			Solution suggestion = new Solution(selectedPerson, selectedWeapon, selectedRoom);
-			board.handleSuggestion(suggestion, player);
+			currentGuess.setText(suggestion.toString());
+			return suggestion;
 		}
+		return null;
 	}
 
 	// Creates bottom row fields
@@ -190,6 +240,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 
 		info = new JTextField(25);
 		info.setEditable(false);
+		currentGuess = info;
 		panel.add(info);
 
 		titledBorder = new TitledBorder(new EtchedBorder(), "Guess");
@@ -205,6 +256,7 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 
 		info = new JTextField(15);
 		info.setEditable(false);
+		currentResponse = info;
 		panel.add(info);
 
 		titledBorder = new TitledBorder(new EtchedBorder(), "Response");
@@ -234,7 +286,44 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 					board.hasMoved = true;
 					board.repaint();
 					if (board.getCurrentPlayer() instanceof HumanPlayer && board.getCellAt(target.row, target.col).isDoorway()) {
-						createSuggestionGUI();
+						Solution suggestion = createSuggestionGUI();
+						if (suggestion == null) {
+							while (suggestion == null) {
+								suggestion = createSuggestionGUI();
+							}
+						}
+						// Handle the given suggestion, return a card, if any, from a player who showed theirs
+						Card card = board.handleSuggestion(suggestion, board.getCurrentPlayer());
+						if (card != null) {
+							currentResponse.setText(card.getCardName());
+							String cardInfo = card.getCardName() + " ";
+							switch (card.getCardType()) {
+								case PERSON:
+									cardInfo += "(person)";
+									break;
+								case WEAPON:
+									cardInfo += "(weapon)";
+									break;
+								case ROOM:
+									cardInfo += "(room)";
+									break;
+								default:
+									break;
+							}
+							JOptionPane.showMessageDialog(
+									null,
+									"A player revealed the following card information to you:\n" + cardInfo,
+									"Someone revealed a card!",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							currentResponse.setText("");
+							JOptionPane.showMessageDialog(
+									null,
+									"Nobody was able to disprove your suggestion...",
+									"Nobody Disproved",
+									JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
 					}
 					canAdvanceTurn = true;
 					break;
@@ -243,9 +332,8 @@ public class ClueGameGUI extends JPanel implements MouseListener {
 		}
 		// Error message is square is selected that is not a target
 		if (!clickedTarget && board.getCurrentPlayer() instanceof HumanPlayer && !board.hasMoved) {
-			JFrame frame = new JFrame("Target Selection Error");
 			JOptionPane.showMessageDialog(
-					frame,
+					null,
 					"You need to select a target location highlighted in cyan.",
 					"Target Selection Error",
 					JOptionPane.INFORMATION_MESSAGE);

@@ -24,6 +24,7 @@ public class Board extends JPanel {
     private String playerConfigFile;
     private String weaponConfigFile;
     private BoardCell[][] gameBoard;
+    private ArrayList<BoardCell> nameCells;
     private Map<Character, String> legend;
     private Map<BoardCell, Set<BoardCell>> adjacencyMatrix;
     private Set<BoardCell> targets;
@@ -143,6 +144,10 @@ public class Board extends JPanel {
     
     public void setDieRoll(int roll) {
     	dieRoll = roll;
+    }
+
+    public Solution getSolution() {
+        return solution;
     }
 
     /*
@@ -269,6 +274,7 @@ public class Board extends JPanel {
 
     // Load board layout configuration
     public void loadBoardConfig() throws IOException, BadConfigFormatException {
+        nameCells = new ArrayList<>();
         File boardConfig = new File(boardConfigFile);
         Scanner fileInput = new Scanner(boardConfig);
 
@@ -324,7 +330,9 @@ public class Board extends JPanel {
                     }
                     // Add cell with second character
                     cell = new BoardCell(row, col, initial, doorDirection);
-                    cell.setHasName(name);
+                    if (name) {
+                        nameCells.add(cell);
+                    }
                 } else {
                     // Add cell without second character
                     cell = new BoardCell(row, col, initial, DoorDirection.NONE);
@@ -537,6 +545,7 @@ public class Board extends JPanel {
             }
         }
 
+        // Draw target cells for player
         if(isHuman && !hasMoved) {
         	for (BoardCell boardCell : targets) {
                 boardCell.drawTarget(g);
@@ -546,6 +555,11 @@ public class Board extends JPanel {
         // Set player locations on board
         for (Player player : players) {
             player.draw(g);
+        }
+
+        // Draw the names of rooms
+        for (BoardCell boardCell : nameCells) {
+            boardCell.drawName(g);
         }
     }
   

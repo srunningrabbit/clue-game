@@ -66,4 +66,9 @@ public class Solution implements Comparable<Solution>{
 	public boolean hasCard(Card card) {
 		return person.equals(card.getCardName()) || weapon.equals(card.getCardName()) || room.equals(card.getCardName());
 	}
+
+	@Override
+	public String toString() {
+		return person + ", " + weapon + ", " + room;
+	}
 }

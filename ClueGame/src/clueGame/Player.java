@@ -20,6 +20,7 @@ public class Player {
 	private Color color;
 	private ArrayList<Card> hand;
 	private int dieRoll;
+	private Solution suggestion;
 	
 	public Player(String name, int row, int col, Color color) {
 		this.playerName = name;
@@ -81,6 +82,14 @@ public class Player {
 		return Board.getInstance().getLegend().get(Board.getInstance().getCellAt(row, col).getInitial());
 	}
 
+	public Solution getSuggestion() {
+		return suggestion;
+	}
+
+	public void setSuggestion(Solution suggestion) {
+		this.suggestion = suggestion;
+	}
+
 	/*
 	Methods
 	 */
@@ -95,6 +104,7 @@ public class Player {
 
 	public Card disproveSuggestion(Solution suggestion) {
 		for (Card card : hand) {
+			if (card == null) continue;
 			if (card.getCardName().equals(suggestion.getPerson()) || card.getCardName().equals(suggestion.getWeapon()) || card.getCardName().equals(suggestion.getRoom())) {
 				return card;
 			}
